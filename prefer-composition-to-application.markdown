@@ -1,0 +1,1 @@
+# Prefer composition to application
