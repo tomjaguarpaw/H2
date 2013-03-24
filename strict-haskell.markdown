@@ -90,7 +90,8 @@ Kmett claims monads only work with laziness.  I don't understand this.
 The "Being Lazy With Class" paper mentions two important uses of laziness:
 
 * Recursive datastructures -- this is the same as Augustsson's "cyclic data
-  structures argument" but better made.
+  structures argument" but better made.  Is this easily replaceable with a
+  lightweight thunking syntax?
 * Unusual control flow -- this is the same as Augusstson's point, and
   Kmett's "Control Structures" point
 
