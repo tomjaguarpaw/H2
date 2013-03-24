@@ -95,6 +95,13 @@ The "Being Lazy With Class" paper mentions two important uses of laziness:
 * Unusual control flow -- this is the same as Augusstson's point, and
   Kmett's "Control Structures" point
 
+## Other
+
+Don Syme [syme] notes in "Initializing Mutually Referential Abstract
+Objects: The Value Recursion Challenge" that "Wadler et al.  describe
+techniques to add on-demand computations to strict languages."
+
 [hughes] Why functional programming matters
 [augustsson] http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html
 [kmett] http://stackoverflow.com/questions/265392/why-is-lazy-evaluation-useful/265548#265548
+[syme] http://research.microsoft.com/apps/pubs/default.aspx?id=79951
