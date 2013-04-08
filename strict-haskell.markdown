@@ -101,7 +101,55 @@ Don Syme [syme] notes in "Initializing Mutually Referential Abstract
 Objects: The Value Recursion Challenge" that "Wadler et al.  describe
 techniques to add on-demand computations to strict languages."
 
+[cufp] notes that Mu has demonstrated strictness to be harmful to
+modularity.
+
+## What problems are we trying to solve?
+
+* There are a lot of implicit thunks floating around in Haskell.  It is
+  anathema to treat `A -> IO B` as if it were simply `A -> B` so it seems
+  odd for `A` to mean a type of computations (returning values of type `A`)
+  rather than itself a type of values.  Strict Haskell would be more honest
+  since thunks would be represented by an explicit type.
+
+* The need for `evaluate :: a -> IO a` is a wart which indicates that we do
+  not understand how to mix `IO` and forcing thunks.
+
+* When we have a function which releases some memory how can we ensure that
+  the release happens before the rest of the program continues execution? 
+  In the pure case it seems possible to use CPS and in IO it seems possible
+  to use `evaluate` (and probably the CPS form too) but is there a unified,
+  principled way?  It seems unlikely that we will find one whilst thunks are
+  implicit.
+
+* Lots of libraries (Lens, ST) have strict and lazy versions of functions. 
+  Lots of monads have strict and lazy versions.  This is very confusing.  Is
+  it really necessary?
+
+## Drawbacks I anticipate with strictness
+
+Note that monadic bind does not have an obvious drawback in a strict regime. 
+With `m a -> (a -> m b) -> m b` the `m b` need not actually run anything if
+the `m a` short circuits, because it's already hidden behind a function
+(imagine `Maybe` for a prototypical case).
+
+The `Applicative` instances will be potentially more problematic.  With
+`(<*>) :: f (a -> b) -> f a -> f b` it will be hard (syntactically at the
+very least) to stop the `f a` computation from running, even if the `f (a ->
+b)` short circuits.  It will also only make sense to use lazy `Traversible`
+instances.  Mapping an `Applicative` value creating function over an entire
+`Traversible` is a waste when it is followed by a `sequence` which can short
+circuit.  Perhaps the true nature of `(<*>)` is `LazyTuple (f (a -> b), f a)
+-> f b`.
+
+Is Haskell's `IO` itself lazy out of necessity?  Maybe.  Consider a pure
+function containing an expression `let x = f y :: IO A`.  Then `x` is an
+`IO` action ready to be run, but not run yet!  `IO` certainly contains some
+sort of delaying and I don't understand the importance of this to the whole
+strict Haskell issue.
+
 [hughes] Why functional programming matters
 [augustsson] http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html
 [kmett] http://stackoverflow.com/questions/265392/why-is-lazy-evaluation-useful/265548#265548
 [syme] http://research.microsoft.com/apps/pubs/default.aspx?id=79951
+[cufp] http://anil.recoil.org/papers/2011-cufp-scribe-preprint.pdf
