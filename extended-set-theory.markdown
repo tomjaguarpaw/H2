@@ -11,3 +11,7 @@ See
     June 9th, 2010 11:31 am 
 
 for some useful links.
+
+    http://www.xamuel.com/algebraix/
+
+is also useful.
