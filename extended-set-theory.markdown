@@ -15,3 +15,8 @@ for some useful links.
     http://www.xamuel.com/algebraix/
 
 is also useful.
+
+These might explain what is the actual point of extended set theory
+
+    http://xsp.xegesis.org/Spio.pdf
+    http://xsp.xegesis.org/SSDAA.pdf
