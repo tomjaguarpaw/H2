@@ -65,6 +65,12 @@ calls of the same structure, then a lot of stack space will be consumed.
 (Kmett mentions traversable rather than a chain of monadic binds, but I
 suspect its the same issue).
 
+[Kmett later reiterated the issue and mentioned similar ones](http://www.reddit.com/r/haskell/comments/1pjjy5/odersky_the_trouble_with_types_strange_loop_2013/cd3bgcu).
+See the examples starting with
+
+* "Monads are toys due to the aforementioned restriction."
+* "You wind up with issues like SI-3295"
+
 ### Equational reasoning
 
 I don't really understand how laziness (or probably more accurately,
