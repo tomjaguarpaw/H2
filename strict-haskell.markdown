@@ -58,6 +58,13 @@ not evaluate under binders (ie, evaluate only closed code).'
 
 [Kmett] [kmett] raises some good points and some that I don't understand.
 
+I think one thing that he is hinting at is that in `m >>= f` the tail call
+is not `f`, rather `(>>=)`.  Thus if `m` is evaluated strictly (in our
+setup, that corresponds to "not wrapped in a thunk") and is a large chain of
+calls of the same structure, then a lot of stack space will be consumed.
+(Kmett mentions traversable rather than a chain of monadic binds, but I
+suspect its the same issue).
+
 ### Equational reasoning
 
 I don't really understand how laziness (or probably more accurately,
