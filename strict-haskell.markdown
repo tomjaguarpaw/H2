@@ -161,6 +161,10 @@ function containing an expression `let x = f y :: IO A`.  Then `x` is an
 sort of delaying and I don't understand the importance of this to the whole
 strict Haskell issue.
 
+## Indications that explict thunk types are needed
+
+* http://www.haskell.org/pipermail/libraries/2013-November/021728.html
+
 [hughes] Why functional programming matters
 [augustsson] http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html
 [kmett] http://stackoverflow.com/questions/265392/why-is-lazy-evaluation-useful/265548#265548
