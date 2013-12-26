@@ -621,7 +621,7 @@ pre.sourceCode span.er { color: red; font-weight: bold; }
 
   pre, code {
     font-family: Monaco, Courier, monospace;
-    font-size: 12px;
+/*    font-size: 12px;*/
     color: #000;
   }
 
