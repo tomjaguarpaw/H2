@@ -11,7 +11,7 @@ main = hakyll $ do
         compile compressCssCompiler
 
     match "posts/*" $ do
-        route $ niceRoute
+        route directoryRoute
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html" defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -33,13 +33,13 @@ main = hakyll $ do
     match "templates/*" $ compile templateCompiler
 
 
-niceRoute :: Routes
-niceRoute = customRoute createIndexRoute
-  where
-    createIndexRoute ident = takeDirectory p
-                                 </> takeBaseName p
-                                 </> "index.html"
-                           where p = toFilePath ident
+indexRoute ident = takeDirectory p
+                   </> takeBaseName p
+                   </> "index.html"
+  where p = toFilePath ident
+
+directoryRoute :: Routes
+directoryRoute = customRoute indexRoute
 
 cleanIndexUrls :: Item String -> Compiler (Item String)
 cleanIndexUrls = return . fmap (withUrls clean)
