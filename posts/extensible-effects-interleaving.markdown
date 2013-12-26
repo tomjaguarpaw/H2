@@ -2,11 +2,11 @@
 
 ## Introduction
 
-In their paper <a
-href="http://okmij.org/ftp/Haskell/extensible/index.html">"Extensible
-Effects"</a>, Kiselyov, Sabry and Swords (KSS) introduce an effect
-system for Haskell that is an alternative to the classical monad
-transformers approach.  There is [a Haskell library of the same
+In their paper ["Extensible
+Effects"](http://okmij.org/ftp/Haskell/extensible/index.html),
+Kiselyov, Sabry and Swords (KSS) introduce an effect system for
+Haskell that is an alternative to the classical monad transformers
+approach.  There is [a Haskell library of the same
 name](http://hackage.haskell.org/package/extensible-effects)
 implementing the ideas of the paper.  [Dan Doel noted in a recent
 article](https://www.fpcomplete.com/user/dolio/monad-transformers-and-static-effect-scoping)
