@@ -17,19 +17,19 @@ structures.
 
 [Augustsson raises some important
 points](http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html),
-though a lot of his examples are based on the behaviour of "error"
-which in my opinion is just wrong.  "error" is an effect and has no
+though a lot of his examples are based on the behaviour of `error`
+which in my opinion is just wrong.  `error` is an effect and has no
 place in pure code.
 
 ### Lazy bindings
 
-The "error" example is just wrong.  The "\a -> a + expensive" example can be
+The "error" example is just wrong.  The `\a -> a + expensive` example can be
 solved in a strict language through an explicit thunk data structures.
 
 ### Lazy functions
 
 Augustsson's charge of lazy functions is a harder one to answer.  Again he
-levels the false criticism of "error", but the point still stands.  I think
+levels the false criticism of `error`, but the point still stands.  I think
 his idea of using {exp} for a thunk that when called evaluates exp is a good
 one.
 
