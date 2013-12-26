@@ -33,6 +33,7 @@ main = hakyll $ do
     match "templates/*" $ compile templateCompiler
 
 
+indexRoute :: Identifier -> FilePath
 indexRoute ident = takeDirectory p
                    </> takeBaseName p
                    </> "index.html"
