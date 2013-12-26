@@ -2,6 +2,7 @@
 import Hakyll
 import Data.List (isSuffixOf)
 import System.FilePath.Posix (takeBaseName,takeDirectory,(</>))
+import Data.Monoid ((<>))
 
 main :: IO ()
 main = hakyll $ do
@@ -23,7 +24,9 @@ main = hakyll $ do
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" defaultContext
+                >>= loadAndApplyTemplate "templates/default.html"
+                         ((field "title" $ \_ -> return "The H2 Wiki")
+                          <> defaultContext)
                 >>= relativizeUrls
                 >>= cleanIndexUrls
 
