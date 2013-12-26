@@ -7,15 +7,19 @@ through an explicit thunk datatype.
 
 ## Hughes
 
-Would this language be worse than Haskell?  [Hughes] [hughes] talks about
-the importance of laziness for modularity but I think that the issues he
-raises only actually apply to lazy data structures.
+Would this language be worse than Haskell?  [Hughes talks about the
+importance of laziness for
+modularity](http://www.cse.chalmers.se/~rjmh/Papers/whyfp.html) but I
+think that the issues he raises only actually apply to lazy data
+structures.
 
 ## Augustsson
 
-[Augustsson] [augustsson] raises some important points, though a lot of his
-examples are based on the behaviour of "error" which in my opinion is
-just wrong.  "error" is an effect and has no place in pure code.
+[Augustsson raises some important
+points](http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html),
+though a lot of his examples are based on the behaviour of "error"
+which in my opinion is just wrong.  "error" is an effect and has no
+place in pure code.
 
 ### Lazy bindings
 
@@ -56,7 +60,9 @@ not evaluate under binders (ie, evaluate only closed code).'
 
 ## Kmett
 
-[Kmett] [kmett] raises some good points and some that I don't understand.
+[Edward Kmett raises some good
+points](http://stackoverflow.com/questions/265392/why-is-lazy-evaluation-useful/265548#265548)
+and some that I don't understand.
 
 I think one thing that he is hinting at is that in `m >>= f` the tail call
 is not `f`, rather `(>>=)`.  Thus if `m` is evaluated strictly (in our
@@ -110,12 +116,15 @@ The "Being Lazy With Class" paper mentions two important uses of laziness:
 
 ## Other
 
-Don Syme [syme] notes in "Initializing Mutually Referential Abstract
-Objects: The Value Recursion Challenge" that "Wadler et al.  describe
-techniques to add on-demand computations to strict languages."
+Don Syme notes in ["Initializing Mutually Referential Abstract
+Objects: The Value Recursion
+Challenge"](http://research.microsoft.com/apps/pubs/default.aspx?id=79951)
+that "Wadler et al.  describe techniques to add on-demand computations
+to strict languages."
 
-[cufp] notes that Mu has demonstrated strictness to be harmful to
-modularity.
+[A CUFP paper
+notes](http://anil.recoil.org/papers/2011-cufp-scribe-preprint.pdf)
+that Mu has demonstrated strictness to be harmful to modularity.
 
 ## What problems are we trying to solve?
 
@@ -163,10 +172,4 @@ strict Haskell issue.
 
 ## Indications that explict thunk types are needed
 
-* http://www.haskell.org/pipermail/libraries/2013-November/021728.html
-
-[hughes] Why functional programming matters
-[augustsson] http://augustss.blogspot.co.uk/2011/05/more-points-for-lazy-evaluation-in.html
-[kmett] http://stackoverflow.com/questions/265392/why-is-lazy-evaluation-useful/265548#265548
-[syme] http://research.microsoft.com/apps/pubs/default.aspx?id=79951
-[cufp] http://anil.recoil.org/papers/2011-cufp-scribe-preprint.pdf
+* [http://www.haskell.org/pipermail/libraries/2013-November/021728.html](http://www.haskell.org/pipermail/libraries/2013-November/021728.html)
