@@ -83,7 +83,7 @@ consider the opposite order of effects
 
     th4 :: Monad m => ReaderT Int (CoT Int m) ()
     th4 = ay >> ay >> local (+10) (ay >> ay)
-        where ay = ask = lift . yield
+        where ay = ask >>= lift . yield
 
 but this does not work either.  However, what I learned from Dan's
 article is that handlers should *remove* from the set of effects, so
