@@ -101,10 +101,10 @@ Using `localLocal` highlights the problem.  The `ay` outside the
 
     th3_explicit :: Monad m => CoT Int (ReaderT Int m) ()
     th3_explicit = ay1 >> ay1 >> localLocal (+10) (ay2 >> ay2)
-     where ay1 :: Monad m => CoT Int (ReaderT Int m) ()
-           ay1 = lift ask >>= yield
-           ay2 :: Monad m => ReaderT Int (CoT Int m) ()
-           ay2 = ask >>= lift . yield
+        where ay1 :: Monad m => CoT Int (ReaderT Int m) ()
+              ay1 = lift ask >>= yield
+              ay2 :: Monad m => ReaderT Int (CoT Int m) ()
+              ay2 = ask >>= lift . yield
 
 This implementation gives exactly the results that KSS are looking
 for.  Furthermore it's not hard to remove the duplication by defining
@@ -114,8 +114,8 @@ version of `yield`).  This leads to a neat and general implementation
 
     th3_MTL :: (MonadCo Int m, MonadReader Int m) => m ()
     th3_MTL = ay >> ay >> localLocal (+10) (ay >> ay)
-    where ay :: (MonadCo r m, MonadReader r m) => m ()
-          ay = ask >>= yieldG
+        where ay :: (MonadCo r m, MonadReader r m) => m ()
+              ay = ask >>= yieldG
 
 ## Conclusion
 
