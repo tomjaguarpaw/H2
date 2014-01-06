@@ -70,7 +70,8 @@ subject](http://ocharles.org.uk/blog/guest-posts/2013-12-22-24-days-of-hackage-p
 `a` and *emits* a value of type `b`.  Using the `Profunctor` instance
 we can combine two `Fold`s of different argument types into one:
 
-    (***!) :: Profunctor p => p a a' -> p b b' -> p (a, a') (b, b')
+    (***!) :: (Applicative (p (a, a')), Profunctor p) =>
+                p a b -> p a' b' -> p (a, a') (b, b')
     p ***! p' = (,) <$> lmap fst p <*> lmap snd p'
 
     andWithAverage :: L.Fold (Bool, Double) (Bool, Double)
