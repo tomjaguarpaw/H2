@@ -3,9 +3,9 @@
 [Numberphile's video on summing the positive
 integers](https://www.youtube.com/watch?v=w-I6XTVZXww) has been
 confusing people, because physicists have a way of working with
-mathematics that is very foreign to mathematicians.  Let's see what we
-*can* say about the sum of the positive integers that is
-mathematically rigorous.
+mathematics that is very foreign to mathematicians.  Let's see what
+Numberphile's proposed proof *can* say about the sum of the positive
+integers that is mathematically rigorous.
 
 We've been given
 
@@ -43,8 +43,8 @@ series we do indeed find that
 
 * 1/4 = lim (x < 1) { (1 - 4x) + 2x(1-4x^2) + 3x^2(1 - 4x^3) + 4x^3(1 - 4x^4) + ... }
 
-This is about as close as we can get rigourously, I think, to
-the physicists claim that
+This is about as close as we can get, I think, using a rigourous form
+of Numberphile's proof, to the physicists claim that
 
 * 1/4 = -3 (1 + 2 + 3 + 4 + 5 + ...)
 
