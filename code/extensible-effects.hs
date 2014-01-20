@@ -132,6 +132,10 @@ th3_MTL = ay >> ay >> localLocal (+10) (ay >> ay)
  where ay :: (MonadCo r m, MonadReader r m) => m ()
        ay = ask >>= yieldG
 
+th3_Bad :: Monad m => CoT Int (ReaderT Int m) ()
+th3_Bad = local (+10) (ay >> ay >> ay)
+  where ay = ask >>= yieldG
+
 c3_MTL :: IO ()
 c3_MTL = runReaderT (loop =<< runC th3_MTL) 10
  where loop (Y x k) = liftIO (print x) >> (k ()) >>= loop
@@ -139,6 +143,18 @@ c3_MTL = runReaderT (loop =<< runC th3_MTL) 10
 
 c31_MTL :: IO ()
 c31_MTL = runReaderT (loop =<< runC th3_MTL) 10
+ where --loop :: (MonadReader Int m, MonadIO m) => Y m Int -> m ()
+       loop :: Y (ReaderT Int IO) Int -> ReaderT Int IO ()
+       loop (Y x k) = liftIO (print x) >> local (+1) (k ()) >>= loop
+       loop Done    = liftIO (print "Done")
+
+-- This shows the problem more clearly actually.  When the ReaderT is
+-- embedded in an outer layer, 'local' only modifies up until the
+-- first operation in the outer layer.  In c31_Bad, once the outer
+-- layer has been removed with 'runC' local modifies everything as
+-- intended.
+c31_Bad :: IO ()
+c31_Bad = runReaderT (loop =<< runC th3_Bad) 10
  where --loop :: (MonadReader Int m, MonadIO m) => Y m Int -> m ()
        loop :: Y (ReaderT Int IO) Int -> ReaderT Int IO ()
        loop (Y x k) = liftIO (print x) >> local (+1) (k ()) >>= loop
