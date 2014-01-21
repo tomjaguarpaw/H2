@@ -6,6 +6,9 @@
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
 {-# LANGUAGE UndecidableInstances #-}
 
+{-# LANGUAGE Rank2Types #-}
+-- ^^ Needed for superLocal
+
 -- Examples of various transformers, discussed in the paper
 
 module TranEx where
@@ -159,6 +162,32 @@ c31_Bad = runReaderT (loop =<< runC th3_Bad) 10
        loop :: Y (ReaderT Int IO) Int -> ReaderT Int IO ()
        loop (Y x k) = liftIO (print x) >> local (+1) (k ()) >>= loop
        loop Done    = liftIO (print "Done")
+
+superLocal :: (a -> r) -> (forall m. (MonadReader r m, MonadCo c m) => m b)
+              -> ((MonadReader a m, MonadCo c m) => m b)
+--superLocal :: (a -> r) -> (forall m. MonadCo c m => ReaderT r m b)
+--              -> ((MonadReader a m, MonadCo c m) => m b)
+superLocal f m = ask >>= runReaderT m . f
+
+-- Even more dynamic example
+c5 :: IO ()
+c5 = runReaderT (loop =<< runC (th client)) (10::Int)
+ where loop (Y x k) = (liftIO . print) (show (x::Int)) >> local (+(1::Int)) (k ()) >>= loop
+       loop Done    = (liftIO . print) "Done"
+
+       -- cl, client, ay are monomorphic bindings
+       client :: (MonadCo r m, MonadReader r m) => m ()
+       client = ay >> ay
+       ay :: (MonadCo r m, MonadReader r m) => m ()
+       ay     = ask >>= yieldG
+
+       th :: (forall m. (MonadCo r m, MonadReader Int m) => m ()) -> ((MonadCo r m, MonadReader Int m) => m ())
+       th cl = do
+         cl
+         v <- ask
+         -- vv Rank2Types make it more awkward here
+         if v > (20::Int) then cl else superLocal (+(5::Int)) cl
+         if v > (20::Int) then return () else superLocal (+(10::Int)) (th cl)
 
 -- Run the examples
 examples :: [(String, IO ())]
