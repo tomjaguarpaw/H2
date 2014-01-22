@@ -8,6 +8,10 @@
 {-# LANGUAGE Rank2Types #-}
 -- ^^ Needed for superLocal
 
+-- Tom: I implemented a concrete monad CoT and all its associated
+-- transformer guff, before realising that 'localLocal' actually does
+-- 'c5' on its own!  I guess this file is obsolete then.
+
 -- Examples of various transformers, discussed in the paper
 
 module TranEx where
