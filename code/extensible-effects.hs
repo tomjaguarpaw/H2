@@ -163,12 +163,6 @@ c31_Bad = runReaderT (loop =<< runC th3_Bad) 10
        loop (Y x k) = liftIO (print x) >> local (+1) (k ()) >>= loop
        loop Done    = liftIO (print "Done")
 
-superLocal :: (a -> r) -> (forall m. (MonadReader r m, MonadCo c m) => m b)
-              -> ((MonadReader a m, MonadCo c m) => m b)
---superLocal :: (a -> r) -> (forall m. MonadCo c m => ReaderT r m b)
---              -> ((MonadReader a m, MonadCo c m) => m b)
-superLocal f m = ask >>= runReaderT m . f
-
 -- Even more dynamic example
 c5 :: IO ()
 c5 = runReaderT (loop =<< runC (th client)) (10::Int)
@@ -186,8 +180,8 @@ c5 = runReaderT (loop =<< runC (th client)) (10::Int)
          cl
          v <- ask
          -- vv Rank2Types make it more awkward here
-         if v > (20::Int) then cl else superLocal (+(5::Int)) cl
-         if v > (20::Int) then return () else superLocal (+(10::Int)) (th cl)
+         if v > (20::Int) then cl else localLocal (+(5::Int)) cl
+         if v > (20::Int) then return () else localLocal (+(10::Int)) (th cl)
 
 -- Run the examples
 examples :: [(String, IO ())]
