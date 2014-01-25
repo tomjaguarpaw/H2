@@ -169,17 +169,18 @@ c5 = runReaderT (loop =<< runC (th client)) (10::Int)
  where loop (Y x k) = (liftIO . print) (show (x::Int)) >> local (+(1::Int)) (k ()) >>= loop
        loop Done    = (liftIO . print) "Done"
 
-       -- cl, client, ay are monomorphic bindings
+       -- cl, client, ay have to be rank-2 polymorphic in the mtl case
        client :: (MonadCo r m, MonadReader r m) => m ()
        client = ay >> ay
        ay :: (MonadCo r m, MonadReader r m) => m ()
        ay     = ask >>= yieldG
 
-       th :: (forall m. (MonadCo r m, MonadReader Int m) => m ()) -> ((MonadCo r m, MonadReader Int m) => m ())
+       th :: (forall m. (MonadCo r m, MonadReader Int m) => m ())
+             -> ((MonadCo r m, MonadReader Int m) => m ())
        th cl = do
          cl
          v <- ask
-         -- vv Rank2Types make it more awkward here
+         -- vv Rank2Types make things somewhat more awkward here
          if v > (20::Int) then cl else localLocal (+(5::Int)) cl
          if v > (20::Int) then return () else localLocal (+(10::Int)) (th cl)
 
