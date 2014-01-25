@@ -32,6 +32,9 @@ main = hakyll $ do
 
     match "templates/*" $ compile templateCompiler
 
+    match "images/*" $ do
+      route idRoute
+      compile copyFileCompiler
 
 indexRoute :: Identifier -> FilePath
 indexRoute ident = takeDirectory p
