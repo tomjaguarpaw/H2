@@ -124,4 +124,7 @@ transformers can be straightforward.  What I've presened here is not
 evidence that monad transformers are the *best* way to go, but it does
 show that more thought is needed before we declare them obsolete!
 
+There are [some further comparisons between extensible-effects and
+mtl](../extensible-effects-mtl/).
+
 ----
