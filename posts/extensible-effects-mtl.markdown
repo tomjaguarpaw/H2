@@ -1,4 +1,4 @@
-# further examples for extensible-effects
+# Further examples for extensible-effects
 
 A continuation of [a previous page on
 extensible-effects](../extensible-effects-interleaving/).
