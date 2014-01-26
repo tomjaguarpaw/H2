@@ -62,9 +62,14 @@ behaviour of strict languages.
 
 ## Improving performance
 
-Once upon a time some clever person (I don't know who) noticed that if
+Once upon a time some clever person noticed that if
 you encode a list as the action of preappending it then this bad
 left-associated append behaviour goes away.
+
+(The earliest reference I can find is [John Hughes, A Novel
+Representation of Lists and its Application to the Function
+"Reverse"](http://www.cs.tufts.edu/~nr/cs257/archive/john-hughes/lists.pdf).
+The technique seems well known in the Prolog community, too.)
 
 The encoding can be done, for example, as
 
