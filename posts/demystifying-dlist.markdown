@@ -186,3 +186,12 @@ It's simple to understand how the `DList` algorithm works once you
 demystify its use of function composition.  However, it's not clear if
 the more concrete implementation using `Tree` generalizes as well as
 the `DList` method.
+
+## References
+
+* For Danvy and Nielsen, the conversion from `DList` into `Tree` is a
+  form of defunctionalization: [Defunctionalization at
+  Work](http://www.brics.dk/RS/01/23/BRICS-RS-01-23.pdf).
+
+* A [Haskell-Cafe discussion of difference lists in Haskell and
+  Prolog](http://www.haskell.org/pipermail/haskell-cafe/2010-October/085757.html)
