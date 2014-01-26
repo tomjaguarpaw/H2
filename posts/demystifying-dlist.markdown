@@ -3,8 +3,9 @@
 ## Introduction
 
 You may have heard that repeated left-associated appends on linked
-lists are slow.  You may also have heard that
-[`DList`](http://hackage.haskell.org/package/dlist) makes
+lists are slow.  You may also have heard that the "difference list",
+implemented in Haskell as
+"[`DList`](http://hackage.haskell.org/package/dlist)", makes
 left-associated appends reasonable.  The type of `DList` is somewhat
 mysterious.  What's really going on?  In this article I will explain
 with nice [diagrams](http://projects.haskell.org/diagrams/).
