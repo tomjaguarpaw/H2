@@ -51,7 +51,7 @@ down the tree to retrieve each element.
 In general, it seems that to retrieve a single element from a list
 `ls` in the append expression takes $O(l)$ operations where $l$ is the
 number of left branches you have to traverse to reach the leaf
-containing `ls`.  Left braches correspond to left-associated appends,
+containing `ls`.  Left branches correspond to left-associated appends,
 so this is why left-associated appends are problematic.
 
 However, contrary to popular belief, it seems that the list `as` is
