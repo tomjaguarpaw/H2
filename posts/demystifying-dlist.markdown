@@ -121,6 +121,11 @@ Now after performing $O(d)$ operations the computation has reached a
 state where we can pull out *all* of `as` in one go.  Retrieving all
 of `as` is then $O(d + n)$ rather than $O(dn)$.  An excellent
 reduction!
+Furthermore, it looks like every left branch only has to be
+transformed once no matter how many leaves that branch supports, so
+the total cost of reading through the whole list is $O(D + N)$ where
+$D$ is the number of left branches and $N$ the sum of the lengths of
+each leaf.
 
 ## Why did we need functions?
 
