@@ -162,10 +162,12 @@ some reason.  I haven't benchmarked.
 
 ### Generalizing
 
-The `DList` approach is a special case of the more general codensity
-transformation [first outlined, I believe, by Janis
+The DList concept generalizes to the "codensity transformation" which
+makes left-associated *monadic binds* more efficient.  The codensity
+transformation was [first outlined, I believe, by Janis
 Voigtlander](http://www.iai.uni-bonn.de/~jv/mpc08.pdf).  It's not
-clear to me whether the `Tree` datastructure generalizes equivalently.
+clear to me, though, whether the `Tree` datastructure generalizes
+equivalently.
 
 ## Conclusion
 
