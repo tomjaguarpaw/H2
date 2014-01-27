@@ -195,3 +195,8 @@ the `DList` method.
 
 * A [Haskell-Cafe discussion of difference lists in Haskell and
   Prolog](http://www.haskell.org/pipermail/haskell-cafe/2010-October/085757.html)
+
+* A [Stackoverflow answer by Daniel
+  Fischer](http://stackoverflow.com/questions/13879260/why-are-difference-lists-more-efficient-than-regular-concatenation/13879693#13879693)
+  which is basically an ASCII art version of this article, and
+  predates it by over a year.
