@@ -64,6 +64,15 @@ instance MonadReader r m => MonadReader r (CoT y m) where
   ask = lift ask
   -- missing local
   
+class MFunctor t where
+  hoist :: (Monad n, Monad m) => (forall a. m a -> n a) -> t m b -> t n b
+
+instance MFunctor (CoT y) where
+  hoist f (CoT m) = CoT $ do
+    step <- f m
+    return (case step of Done x     -> Done x
+                         Yield y m' -> Yield y (hoist f m'))
+
 toReader :: MonadReader r m => ReaderT r m a -> m a
 toReader = localLocal id
 
@@ -90,16 +99,18 @@ c5 = runReaderT (loop =<< runC (th client)) (10::Int)
  where loop (Yield x k) = (liftIO . print) (show (x::Int)) >> local (+(1::Int)) (runC k) >>= loop
        loop (Done _)    = (liftIO . print) "Done"
 
-       -- cl, client, ay are monomorphic bindings
+       -- cl, client, ay have to be rank-2 polymorphic in the mtl case
        client :: (MonadCo r m, MonadReader r m) => m ()
        client = ay >> ay
        ay :: (MonadCo r m, MonadReader r m) => m ()
        ay     = ask >>= yieldG
 
-       th :: (forall m. (MonadCo r m, MonadReader Int m) => m ()) -> ((MonadCo r m, MonadReader Int m) => m ())
+       th :: (Monad m, MFunctor t, Monad (t (ReaderT Int m)),
+              MonadReader Int (t (ReaderT Int m)))
+             => t (ReaderT Int m) () -> t (ReaderT Int m) ()
        th cl = do
          cl
          v <- ask
-         -- vv Rank2Types make it more awkward here
-         if v > (20::Int) then cl else localLocal (+(5::Int)) cl
-         if v > (20::Int) then return () else localLocal (+(10::Int)) (th cl)
+         -- vv Rank2Types make things somewhat more awkward here
+         if v > (20::Int) then cl else hoist (localLocal' (+(5::Int))) cl
+         if v > (20::Int) then return () else hoist (localLocal' (+(10::Int))) (th cl)
