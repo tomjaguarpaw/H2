@@ -62,6 +62,7 @@ code structure:
              v <- ask
              -- vv Rank2Types make things somewhat more awkward here
              if v > (20::Int) then cl else localLocal (+(5::Int)) cl
+	     if v > (20::Int) then return () else localLocal (+(10::Int)) (th cl)
 
 Running it gives exactly the result desired
 
