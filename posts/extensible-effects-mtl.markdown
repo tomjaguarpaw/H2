@@ -97,4 +97,10 @@ naturally to `Monad...` constraints in `mtl`, and a value with type
 can have its effects X, Y and Z interpreted in any order, simply
 by choosing the order of `runX`, `runY` and `runZ` operations.
 
+EDIT: It seems that my `forall` type above is actually a universal
+when I really want it to be an existential.  As such my response to
+Oleg is not generalisable.  It seems hard to get the desired
+flexibility with MTL, though I don't claim to understand what
+precisely is the obstruction.
+
 
