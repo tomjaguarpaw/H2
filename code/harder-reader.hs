@@ -22,6 +22,7 @@ import Control.Monad.Reader
 import Control.Monad.List
 import Control.Monad.Cont
 import Control.Monad.Identity
+import Control.Monad.Morph
 
 -- ========================================================================
 -- Example 2: Simple coroutines (threads)
@@ -64,12 +65,9 @@ instance MonadReader r m => MonadReader r (CoT y m) where
   ask = lift ask
   -- missing local
   
-class MFunctor t where
-  hoist :: (Monad n, Monad m) => (forall a. m a -> n a) -> t m b -> t n b
-
 instance MFunctor (CoT y) where
-  hoist f (CoT m) = CoT $ do
-    step <- f m
+  hoist f (CoT m) = CoT $ f $ do
+    step <- m
     return (case step of Done x     -> Done x
                          Yield y m' -> Yield y (hoist f m'))
 
