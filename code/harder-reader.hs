@@ -97,15 +97,16 @@ c5 = runReaderT (loop =<< runC (th client)) (10::Int)
  where loop (Yield x k) = (liftIO . print) (show (x::Int)) >> local (+(1::Int)) (runC k) >>= loop
        loop (Done _)    = (liftIO . print) "Done"
 
-       -- cl, client, ay have to be rank-2 polymorphic in the mtl case
-       client :: (MonadCo r m, MonadReader r m) => m ()
+       --Type signatures are not required, but I will say what they are anyway.
+       
+--     client :: (MonadCo r m, MonadReader r m) => m ()
        client = ay >> ay
-       ay :: (MonadCo r m, MonadReader r m) => m ()
+--     ay :: (MonadCo r m, MonadReader r m) => m ()
        ay     = ask >>= yieldG
 
-       th :: (Monad m, MFunctor t, Monad (t (ReaderT Int m)),
-              MonadReader Int (t (ReaderT Int m)))
-             => t (ReaderT Int m) () -> t (ReaderT Int m) ()
+--     th :: (Monad m, MFunctor t, Monad (t (ReaderT Int m)),
+--            MonadReader Int (t (ReaderT Int m)))
+--           => t (ReaderT Int m) () -> t (ReaderT Int m) ()
        th cl = do
          cl
          v <- ask
