@@ -110,6 +110,5 @@ c5 = runReaderT (loop =<< runC (th client)) (10::Int)
        th cl = do
          cl
          v <- ask
-         -- vv Rank2Types make things somewhat more awkward here
-         if v > (20::Int) then cl else hoist (localLocal' (+(5::Int))) cl
+         (if v > (20::Int) then id else hoist (localLocal' (+(5::Int)))) cl
          if v > (20::Int) then return () else hoist (localLocal' (+(10::Int))) (th cl)
