@@ -84,6 +84,22 @@ some `hoist`s added.  Running it gives exactly the result desired
     "21"
     "Done"
 
+Note: Later Oleg pointed out to me that the definition of `th` above
+only works on transformer stacks two deep, where the second is
+`ReaderT`.  It seems to me that any more deeply nested stack can be
+converted to one where the ReaderT occurs at the second layer, using,
+for example
+
+    ComposeTrans t1 t2 m = ComposeTrans (t1 (t2 m))
+
+and if we want the ReaderT to occur at the first layer, we can just
+wrap it in IdentityT instead.
+
+However, this introduces a lot more awkwardness which Extensible
+Effects doesn't have, the latter being designed exactly to avoid this
+kind of thing.  So perhaps this is a good example to demonstrate
+exactly what problem it is that Extensible Effects solves.
+
 ## Further questions
 
 The concept of `MFunctor` and its method `hoist` seem to play a
