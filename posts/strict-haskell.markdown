@@ -81,7 +81,7 @@ See the examples starting with
 
 I don't really understand how laziness (or probably more accurately,
 non-strictness) is relevant to equational reasoning.  I would like to find
-some explicity examples.  Perhaps "Theorems for Free"?
+some explicit examples.  Perhaps "Theorems for Free"?
 
 ### Value restriction
 
