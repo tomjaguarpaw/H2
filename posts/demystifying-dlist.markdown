@@ -22,7 +22,7 @@ computation.  The expression is
 
 and the tree structure that arises in memory is this
 
-![In-memory structure of appends](../../images/dlist-appends.svg)
+![In-memory structure of appends](../../images/dlist-appends.png)
 
 What happens when we pattern match this?  Well, the definition of
 append is
@@ -104,7 +104,7 @@ nice as a tree.
 This is a function, and converting it to a list is done by applying
 the function to `[]`.  The resulting structure is depicted here.
 
-![Stage 1](../../images/dlist-eval1.svg)
+![Stage 1](../../images/dlist-eval1.png)
 
 What happens when we pattern match this?  We have a computation of the
 form `f . g $ x`, which evaluates to `f $ g $ x`.  If `f` itself is a
@@ -115,11 +115,11 @@ the outermost function call is something that can pattern matched
 directly, i.e. `(as ++)`, the leftmost list in our append expression.
 
 
-![Stage 2](../../images/dlist-eval2.svg)
+![Stage 2](../../images/dlist-eval2.png)
 
-![Stage 3](../../images/dlist-eval3.svg)
+![Stage 3](../../images/dlist-eval3.png)
 
-![Stage 4](../../images/dlist-eval4.svg)
+![Stage 4](../../images/dlist-eval4.png)
 
 ### Why is this better?
 

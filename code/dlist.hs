@@ -3,7 +3,7 @@
 import Diagrams.Prelude
 import Diagrams.TwoD.Layout.Tree (BTree(BNode, Empty), renderTree,
                                   uniqueXLayout)
-import Diagrams.Backend.SVG (renderSVG, B)
+import Diagrams.Backend.Cairo (renderCairo, B)
 import Data.Maybe (fromJust)
 
 treeDiagram' = fromJust . fmap treeDiagram . uniqueXLayout 2 2
@@ -82,10 +82,10 @@ composition = compsOfTree appendExpr $$ g "[]"
 
 reductions = unfoldr step composition
 
-renderTo (filename, diag) = renderSVG filename (mkSizeSpec (Just 500) Nothing)
+renderTo (filename, diag) = renderCairo filename (mkSizeSpec (Just 500) Nothing)
                             (diag :: Diagram B R2)
 
 myrender = do
-  mapM_ renderTo (zip (map (\x -> "/tmp/dlist-eval" ++ show x ++ ".svg") [1..])
+  mapM_ renderTo (zip (map (\x -> "/tmp/dlist-eval" ++ show x ++ ".png") [1..])
                       (map (treeDiagram' . bTreeOfEval) reductions))
-  renderTo ("/tmp/dlist-appends.svg", (treeDiagram' . appendsOfTree) appendExpr)
+  renderTo ("/tmp/dlist-appends.png", (treeDiagram' . appendsOfTree) appendExpr)
