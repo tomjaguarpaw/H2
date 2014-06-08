@@ -32,6 +32,8 @@ through an explicit thunk datatype.
 ## Indications that explict thunk types are needed
 
 * [http://www.haskell.org/pipermail/libraries/2013-November/021728.html](http://www.haskell.org/pipermail/libraries/2013-November/021728.html)
+* [Reddit discussion on `foldl`](http://www.reddit.com/r/haskell/comments/21wvk7/foldl_is_broken/)
+* [The fifth most popular package by "Katz centrality" is deepseq](http://www.serpentine.com/blog/2014/05/18/top-haskell-packages-a-graph-centrality-perspective/)
 
 ## Drawbacks I anticipate with strictness
 
