@@ -1,16 +1,30 @@
 # Faking modules in Haskell via implicit parameters
 
-Many years ago [Lennart wrote about the difficulty of faking an
-ML-module-like structure in
+Many years ago [Lennart Augustsson wrote about the difficulty of
+faking an ML-module-like structure in
 Haskell](http://augustss.blogspot.se/2008/12/somewhat-failed-adventure-in-haskell.html).
-The overall idea is to write something like the following
+The aim is to define an abstract "signature" of types and operations,
+allow users to write derived functionality based on this signature,
+and then later instantiate the derived functionality by providing an
+instantiation for the signature.
 
-    -- Package of operations parametrised on the types
-    -- introduced by our module
+Let's take an example where the module signature declares a
+string-like and a double-like type, and declares operations to
+concatenate the strings and to "show" the doubles by converting them
+to strings.  Lennart's overall idea is to write something like the
+following.
+
+    -- Our module "signature" represented by a package of operations
+    -- parametrised on types
     data DOps xstring xdouble = DOps {
        (+++) :: xstring -> xstring -> xstring,
        xshow :: xdouble -> xstring
        }
+    
+    -- Class for passing the package of operations to our derived
+    -- functions
+    class (IsString xstring, Num xdouble) => Ops xstring xdouble where
+       ops :: DOps xstring xdouble
     
     -- Derived datatypes parametrised on the types introduced by our
     -- module
@@ -20,20 +34,15 @@ The overall idea is to write something like the following
        height    :: xdouble
        }
 
-    -- Class for passing the package of operations to our derived
-    -- functions
-    class (IsString xstring, Num xdouble) => Ops xstring xdouble where
-       ops :: DOps xstring xdouble
-    
-    -- Derived functions using the `Ops` class to receive the package
-    -- of operations
+    -- Derived functions use the `Ops` class to receive the package of
+    -- operations
     display :: (Ops xstring xdouble) =>
                Person xstring xdouble -> xstring
     display p = let DOps{..} = ops
                 in  firstName p +++ " " +++ lastName p
                                 +++ " " +++ xshow (height p + 1)
 
-    -- Instantiate our "module" by providing concrete types and
+    -- Instantiate the signature by providing concrete types and
     -- operations
     instance Ops String Double where
        ops = DOps (++) show
@@ -88,8 +97,9 @@ adjustments to his approach based on typeclasses and type families.
 [In a subsequent
 post](http://augustss.blogspot.se/2008/12/abstraction-continues-i-got-several.html)
 Lennart mentions that Wehr and Chakravarty introduced a concept of
-"abstract associated types" that might help with the problem.  They
-don't exist in any Haskell compiler though, as far as I know.
+"abstract associated types" that might help with the problem.  That
+functionality doesn't exist in any Haskell compiler though, as far as
+I know.
 
 Still, there is a related approach to this problem based on another
 Haskell extension.  Perhaps surprisingly, replacing the typeclass
@@ -143,6 +153,6 @@ the proof.
 There is no ambiguity problem because we are passing (implicitly) a
 single specific package of operations to `display`.
 
-This approach uses the maligned implicit parameters, but despite that
-is this a decent approach to getting at least some of the benefits of
+This approach uses the maligned implicit parameters.  Despite that is
+this a decent approach to getting at least some of the benefits of
 modules in Haskell?
