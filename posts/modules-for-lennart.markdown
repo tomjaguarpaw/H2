@@ -153,6 +153,11 @@ the proof.
 There is no ambiguity problem because we are passing (implicitly) a
 single specific package of operations to `display`.
 
+## Conclusion
+
 This approach uses the maligned implicit parameters.  Despite that is
-this a decent approach to getting at least some of the benefits of
-modules in Haskell?
+this a decent approach to getting some of the benefits of modules in
+Haskell?
+
+This is certainly not anything close to a module system, but does it
+shed some light on issue?
