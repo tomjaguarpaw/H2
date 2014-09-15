@@ -56,9 +56,9 @@ them are just thunks that can be forced to return an `a`.
 
 However, there is a trick that allows us to represent strictness in
 types.  The trick is to indicate strictness in the *argument* to a
-function rather than its return type.  I think I learned this trick
-from a post to the haskell-cafe mailing list, but I cannot find it now
-so I don't know who to give credit to.
+function rather than its return type.  I learned this from [a post of
+Stefan Holdermans to the Haskell-Cafe mailing
+list](http://www.haskell.org/pipermail/haskell-cafe/2009-June/062987.html).
 
     {-# LANGUAGE TypeOperators #-}
     
