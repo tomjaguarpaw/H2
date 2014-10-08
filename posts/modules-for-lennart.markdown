@@ -93,8 +93,8 @@ cases `Ops t0` would do just as well as the `Ops t` instance.
 
 ## Implicit parameters to the rescue
 
-I don't know if there have been type system improvements since Lennart
-wrote his post that would allow him to achieve his aim with small
+I don't know if since Lennart wrote his post there have been type
+system improvements that would allow him to achieve his aim with small
 adjustments to his approach based on typeclasses and type families.
 [In a subsequent
 post](http://augustss.blogspot.se/2008/12/abstraction-continues-i-got-several.html)
@@ -152,8 +152,9 @@ the proof.
     -- a type sig
     display'' = display'
 
-There is no ambiguity problem because we are passing (implicitly) a
-single specific package of operations to `display`.
+The key observation is that there is no ambiguity problem because we
+are passing (implicitly) a single specific package of operations to
+`display` which is used by each "module" function call in its body.
 
 ## Conclusion
 
