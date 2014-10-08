@@ -163,4 +163,4 @@ this a decent approach to getting some of the benefits of modules in
 Haskell?
 
 This is certainly not anything close to a module system, but does it
-shed some light on issue?
+shed some light on the issue?
