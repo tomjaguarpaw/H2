@@ -73,6 +73,8 @@ identifying the typeclass using a single parameter, like the following
        height    :: XDouble t
        }
 
+    data Basic
+
     instance Ops Basic where
        type XString Basic = String
        type XDouble Basic = Double
