@@ -186,6 +186,25 @@ million elements are computed as required.  `count 1 1000000 :: List
 (:->) Int` is a strict list where all one million elements are
 computed at once.
 
+## Wadler's "strictness monad"
+
+Wadler talks about a "strictness monad" in section 3.2 on page 9 of
+[Comprehending
+Monads](http://homepages.inf.ed.ac.uk/wadler/topics/monads.html) but I
+don't think it solves the problem I want it to solve.
+
+For example, consider
+
+    foldl :: (a -> b -> a) -> Str a -> [b] -> Str a
+    foldl _ z [] = z
+    foldl f z (b:bs) = foldl f (f <$> z <*> pure b) bs
+
+This still builds up a chain of thunks in the same way that our
+original `Strict` attempt did.  All the `Str` monad seems to achieve
+is enforcing an ordering of evaluations with respect to each other.
+Perhaps there's a way of getting the desired behaviour with a cleverer
+usage of `Str`, but I don't see it.
+
 ## Conclusion
 
 Strictness in Haskell is generally hidden away and not reflected by
