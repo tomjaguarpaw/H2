@@ -14,4 +14,9 @@ than expression arrows, as described [under "Expression Arrows" in the
 `DESIGN`
 document](https://github.com/karamaan/karamaan-opaleye/blob/dev/DESIGN.md#expression-arrows).
 
+## An nice-looking Opaleye website
+
+I don't see why Opaleye should not have at least as nice a website as
+[Slick](http://slick.typesafe.com/).
+
 ## A typesafe Latex API with no risks of injection bugs
