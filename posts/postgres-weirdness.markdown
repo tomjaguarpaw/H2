@@ -32,3 +32,17 @@ from (select ('{{1,2}, {3,4}}' :: integer[])[1:1] as foo) as t1;
  {}
 (1 row)
 ````
+
+* `GROUP BY`
+
+This orders by the second column
+
+````
+SELECT * from table ORDER BY 2;
+````
+
+whereas this orders by the constant 1 + 1, i.e. 2.
+
+````
+SELECT * from table ORDER BY 1 + 1;
+````
