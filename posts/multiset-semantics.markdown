@@ -10,8 +10,13 @@ Suppose I have two tables:
 
 If I want to work out how many fruits each owner has I can do
 
-  select owner, sum(quantity) from (apples union all oranges) group by owner
+    SELECT owner, SUM(quantity)
+    FROM (apples UNION ALL oranges)
+    GROUP BY owner
 
-I can't do the same with `union` in the place of `union all` because if an
-owner has the same number of apples as oranges then the `union` will
-coalesce those two rows into one!
+I can't do the same with `UNION` in the place of `UNION ALL` because
+if an owner has the same number of apples as oranges then the `UNION`
+will coalesce those two rows into one!  In set semantics we would have
+to artificially add arbitrary identifiers to the `apples` and
+`oranges` tables so the `UNION` can distinguish their rows, and
+discard the identifier after aggregation.
