@@ -1,20 +1,20 @@
 # The Set/Bag Irrelevance
 
 From time to time it is discussed whether SQL's support for duplicate
-tuples in queries is useful and the Codd et al's relational model is
-lacking because it forbids thema, or whether they make SQL a worse
-language and the relation model is better of for eliminating them.
+tuples in queries is useful and Codd et al's relational model is
+lacking because it forbids them, or whether they make SQL a worse
+language and the relation model is better off for eliminating them.
 The former could be called "allowing bags".  Bags (or multisets) are
 like sets except they permit repeated elements.
 
 Date discusses the issue in the 22 pages of the "Date on Database"
 chapter "Double Trouble, Double Trouble".  His objections to
-duplicate tuples seem to be, paraphrasing
+duplicate tuples seem to be (paraphrasing)
 
 1. "The existence of duplicate tuples implies the ability to
    distinguish identical things".  This objection I do not understand.
    He relates it vaguely to a philosophical concept of "The Principle
-   of Indistinguishability of Indiscernables", though the reasoning is
+   of Indistinguishability of Indiscernables" though the reasoning is
    unclear.  Date claims (perhaps correctly) that there is no way to
    distinguish the "two" 6s that appear in the bag {3,6,6,8,8,8,11}
    but again it is unclear why any particular conclusion should follow
@@ -38,8 +38,8 @@ can be implemented in terms of sets and vice versa.  This shouldn't be
 surprising really but I don't think the consquences of this
 observation have really been thought through.
 
-Here's how you do show the (trivial) correspondence.  Our decent
-relational query language will have type abstraction, so whereas Date
+Here's how you show the (trivial) correspondence.  Our decent
+relational query language will have type abstraction so whereas Date
 wants us to only use `Set (a, b, c, ...)` to represent a relation on
 `a`, `b`, `c`, ... we are welcome to define
 
