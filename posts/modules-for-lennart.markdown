@@ -164,3 +164,66 @@ Haskell?
 
 This is certainly not anything close to a module system, but does it
 shed some light on the issue?
+
+## A simple disambiguation
+
+I've also discovered that a simple disambiguation can make the
+single-parameter version work.
+
+    {-# LANGUAGE RecordWildCards #-}
+    {-# LANGUAGE MultiParamTypeClasses #-}
+    {-# LANGUAGE TypeSynonymInstances #-}
+    {-# LANGUAGE FlexibleContexts #-}
+    {-# LANGUAGE FlexibleInstances #-}
+    {-# LANGUAGE OverloadedStrings #-}
+    {-# LANGUAGE DataKinds #-}
+    {-# LANGUAGE TypeFamilies #-}
+    
+    import Data.String
+    
+    type family XString k
+    type family XDouble k
+    
+    -- Our module "signature" represented by a package of operations
+    -- parametrised on types
+    data DOps k = DOps {
+       (+++) :: XString k -> XString k -> XString k,
+       xshow :: XDouble k -> XString k
+       }
+    
+    -- Class for passing the package of operations to our derived
+    -- functions
+    class (IsString (XString k), Num (XDouble k)) => Ops k where
+       ops :: DOps k
+    
+    -- Derived datatypes parametrised on the types introduced by our
+    -- module
+    data Person k = Person {
+       firstName :: XString k,
+       lastName  :: XString k,
+       height    :: XDouble k
+       }
+    
+    -- Use typeOf to disambiguate the typeclass instance
+    typeOf :: f k -> g k -> f k
+    typeOf f _ = f
+    
+    -- Derived functions use the `Ops` class to receive the package of
+    -- operations
+    --
+    -- The type is inferred, and is breathtakingly simple
+    --
+    --     display :: Ops k => Person k -> XString k
+    --
+    display p = let DOps{..} = ops `typeOf` p
+                in  firstName p +++ " " +++ lastName p
+                                +++ " " +++ xshow (height p + 1)
+    
+    -- Instantiate the signature by providing concrete types and
+    -- operations
+    data Basic
+    
+    instance Ops Basic where
+       ops = DOps (++) show
+    
+    type instance XString Basic = String
