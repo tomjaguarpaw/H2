@@ -30,6 +30,14 @@ through an explicit thunk datatype.
   strict and lazy versions.  This is very confusing.  Is it really
   necessary?
 
+* For a `Functor f`, a value `x :: f a` often contains one or several
+  thunks of type `a`.  However, there is no general way to force these
+  thunks.  If we apply a large number of `fmap`s to `x` then even if
+  we force `x` it doesn't mean the thunks inside have been forced.  We
+  can experience a space leak this way.  This is a demonstration `seq`
+  is implicitly part of the interface of every data type, but it is
+  generally not treated that way by datatype authors.
+
 ## Indications that explict thunk types are needed
 
 * [http://www.haskell.org/pipermail/libraries/2013-November/021728.html](http://www.haskell.org/pipermail/libraries/2013-November/021728.html)
