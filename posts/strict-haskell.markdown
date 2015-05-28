@@ -4,6 +4,9 @@ What would a strict version of Haskell look like?  That is, a pure language
 with syntax as close to Haskell as possible but where function application
 and data constructors are evaluated strictly.  Laziness should be accessible
 through an explicit thunk datatype.
+(Nikita Volkov has written a good explanation of the [explicit thunk
+datatype](http://nikita-volkov.github.io/if-haskell-were-strict/).)
+
 
 ## What problems are we trying to solve?
 
