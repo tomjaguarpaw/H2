@@ -13,7 +13,8 @@ through an explicit thunk datatype.
   rather than itself a type of values.  Strict Haskell would be more honest
   since thunks would be represented by an explicit type.
 
-* The need for `evaluate :: a -> IO a` is a wart which indicates that we do
+* The need for [`evaluate`](http://hackage.haskell.org/package/base-4.8.0.0/docs/Control-Exception-Base.html#v:evaluate)
+  ` :: a -> IO a` is a wart which indicates that we do
   not understand how to mix `IO` and forcing thunks.
 
 * When we have a function which releases some memory how can we ensure that
