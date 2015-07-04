@@ -16,6 +16,9 @@ datatype](http://nikita-volkov.github.io/if-haskell-were-strict/).)
   rather than itself a type of values.  Strict Haskell would be more honest
   since thunks would be represented by an explicit type.
 
+* The need for `newtype` is symptomatic of the confusion introduced by
+  implicit thunks.
+
 * The need for [`evaluate`](http://hackage.haskell.org/package/base-4.8.0.0/docs/Control-Exception-Base.html#v:evaluate)
   ` :: a -> IO a` is a wart which indicates that we do
   not understand how to mix `IO` and forcing thunks.
