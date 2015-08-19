@@ -14,3 +14,7 @@ the Next Haskell.
   should not be a reserved identifier.
 
 * Either do notation or comprehensions, not both.
+
+* Remove `if`.  The only version of `case` should be a "lambda case".
+  An arguments can be passed to it using the normal means of function
+  application.
