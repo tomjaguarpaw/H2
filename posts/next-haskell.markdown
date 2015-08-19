@@ -8,3 +8,9 @@ the Next Haskell.
 
 * `main :: IO (); main = ...` involves duplication.  This needs to be
   got rid of, but I can't think of a good way right now.
+
+* Reduce special syntax: no special syntax for list types or list
+  literals, maybe not even for tuple types or tuple literals!  `(->)`
+  should not be a reserved identifier.
+
+* Either do notation or comprehensions, not both.
