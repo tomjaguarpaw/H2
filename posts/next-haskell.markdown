@@ -18,3 +18,6 @@ the Next Haskell.
 * Remove `if`.  The only version of `case` should be a "lambda case".
   An arguments can be passed to it using the normal means of function
   application.
+
+* Either arguments should be taken on the left hand side of a
+  function, or the function type constructor should be reversed.
