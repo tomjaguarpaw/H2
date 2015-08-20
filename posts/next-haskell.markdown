@@ -21,3 +21,5 @@ the Next Haskell.
 
 * Either arguments should be taken on the left hand side of a
   function, or the function type constructor should be reversed.
+
+* No unary function `-` for negation.
