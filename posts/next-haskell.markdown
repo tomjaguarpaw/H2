@@ -23,3 +23,5 @@ the Next Haskell.
   function, or the function type constructor should be reversed.
 
 * No unary function `-` for negation.
+
+* `:` and `::` should be swapped
