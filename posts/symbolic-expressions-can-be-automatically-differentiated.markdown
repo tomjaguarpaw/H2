@@ -40,7 +40,8 @@ If you try to read introductions to AD you'll probably come across a
 lot of passages like this which describe the rigmarole of shoehorning
 AD into a bog-standard proceduralish language, but they put an
 additional veil on the *intrinsic* meaning of AD, rather than lifting
-one.
+one.  You'll probably also get the impression that symbolic
+expressions are bad.
 
 AD is actually a very simple concept, and yes it can work on symbolic
 expressions too.
