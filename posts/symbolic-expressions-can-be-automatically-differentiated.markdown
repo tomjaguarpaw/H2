@@ -218,6 +218,6 @@ expression.
 
 Jared Tobin wrote a [nice little
 extension](http://jtobin.ca/ad-via-recursion-schemes/) using
-catamorphism.  In fact if you use this technique then you can
+catamorphisms.  In fact if you use this technique then you can
 implement `eval` and `diff` separately but still get good performance
 when you compose them!  I may write about this later ...
