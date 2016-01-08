@@ -165,7 +165,7 @@ ex * ed`, where `ed` is the value of the derivative of `e` at `x`
 function).  That last sentence is a very long winded way of giving one
 tautology and one definition of the derivative of `exp`!  The former
 is what is done in the `Exp` branch of `eval` and the latter is what
-is done in the `Exp` branch of `diff`, only here the later is numeric
+is done in the `Exp` branch of `diff`, only here the latter is numeric
 rather than symbolic.  Basically, there's nothing going on here.  Once
 we have our key idea, everything else falls out for free; this whole
 paragraph is a long way of saying nothing at all.
