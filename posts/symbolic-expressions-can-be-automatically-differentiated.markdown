@@ -212,3 +212,11 @@ surely many important details that come later when you want to
 optimize your AD implementation or extend it to higher dimensions, but
 for the basics all you need is one key idea, and that is to calculate
 the value derivative at the same time as the value of the expression.
+
+## References
+
+Jared Tobin wrote a [nice little
+extension](http://jtobin.ca/ad-via-recursion-schemes/) using
+catamorphism.  In fact if you use this technique then you can
+implement `eval` and `diff` separately but still get good performance
+when you compose them!  I may write about this later ...
