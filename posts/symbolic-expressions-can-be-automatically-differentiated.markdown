@@ -112,7 +112,8 @@ derivatives with `eval`
     1.0003000600100016
     
 but calculating the derivatives of big expressions this way is slow,
-in fact quadratic in the size of the expression.
+in fact [quadratic in the size of the
+expression](../why-is-naive-symbolic-differentiation-slow).
 
     > mapM_ (print . flip eval (diff bigExpression))
             [0.00009, 1, 1.00001]
