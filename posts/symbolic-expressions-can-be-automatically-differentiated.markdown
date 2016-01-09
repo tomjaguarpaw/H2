@@ -207,7 +207,7 @@ that contains the effects interpreted in a particular way.
 
 ## Conclusion
 
-AD is a very cool idea and at its heart it's very simple.  There are
+AD is a very cool idea and at its heart is very simple.  There are
 surely many important details that come later when you want to
 optimize your AD implementation or extend it to higher dimensions, but
 for the basics all you need is one key idea, and that is to calculate
