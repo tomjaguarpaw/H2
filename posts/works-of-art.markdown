@@ -1,7 +1,8 @@
 # Works of art
 
-* https://hackage.haskell.org/package/bound
+* [bound](https://hackage.haskell.org/package/bound)
 
-* https://hackage.haskell.org/package/formatting
+* [formatting](https://hackage.haskell.org/package/formatting)
 
-* https://hackage.haskell.org/package/vault
+* [vault](https://hackage.haskell.org/package/vault)
+
