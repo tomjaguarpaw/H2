@@ -25,3 +25,11 @@ the Next Haskell.
 * No unary function `-` for negation.
 
 * `:` and `::` should be swapped
+
+* No partial record fields
+
+* Warnings that should be errors
+
+    * Missing patterns
+
+    * Missing record fields
