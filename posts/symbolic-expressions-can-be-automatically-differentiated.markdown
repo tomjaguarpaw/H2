@@ -1,6 +1,6 @@
 # Symbolic expressions can be Automatically differentiated too
 
-Or, Automatic diffentiation demystified
+-- or, Forward mode Automatic Diffentiation demystified
 
 All introductions to Automatic Differentiation that I have seen seem
 to present the technique mysteriously.  It's actually very simple.
