@@ -28,6 +28,8 @@ the Next Haskell.
 
 * No partial record fields
 
+* x `f` y should desugar to f y x
+
 * Warnings that should be errors
 
     * Missing patterns
