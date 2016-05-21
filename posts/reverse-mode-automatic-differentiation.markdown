@@ -8,23 +8,34 @@ demonstrated that forward mode Automatic Differentiation (AD) is not
 as mysterious as it is often made out to be.  In fact it is quite
 simple.
 
-On the other hand, reverse mode AD unfortunately seems to be
+On the other hand, reverse mode AD seems unfortunately to be
 unavoidably more complicated than forward mode, but in this article I
 hope to show that it is still a bit simpler than it is often made out
-to be.
+to be.  If you read [introductions to reverse mode
+AD](https://en.wikipedia.org/wiki/Automatic_differentiation#Reverse_accumulation)
+you will find scary passages like
 
-FIXME: insert weird stuff about reverse mode
+> reverse accumulation requires the storage of the intermediate
+  variables wi as well as the instructions that produced them in a
+  data structure known as a Wengert list (or "tape")
 
-* tape
-* dual space
-* adjoints
-* partial derivatives vs gradients
+and
 
-There is only any point in using reverse mode AD when differentiating
-an expression with a large number of input variables.  If you only
-have a small number of input variables forward mode will probably be
-faster.  With that in mind let's set up the relevant data structures
-and API.
+> The nodes in the adjoint graph represent multiplication by the
+  derivatives of the functions calculated by the nodes in the
+  primal. For instance, addition in the primal causes fanout in the
+  adjoint; fanout in the primal causes addition in the adjoint; a
+  unary function y = f(x) in the primal causes x̄ = ȳ f′(x) in the
+  adjoint; etc.
+
+This doesn't help anyone to learn reverse mode AD.  It *is* a bit
+complicated but it *isn't* scary.
+
+There is only any benefit in using reverse mode AD when
+differentiating an expression with a large number of input variables.
+If you only have a small number of input variables then forward mode
+will probably be faster.  With that in mind let's set up the relevant
+data structures and API.
 
 ## Expressions and vectors
 
@@ -343,9 +354,18 @@ Perhaps more importantly though the `evalDecorate` pass forces the
 whole expression into memory which may be unacceptable for large
 expressions.
 
+Where is the Wengert list?  Presumably it's the expression tree
+decorated with values of subexpressions which is then decorated with
+sensitivities.  It seems nice to have this tree than a Wengert list
+(or "tape")!  What's all this about adjoint graphs and duals and
+primals?  I really have no clue.
+
 ## Conclusion
 
 Reverse mode AD seems to be unavoidably more complicated than forward
 mode but it is not actually particularly complicated and certainly not
 as hard to understand as it seems to be from much of the literature
 you will read about it.
+
+Thanks to Edward Kmett who patiently answered my questions on reverse
+mode so I was finally able to understand it.
