@@ -35,3 +35,7 @@ the Next Haskell.
     * Missing patterns
 
     * Missing record fields
+
+## Sources of ideas
+
+* https://www.reddit.com/r/haskell/comments/4f47ou/why_does_haskell_in_your_opinion_suck/
