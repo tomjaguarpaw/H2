@@ -231,3 +231,6 @@ fixPolymorphic2 f = fix f
 
 That is, recursion and polymorphic recursion in Haskell are exactly
 the same thing!
+
+(Thanks to winterkoninkje on Reddit for [explaining a type system
+issue](https://www.reddit.com/r/haskell/comments/4kcqdp/polymorphic_recursion_combinator_in_haskell/d3esf8j).)
