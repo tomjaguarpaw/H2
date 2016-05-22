@@ -164,14 +164,10 @@ combinator?  The answer is that we need to generalise the type of
 ````haskell
 -- Requires ScopedTypeVariables
 
--- Type signature must be provided very precisely. Even
---
---    forall f a. ((forall a. f a) -> (forall a. f a)) -> f a
---
--- does not work (surprisingly).
+-- Type signature must be provided.
 fixPolymorphic :: forall f. ((forall a. f a) -> (forall a. f a))
                -> forall a. f a
-fixPolymorphic f = let x :: f a
+fixPolymorphic f = let x :: f b
                        x = f x
                    in x
 ````
