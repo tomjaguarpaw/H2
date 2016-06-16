@@ -354,7 +354,6 @@ like this at the top of your source files:
 
 import System.IO.Unsafe
 import qualified Prelude
-import Prelude ((.), String, seq, (++), const, ($), id, error)
 
 u = unsafePerformIO
 
