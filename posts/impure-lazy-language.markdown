@@ -22,9 +22,8 @@ until and unless they are used.  In the following example the value of
 quickly evaluated to `0`.
 
 ````haskell
-> let x = sum [1..10000000]
-> if False then x else 0
-0
+> let x = sum [1..10000000] in "Hello"
+"Hello"
 ````
 
 The other part of laziness is that the result of an expression bound
@@ -321,7 +320,7 @@ position to solve all these problems once and for all.
 The solution is to wrap *all* side-effecting primitives in `IO`, and
 ensure that `IO` is an abstract datatype whose contents we can't
 unwrap.  This way we can only combine side-effecting actions by using
-`andThenIO`, never directly.  This ensure that side effects always
+`andThenIO`, never directly.  This ensures that side effects always
 occur in the order we expect and function application itself never has
 side effects.  At this point Unclean has become a *pure* functional
 programming language and it is, in fact, Haskell.
@@ -342,6 +341,8 @@ of Haskell had started with an impure lazy language (with `seq`) and
 asked themselves "how do we sanely handle the ordering of effects in
 this language?"  they would probably have quickly discovered this very
 natural approach.
+
+(Thanks to Sam Davis for a review)
 
 ## Appendix: Getting Unclean
 
