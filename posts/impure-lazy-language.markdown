@@ -19,7 +19,7 @@ identifier are memoized.
 One part of laziness is that function arguments are not evaluated
 until and unless they are used.  In the following example the value of
 `x` is never demanded, so it is never calculated and the expression is
-quickly evaluated to `0`.
+quickly evaluated to `"Hello"`.
 
 ````haskell
 > let x = sum [1..10000000] in "Hello"
