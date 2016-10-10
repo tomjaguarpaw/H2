@@ -186,3 +186,130 @@ let f = \x -> x + x
     m = map f r
 in head m
 ````
+
+To save space in this article you can watch [my talk at Haskell
+eXchange
+2016](https://skillsmatter.com/skillscasts/8726-haskell-programs-how-do-they-run)
+where I trace the evaluation of this program.
+
+### Primitive operations
+
+Something to bear in mind is that primitive operations must run on
+values, i.e. fully evaluated things.  This means that an operation
+such as `(+)` must be implemented as something like
+
+````haskell
+(+) = \x y -> case x of
+     x' -> case y of  
+         y' -> primitive_plus x' y'
+````
+
+where `primitive_plus` is perhaps implemented by some underlying C
+library.  The consequence is that `(+)`, or any other primitive
+operation evaluates its arguments.
+
+## Sharing
+
+The rules for evaluation tell us exactly what we need to know about
+how sharing happens.  Consider these two versions of an enumeration
+function:
+
+````haskell
+enum1 = zip ns
+    where ns = [1..]
+
+enum2 xs = zip ns xs
+    where ns = [1..]
+````
+
+If we're familiar with the concept of "eta equivalence" we might think
+that these two definitions will be evaluated in the same way.  We
+might think of an analogous definition where two definitions *are*
+equivalent and evaluated in the same way:
+
+````haskell
+inc1 x = (+) 1 x
+
+inc2   = (+) 1
+````
+
+But the enumeration examples do not evaluate the same way.  Why not?
+Let's look at what happens when we convert them into the normal form
+
+````haskell
+let enum1 = let ns = [1..]
+            in zip ns
+
+let enum2 = \xs -> let ns = [1..]
+                   in zip ns xs
+````
+
+Considering how these evaluate we see that in `enum1`, `ns` is shared by *all*
+invocations of the function, whereas in `enum2`, `ns` is created afresh
+by each invocation of the function.  Sharing `ns` can lead to large
+and surprising space leaks.
+
+So we see that careful consideration of how Haskell programs evaluate
+can shed light on unexpected or surprising behaviour.
+
+## `foldl`
+
+`foldl` is expressed in the normal form as
+
+````haskell
+foldl = \f z xs -> case xs of
+  []    -> z
+  x:xs' -> let z' = f z x
+           in foldl f z' xs'
+````
+
+See [my talk at Haskell eXchange
+2016](https://skillsmatter.com/skillscasts/8726-haskell-programs-how-do-they-run)
+where I trace the evaluation of `foldl (+) 0 [1..100]`.  In short, it
+builds up the proverbial "long chain of thunks" on the heap before
+consuming O(n) stack space to evaluate them.
+
+## `foldl'`
+
+`foldl'` is the "strict version of `foldl`" and is expressed in the
+normal form as
+
+````haskell
+foldl' = \f z xs -> case xs of
+  []    -> z
+  x:xs' -> case f z x of
+      z' -> foldl' f z' xs'
+````
+
+(As a short aside, note that in Haskell we would use `seq` instead of
+`case` because a Haskell `case` with no patterns doesn't evaluate its
+scrutinee.)
+
+See [my talk at Haskell eXchange
+2016](https://skillsmatter.com/skillscasts/8726-haskell-programs-how-do-they-run)
+where I trace the evaluation of `foldl' (+) 0 [1..100]`.  Unlike `foldl`, it
+consumes neither (much) heap nor stack.
+
+## `foldr`
+
+`foldr` is expressed in the normal form as
+
+````haskell
+foldr = \f z xs -> case xs of
+  []    -> z
+  x:xs' -> let rest = foldr (+) 0 xs'
+           in f x rest
+````
+
+See [my talk at Haskell eXchange
+2016](https://skillsmatter.com/skillscasts/8726-haskell-programs-how-do-they-run)
+where I trace the evaluation of `foldr (+) 0 [1..100]`.  It consumes
+O(n) heap and stack.
+
+## Conclusion
+
+All Haskell programs can be translated straightforwardly to a simple
+normal form which has a simple imperative-style interpretation.
+
+By following through the execution of the program we can understand
+how it uses memory resources.
