@@ -86,7 +86,7 @@ map f (x:xs) = f x : map f xs
 
 -- Normal form
 map = \f xs -> case xs of
-  []    -> []   
+  []    -> []
   x:xs' -> let first = f x
                rest  = map f xs'
            in first : rest
@@ -200,7 +200,7 @@ such as `(+)` must be implemented as something like
 
 ````haskell
 (+) = \x y -> case x of
-     x' -> case y of  
+     x' -> case y of
          y' -> primitive_plus x' y'
 ````
 
