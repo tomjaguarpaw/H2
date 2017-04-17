@@ -58,7 +58,7 @@ constructs.  It has only
 
 Additionally, in a function call the function itself and arguments must
 be variables or literals; and constructor applications must be
-``saturated'', i.e.\ there must be no missing arguments.
+"saturated", i.e.\ there must be no missing arguments.
 
 All Haskell programs can be translated into this normal form.  I'm not
 going to expend space describing how because there's lots and lots of
