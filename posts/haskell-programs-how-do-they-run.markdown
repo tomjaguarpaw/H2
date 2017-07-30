@@ -313,3 +313,16 @@ normal form which has a simple imperative-style interpretation.
 
 By following through the execution of the program we can understand
 how it uses memory resources.
+
+## Addendum
+
+After writing this article I was pointed to the following references,
+which perhaps make better reading:
+
+* [A transformation-based optimiser for
+   Haskell](https://www.microsoft.com/en-us/research/wp-content/uploads/1998/09/comp-by-trans-scp.pdf),
+   section 3.1
+
+* [Let-floating: moving bindings to give faster
+  programs](https://www.microsoft.com/en-us/research/wp-content/uploads/1996/05/float.pdf),
+  section 2.1
