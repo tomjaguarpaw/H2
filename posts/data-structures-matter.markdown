@@ -44,7 +44,7 @@ par_rainfall' xs = maxl `par` maxr `par` V.sum (V.zipWith3 (\l r x -> (min l r) 
 ```
 
 Notably, it's also 15x faster than some over-engineered C# code.  The
-drawback of the fast Haskell code is that's not so easy to change if
+drawback of the fast Haskell code is that it's not so easy to change if
 your boss decides to shift the requirements under you because he
 believes there are real towers filling with water and insists that he
 wants to be able to drill holes in the walls.
