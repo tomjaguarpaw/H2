@@ -33,11 +33,11 @@ world, since you didn't exclude that from your benchmark).  From here
 you have two options.  Your first option is to write a long rant about
 how slow this code is and share it on the internet.  Your second
 option is to use the right data structure and get a 114x speed up
-(63ms) for almost zero effort.
+(61ms) for almost zero effort.
 
 ```haskell
-par_rainfall' :: Vector Int -> Int
-par_rainfall' xs = maxl `par` maxr `par` V.sum (V.zipWith3 (\l r x -> (min l r) - x) maxl maxr xs)
+rainfall' :: Vector Int -> Int
+rainfall' xs = V.sum (V.zipWith3 (\l r x -> (min l r) - x) maxl maxr xs)
   where
     maxl = V.scanl1' max xs
     maxr = V.scanr1' max xs
