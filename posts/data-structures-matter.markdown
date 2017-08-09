@@ -43,7 +43,7 @@ rainfall' xs = V.sum (V.zipWith3 (\l r x -> (min l r) - x) maxl maxr xs)
     maxr = V.scanr1' max xs
 ```
 
-Notably, it's also 15x faster than some over-engineered C# code.  The
+This popular hipster code is also 15x faster than some over-engineered C# code.  The
 drawback of the fast Haskell code is that it's not so easy to change if
 your boss decides to shift the requirements under you because he
 believes there are real towers filling with water and insists that he
