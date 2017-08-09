@@ -17,7 +17,7 @@ polemic](https://drive.google.com/file/d/0B59Tysg-nEQZUkdRT2lfUVM3cVk):
 
 ## Cutting a long story short
 
-You can write an neat and correct solution in Haskell.
+You can write a neat and correct solution in Haskell.
 
 ```haskell
 rainfall :: [Int] -> Int
