@@ -91,7 +91,7 @@ and it works just like we would expect
 ```
 
 Our familiar `Show` takes a parameter of kind `*`.  Can we do higher
-kinded type parameters?  Yes, because I carefully definied `Class` to
+kinded type parameters?  Yes, because I carefully defined `Class` to
 be kind polymorphic.  Note that in its definition `a :: k`.  How
 about `Functor` then?  Again, convert the `Functor` operations to a
 dictionary, fill in the implementation in the instances, and define a
