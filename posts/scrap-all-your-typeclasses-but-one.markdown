@@ -176,6 +176,97 @@ encode functional dependencies in the "mother of all typeclasses"
 `Class` formulation?  No, I don't see how.  I also do not see how we
 can have associated types or data.
 
+## Other approaches
+
+Oleg Kiselyov published [a similar
+idea](https://mail.haskell.org/pipermail/haskell/2007-March/019181.html)
+in 2007.  I present a slight paraphrasing of Oleg's most refined
+version.  It looks quite similar to the above.
+
+```haskell
+class C l t | l -> t where
+    ac :: l -> t
+
+data NUM a = NUM { nm_add :: a -> a -> a,
+                   nm_mul :: a -> a -> a,
+                   nm_fromInteger :: Integer -> a,
+                   nm_show :: a -> String
+                 }
+
+data CLS a
+
+instance C (CLS (NUM Int)) (NUM Int) where
+    ac _ = NUM (+) (*) fromInteger show
+```
+
+Let's try and refine it further.  Firstly we notice that we're always
+going to define instances of the form
+
+```haskell
+instance C (CLS (f a)) (f a) where
+```
+
+so we may as well drop the second type parameter and use
+
+```haskell
+class C t where
+    ac :: CLS t -> t
+
+instance C (f a) where
+    ...
+```
+
+Then we notice that we don't need the first, phantom, argument to `ac`
+any more.  Oleg only introduced it to disambiguate instances.  With
+the record-based approach the type constructor of the record is
+sufficient to disambiguate instances, so we can get away with merely
+
+```haskell
+class C t where
+    ac :: t
+
+instance C (f a) where
+    ...
+```
+
+This is isomorphic to an existing Haskell typeclass
+
+```haskell
+class Default a where
+    def :: a
+```
+
+and this approach was indeed suggested by
+[`dmwit`](https://www.reddit.com/user/dmwit) in [a Reddit
+comment](https://www.reddit.com/r/haskell/comments/78047z/scrap_all_your_typeclasses_but_one/doq9ldl/).
+Is the `Default` approach equivalent to the `Class` approach?  Let's
+consider a concrete example.  Is
+
+```haskell
+instance Default (FunctorD Maybe)
+```
+
+equivalent to
+
+```haskell
+instance Class FunctorD Maybe
+```
+
+No, because `Class FunctorD` is genuinely something of kind `(* -> *)
+-> Constraint` just like `Functor` is. If I replaced the `Prelude`
+definition of `Functor` with
+
+```haskell
+type Functor = Class FunctorD
+```
+
+then I would expect all of Haskell to still work the same.  There's no
+way of replacing `Functor` with `Default (FunctorD Maybe)` because the
+latter has an insufficiently general type.  Still, perhaps a parallel
+universe Haskell ecosystem could use the latter quite happily.  What
+could go wrong?  I can't think of any obvious examples but advanced
+`Constraint` tricks might not be possible.
+
 ## Conclusion
 
 You can "scrap all your type classes but one" and use the "mother of
@@ -184,4 +275,7 @@ I do think it's very interesting.  It remains to be seen how to fit
 functional dependencies and associated types and data into this
 scheme.
 
+## Acknowledgements
 
+Thanks to [`rpglover64`](https://www.reddit.com/user/rpglover64) for
+pointing out a typo.
