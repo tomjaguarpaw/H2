@@ -47,7 +47,7 @@ we will replace it with
 instance Class MyClassD a where ...
 ```
 
-where `MyClassD` is the type class dictionary that [that Gabriel
+where `MyClassD` is the type class dictionary that [Gabriel
 explained to
 us](http://www.haskellforall.com/2012/05/scrap-your-type-classes.html).
 Let's implement `Show` using `Class`.  Firstly we define the
