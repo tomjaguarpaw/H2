@@ -178,6 +178,49 @@ can have associated types or data.
 
 ## Other approaches
 
+I haven't found any other work that presents quite the same
+formulation as `Class` as presented above.  I would be grateful to
+receive any links to such work.  However, a similar scheme was
+proposed by John Hughes in [Restricted Data Types in
+Haskell](https://www.researchgate.net/publication/2507831_Restricted_Data_Types_in_Haskell)
+and borrowed by Ralf Lammel and Simon Peyton Jones in [Scrap your
+boilerplate with class: extensible generic
+functions](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/gmap3.pdf).
+Hughes introduced the class
+
+```haskell
+class Sat t where
+    dict :: t
+```
+
+Is the `Sat` approach equivalent to the `Class` approach?  Let's consider a
+concrete example.  Is
+
+```haskell
+instance Sat (FunctorD Maybe)
+```
+
+equivalent to
+
+```haskell
+instance Class FunctorD Maybe
+```
+
+No, because `Class FunctorD` is genuinely something of kind `(* -> *)
+-> Constraint` just like `Functor` is. If I replaced the `Prelude`
+definition of `Functor` with
+
+```haskell
+type Functor = Class FunctorD
+```
+
+then I would expect all of Haskell to still work the same.  There's no
+way of replacing `Functor` with `Sat (FunctorD Maybe)` because the
+latter has an insufficiently general type.  Still, perhaps a parallel
+universe Haskell ecosystem could use the latter quite happily.  What
+could go wrong?  I can't think of any obvious examples but advanced
+`Constraint` tricks might not be possible.
+
 Oleg Kiselyov published [a similar
 idea](https://mail.haskell.org/pipermail/haskell/2007-March/019181.html)
 in 2007.  I present a slight paraphrasing of Oleg's most refined
@@ -229,43 +272,7 @@ instance C (f a) where
     ...
 ```
 
-This is isomorphic to an existing Haskell typeclass
-
-```haskell
-class Default a where
-    def :: a
-```
-
-and this approach was indeed suggested by
-[`dmwit`](https://www.reddit.com/user/dmwit) in [a Reddit
-comment](https://www.reddit.com/r/haskell/comments/78047z/scrap_all_your_typeclasses_but_one/doq9ldl/).
-Is the `Default` approach equivalent to the `Class` approach?  Let's
-consider a concrete example.  Is
-
-```haskell
-instance Default (FunctorD Maybe)
-```
-
-equivalent to
-
-```haskell
-instance Class FunctorD Maybe
-```
-
-No, because `Class FunctorD` is genuinely something of kind `(* -> *)
--> Constraint` just like `Functor` is. If I replaced the `Prelude`
-definition of `Functor` with
-
-```haskell
-type Functor = Class FunctorD
-```
-
-then I would expect all of Haskell to still work the same.  There's no
-way of replacing `Functor` with `Default (FunctorD Maybe)` because the
-latter has an insufficiently general type.  Still, perhaps a parallel
-universe Haskell ecosystem could use the latter quite happily.  What
-could go wrong?  I can't think of any obvious examples but advanced
-`Constraint` tricks might not be possible.
+which is equivalent to `Sat` above.
 
 ## Conclusion
 
