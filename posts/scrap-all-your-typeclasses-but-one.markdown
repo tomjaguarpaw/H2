@@ -4,7 +4,7 @@
 
 In "[Scrap your type
 classes](http://www.haskellforall.com/2012/05/scrap-your-type-classes.html)"
-Gabriel Gonzales explains how we can replace type classes with
+Gabriel Gonzalez explains how we can replace type classes with
 dictionary passing.  In this article I describe a sort of "halfway
 house" to scrapping *all* our type classes.  Suppose we were only
 allowed one type class.  Which would we choose?  I'll explain how we
