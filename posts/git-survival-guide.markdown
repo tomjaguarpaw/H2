@@ -31,6 +31,10 @@ Draft
 * Never use `.gitignore`.  It's another piece of mutable state you
   just don't need if you use use `git commit --patch`.
 
+## Git log
+
+There are some good suggestions here
+https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/
 
 * `git log --graph --all  --oneline --decorate --simplify-by-decoration`
 
@@ -41,3 +45,19 @@ Draft
 * `git checkout -b new_branch existing_commit`
 
 * `git push origin <local revision>:<name of remote branch>`
+
+## Roughly orthogonal git commands
+
+* `git -c interactive.singleKey=true commit --verbose --patch`
+* `git -c interactive.singleKey=true checkout --patch`
+* `git add --intent-to-add`
+* `git diff --word-diff`
+* `git diff --ignore-whitespace`
+* `git rebase --onto`
+* `git rebase --interactive`
+* `git log --graph --decorate --oneline --all`
+
+## What a rebase/merge is
+
+TODO: explain how conflicts mean you have to merge the semantic
+content of *both* patches
