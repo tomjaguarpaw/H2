@@ -186,6 +186,12 @@ I haven't measured the performance of this but with a suitable
 combination of inlining plus `RULE`s it feels like it should perform
 equally well to the MTL style.
 
+## Comments
+
+This approach doesn't provide support for non-algebraic operations
+such as `Reader.local`, `Writer.listen` and `Writer.pass`, but perhaps
+that's a good thing.
+
 ## Conclusion
 
 Implemention of classes of operations in MTL style contains a common
