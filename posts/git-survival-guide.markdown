@@ -6,7 +6,7 @@ Draft
 
 *                 git -c interactive.singlekey=true checkout --patch
 
-*                 git add --patch && git commit
+*                 git commit --patch --verbose
 
 *                 git fetch && git rebase origin/master && git push --force
 
