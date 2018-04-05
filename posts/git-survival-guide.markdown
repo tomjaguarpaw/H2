@@ -2,22 +2,31 @@
 
 Draft
 
-*                 git diff = darcs whatsnew
+* `darcs whatsnew` = `git diff`
 
-*                 git -c interactive.singlekey=true checkout --patch
+* `darcs revert` = `git -c interactive.singlekey=true checkout --patch`
 
-*                 git commit --patch --verbose
+* `darcs rec` = `git commit --patch --verbose`
 
-*                 git fetch && git rebase origin/master && git push --force
+* `darcs pull` = `git fetch && git rebase origin/master && git push
+  --force`
 
-*                 NEVER git merge
+    The git version is somewhat different to `darcs pull` because
+    instead of automatically merging on a pull we explicitly rebase on
+    the target branch.  This is a bit saner and gets conflicts out of
+    the way explicitly and sooner.
 
-*                 NEVER git pull (because that implies a merge)
+* Never `git merge`
 
-*                 NEVER stash, just commit to a temporary branch and rebase
+* Never `git pull` (because `pull` implies a merge).  Instead `git
+   fetch` and carefully rebase on the remote branch.
 
-* NEVER use the staging area.  It's a piece of mutable state you just
+* Never stash, just commit to a temporary branch.  When you want to
+  come back to your "stash" checkout the temporary branch and `git
+  reset HEAD^`.
+
+* Never use the staging area.  It's a piece of mutable state you just
   don't need if you use `git add --patch`.
 
-* NEVER use .gitignore.  It's another piece of mutable state you just
-  don't need if you use use `git commit --patch`.
+* Never use `.gitignore`.  It's another piece of mutable state you
+  just don't need if you use use `git commit --patch`.
