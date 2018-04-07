@@ -45,3 +45,5 @@ various reasons.  Here's how I managed it.
     setting.
 
 Then it seems that Dante just works.
+
+* 'M-g n' and 'M-g p' go to the next and previous errors respectively.
