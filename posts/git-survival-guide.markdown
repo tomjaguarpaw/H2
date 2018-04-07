@@ -30,3 +30,8 @@ Draft
 
 * Never use `.gitignore`.  It's another piece of mutable state you
   just don't need if you use use `git commit --patch`.
+
+
+## Explicit git
+
+* `git checkout -b new_branch existing_commit`
