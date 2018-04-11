@@ -32,6 +32,10 @@ Draft
   just don't need if you use use `git commit --patch`.
 
 
+* `git log --graph --all  --oneline --decorate --simplify-by-decoration`
+
+* `git log --graph --all  --oneline --decorate`
+
 ## Explicit git
 
 * `git checkout -b new_branch existing_commit`
