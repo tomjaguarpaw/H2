@@ -39,3 +39,5 @@ Draft
 ## Explicit git
 
 * `git checkout -b new_branch existing_commit`
+
+* `git push origin <local revision>:<name of remote branch>`
