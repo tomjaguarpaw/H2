@@ -61,3 +61,9 @@ https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/
 
 TODO: explain how conflicts mean you have to merge the semantic
 content of *both* patches
+
+## Fetching without adding a remote
+
+* `git fetch <url of remote repository> <branch>`
+
+    Then you can do whatever you want with `FETCH_HEAD`
