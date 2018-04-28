@@ -115,6 +115,14 @@
 * I never use `.gitignore`.  You don't need it if you use `git commit
   --patch`.
 
+* I never `commit --amend`.  Interactive rebase (see above) allows you
+  access to the same functionality without needing to remember a
+  different command.
+
+* I rarely use `cherry-pick`. I find that interactive rebase provides
+  a better approach to reaching my goal.
+
+
 ## Explicit git
 
 * `git checkout -b <new branch name> <existing revision>`
