@@ -10,7 +10,8 @@
           where y = 2 * p + 6
 
 
-  (where `p` is from an outer scope).
+  (where `p` is from an outer scope).  It turns out there's a PEP for
+  this: [PEP 3150](https://www.python.org/dev/peps/pep-3150/).
 
 * I want to be able to define anonymous functions that are more than a
   single expression.
