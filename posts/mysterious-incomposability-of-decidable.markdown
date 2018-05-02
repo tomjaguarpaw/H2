@@ -12,7 +12,7 @@ the same type to be combined.  In brief
 
 * `Applicative`: covariant, converts products to products
 * `Alternative`: covariant, [converts products to
-   sums](../alternatives-convert-products-to-sums)
+   sums](../alternatives-convert-products-to-sums/)
 * `Divisible`: contravariant, converts products to products
 * `Decidable`: contravariant, converts products to sums
 
