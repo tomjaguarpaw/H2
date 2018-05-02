@@ -2,7 +2,7 @@
 
 `Applicative`, `Alternative` and `Divisible` are Haskell classes that
 each have nice composition properties.  There is a fourth class,
-`Decideable`, that fills in the remaining corner of a square of
+`Decidable`, that fills in the remaining corner of a square of
 properties but I cannot find any nice composition property for it.
 
 By way of introduction, Haskell has a `Functor` class that can be
