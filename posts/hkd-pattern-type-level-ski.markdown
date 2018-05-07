@@ -291,5 +291,9 @@ data K x y   = K x
 data I x     = I x
 ```
 
+I was probably a bit naughty using `(<$>)` and `(<*>)` when I should
+have used `(:<$>)` and `(:<*>)`.  GHC doesn't even seem to allow me to
+export the former from a module.
+
 Have you seen type-level SKI or type-level applicatives used like this
 before?  [Contact me](http://web.jaguarpaw.co.uk/~tom/contact/).
