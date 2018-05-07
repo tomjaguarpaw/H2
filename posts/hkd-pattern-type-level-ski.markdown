@@ -291,5 +291,5 @@ data K x y   = K x
 data I x     = I x
 ```
 
-Have you seen type-level SKI used like this before?  [Contact
-me](http://web.jaguarpaw.co.uk/~tom/contact/).
+Have you seen type-level SKI or type-level applicatives used like this
+before?  [Contact me](http://web.jaguarpaw.co.uk/~tom/contact/).
