@@ -121,12 +121,12 @@ Or for `Applicative` actions,
 
 ```haskell
 data AA a f
-data Id
+data Iden
 
 type instance F (AA a f) b = a -> f b
-type instance F Id b = b
+type instance F Iden b = b
 
-e5' :: Applicative f => Foo' (AA a f) -> a -> f (Foo' Id)
+e5' :: Applicative f => Foo' (AA a f) -> a -> f (Foo' Iden)
 e5' (Foo' Nothing) _ = pure (Foo' Nothing)
 e5' (Foo' (Just f)) a = fmap (Foo' . Just) (f a)
 ```
@@ -154,8 +154,20 @@ data Arr a b where
   I     :: Arr a a
 ```
 
-I'm going to implement the SKI calculus rules in function called `A`
-(for "Algebra", or something).
+`Arr a (b -> r) -> Arr a b -> Arr a r` has the pattern `... (b -> r)
+-> ... b -> ... r` and so it looks a bit like an `Applicative`.  Let
+me implement that.
+
+```haskell
+instance Applicative (Arr k1) where
+  pure  = K
+  (<*>) = S
+
+instance Functor (Arr k1) where
+  fmap f = (<*>) (pure f)
+```
+
+I'm going to implement the SKI calculus rules in function called `A`.
 
 ```haskell
 A :: Arr a b -> a -> b
@@ -179,17 +191,17 @@ type instance A (K k) _ = k
 type instance A (S f x) a = (A f a) (A x a)
 ```
 
-Neat.  `A` is a great pointy letter.  Maybe it's a bit too upwards
-though.  I wish it was more to the left.  The `S` is a bit boring.
-It's nice and curvy but I feel like we're missing a lowercase "a"
-after all.  Let's compromise.  How about
+Neat.  But I've lost my cool `Applicative` instance because it doesn't
+exist at the type level.  Never mind, let's bring it back and add a
+type-level `id` and `<|` for luck.
 
 ```haskell
+type (<*>) = S
+type Pure = K
+type (<$>) f = (<*>) (Pure f)
+type Id = I
 type (<|) f x = A f x
-type (@@) = S
 ```
-
-Much better!
 
 ## Abstraction at the type level
 
@@ -210,19 +222,21 @@ How do we rewrite our types using type-level SKI?  The transformation
 of lambda terms into SKI terms can be somewhat messy.  The examples
 we'll consider here will be just within the realm of the readable, but
 I wouldn't want to inflict upon you terms any more complicated than
-these.  Basically, to introduce something that doesn't depend on your
-type parameter use `K`, to introduce your parameter itself use `I`,
-and to apply one term to another use `@@`.
+these.  Basically, we've got an applicative interface. To introduce
+something that doesn't depend on your type parameter use `Pure` --
+i.e. `K` -- to introduce your parameter itself use `Id` -- i.e. `I` --
+and to apply one term to another use `<*>` -- i.e. `S`.
 
-For example, `\a -> (a, a)` is `K (,) @@ I @@ I`.
+For example, `\a -> (a, a)` at the value level is `(,) <$> id <*> id`,
+and at the type level it's `(,) <$> Id <*> Id`.
 
 ```haskell
-e3'' :: Foo'' (K (,) @@ I @@ I)
+e3'' :: Foo'' ((,) <$> Id <*> Id)
 e3'' = Foo'' (Just (1, 2))
 ```
 
-Let's try another example. `\r -> Reader r String` is `K Reader @@ I @@
-K String`.  Oops!  `Reader` is defined as
+Let's try another example. `\r -> Reader r String` is `Reader <$> Id
+<*> Pure String`.  Oops!  `Reader` is defined as
 
 ```haskell
 type Reader r = ReaderT r Identity
@@ -230,22 +244,22 @@ type Reader r = ReaderT r Identity
 
 so we can't use it without at least one argument.  Never fear,
 type-level SKI is here!  We can just use `\r -> ReaderT r Identity
-String` which becomes `K ReaderT @@ I @@ K Identity @@ K String`.
+String` which becomes `ReaderT <$> Id <*> Pure Identity <*> Pure String`.
 
 ```haskell
-e4'' :: Foo'' (K ReaderT @@ I @@ K Identity @@ K String)
+e4'' :: Foo'' (ReaderT <$> Id <*> Pure Identity <*> Pure String)
 e4'' = Foo'' $ Just $ do
   i <- ask
   return (show i)
 ```
 
-If we want to do `\b -> a -> f b` then we need `K ((->) a) @@ (K f @@
-I)`.
+If we want to do `\b -> a -> f b` then we need `(->) a <$> (f <$>
+Id)`.
 
 ```haskell
-e5'' :: Applicative f => Foo'' (K ((->) a) @@ (K f @@ I))
+e5'' :: Applicative f => Foo'' ((->) a <$> (f <$> Id))
     -> a
-    -> f (Foo'' I)
+    -> f (Foo'' Id)
 e5'' (Foo'' Nothing) _ = pure (Foo'' Nothing)
 e5'' (Foo'' (Just f)) a = fmap (Foo'' . Just) (f a)
 ```
@@ -255,7 +269,7 @@ e5'' (Foo'' (Just f)) a = fmap (Foo'' . Just) (f a)
 We can define a single type family whose index is some combination of
 a collection of compositional symbols called the SKI combinators.
 Using those we can build up a type-level expression equivalent to any
-lambda term.
+lambda term.  We can even use an applicative interface to do this!
 
 What's the downside?  Well, you saw those terms, right?  They're
 verging on unreadable.  Also, inferrence is terrible (but no worse
