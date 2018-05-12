@@ -80,7 +80,7 @@ e5 (Foo (Just (ApplicativeAction f))) a =
 ## HKD to the rescue
 
 This as all getting tedious so HKD comes to the rescue.  Instead of
-paraemtrising on a type constructor we parametrise on some opaque
+parametrising on a type constructor we parametrise on some opaque
 symbol (a defunctionalised version of the type constructor, if you
 will).  Sandy Maguire described how this works in his article [HKD:
 Less Terrible than You Might
@@ -286,7 +286,7 @@ I'm not sure that there would be a lot of point though.  It might be
 worth exploring further.
 
 ```haskell
-data S f g x = S (f x) (g x)
+data S f g x = S ((f x) (g x))
 data K x y   = K x
 data I x     = I x
 ```
