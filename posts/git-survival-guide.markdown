@@ -88,12 +88,12 @@
 * I almost never `git merge`.  If I want to do a fast forward "merge"
   (which is not really a merge at all) then I do
 
-      git merge --ff-only
+        git merge --ff-only
 
   and if I want to bring my branch up to date with the remote then I
   do
 
-      git rebase <remote>/<branch>
+    git rebase <remote>/<branch>
 
 * I never `git pull`.  `git pull` just does `git fetch` followed by
   `git merge`.  I very rarely want to merge and when I do I will be
