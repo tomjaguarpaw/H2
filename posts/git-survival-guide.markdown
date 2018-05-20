@@ -131,7 +131,7 @@ gone wrong or some other git mystery?  Try this command with the name
 of your branch in the place of `<branch>`.
 
 ```shell
-BRANCH=<branch>; git log --color --graph --oneline --dense --pretty=format:"%C(yellow)%h%Creset %cr: %s%d (Authored %ar)"   `git reflog $BRANCH | cut '-d ' -f1`
+BRANCH=<branch>; git log --graph --pretty=format:"%C(yellow)%h%Creset %cr: %s%d (Authored %ar)"   `git reflog $BRANCH | cut '-d ' -f1`
 ```
 
 (Yes, it's long, and you should put it all on one line).  You will be
