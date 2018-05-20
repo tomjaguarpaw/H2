@@ -122,6 +122,23 @@
 * I rarely use `cherry-pick`. I find that interactive rebase provides
   a better approach to reaching my goal.
 
+## Advanced stuff
+
+### All the things your branch has ever been
+
+Are you scared that you've lost committed work because of a rebase
+gone wrong or some other git mystery?  Try this command with the name
+of your branch in the place of `<branch>`.
+
+```shell
+BRANCH=<branch> git log --color --graph --decorate --oneline --dense --pretty=format:"%C(yellow)%h%Creset %cr: %s (Authored %ar)"   `git reflog $BRANCH | cut '-d ' -f1`
+```
+
+(Yes, it's long, and you should put it all on one line).  You will be
+presented with a tree that contains everything your branch has ever
+referred to.  You can then reset your branch to one of its earlier
+versions and perhaps `cherry-pick` into it commits from other
+versions.
 
 ## Explicit git
 
