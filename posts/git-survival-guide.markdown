@@ -33,8 +33,8 @@
 
   and it is useful to use
 
-  * `--word-diff`
-  * `--ignore-whitespace`
+      * `--word-diff`
+      * `--ignore-whitespace`
 
 * To rebase
 
