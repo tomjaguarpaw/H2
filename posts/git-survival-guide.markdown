@@ -31,10 +31,7 @@
 
         git diff
 
-  and it is useful to use
-
-      * `--word-diff`
-      * `--ignore-whitespace`
+  and it is useful to use `--word-diff` or `--ignore-whitespace`.
 
 * To rebase
 
