@@ -291,5 +291,11 @@ data K x y   = K x
 data I x     = I x
 ```
 
+Richard Eisenberg seems to have been touching on the same sort of thing in
+his post [Defunctionalization for the
+win](https://typesandkinds.wordpress.com/2013/04/01/defunctionalization-for-the-win/).
+There is distinction between the work presented here and his and I haven't
+yet been able to understand whether they are the same in spirit.
+
 Have you seen type-level SKI or type-level applicatives used like this
 before?  [Contact me](http://web.jaguarpaw.co.uk/~tom/contact/).
