@@ -46,3 +46,5 @@ whereas this orders by the constant 1 + 1, i.e. 2.
 ````
 SELECT * from table ORDER BY 1 + 1;
 ````
+
+* <https://stackoverflow.com/questions/42588304/postgresql-why-cant-i-create-composite-foreign-key-based-on-unique-column-wit>
