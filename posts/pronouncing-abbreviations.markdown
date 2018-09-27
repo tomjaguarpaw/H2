@@ -7,3 +7,4 @@ Do you abbreviate then pronounce or pronounce then abbreviate?
 * `prev`
 * `id`
 * regex
+* `toDyn`
