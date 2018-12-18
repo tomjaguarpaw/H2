@@ -75,6 +75,11 @@
 
         git log --graph --decorate --oneline --all
 
+  or for a slightly better display but much more complicated command
+  line
+
+        PAGER="less -S" git log --decorate --all --graph --pretty=format:"%C(auto)%h %<(7,trunc)%ae %s%d [%cr]%Creset"
+
   If you only want to see the topology of the tree instead of every
   commit then add `--simplify-by-decoration`.  (You might like to read
   [Ian Miell's "git log -- The Good
