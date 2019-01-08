@@ -142,6 +142,12 @@ the given branch.  You can then reset your branch to one of its
 earlier versions and perhaps `cherry-pick` into it commits from other
 versions.
 
+### All the changes to files you care about
+
+```shell
+git fetch && PAGER="less '+/^commit'" git log --patch --since="1 week" --extended-regexp --author='^([^T]|.[^o])' -- $(git rev-list --since="1 month" --author="Tom Ellis" origin/master | while read commit; do git diff-tree --no-commit-id --name-only -r $commit; done)
+```
+
 ## Explicit git
 
 * `git checkout -b <new branch name> <existing revision>`
