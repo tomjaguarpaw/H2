@@ -8,3 +8,4 @@ Do you abbreviate then pronounce or pronounce then abbreviate?
 * `id`
 * regex
 * `toDyn`
+* `mapAccumL`
