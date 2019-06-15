@@ -203,3 +203,6 @@ I'm probably not the first person to notice this.  If anyone knows any
 prior references please [let me
 know](http://web.jaguarpaw.co.uk/~tom/contact/) and I'll add a
 reference.
+
+[Oliver Charles did some stuff along these
+lines](https://www.reddit.com/r/haskell/comments/89njsr/mtl_style_for_free/e6sb9vb/).
