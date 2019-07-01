@@ -27,6 +27,8 @@ These features include:
 
 * Convert between instances by direct manipulation of their structure
 
+* Handle situations where there are multiple useful instances that overlap
+
 I am going to argue that only the first 3 of the above features are necessary, and that the rest can
 be done using existing Haskell features. We can thus reduce the featureset of typeclasses
 substantially to just the first 3 plus the needed hooks to interact with the rest of Haskell. This
@@ -226,6 +228,52 @@ expressive enough to count as true direct manipulation. For example if you can d
 conversions from `Foo` to `Bar` each parameterized by an Int or a String, suddenly DerivingVia
 cannot help you. I also don't like the ergonomics of defining a brand new top level type for every
 possible conversion when a function is much more direct and lightweight.
+
+### Handle situations where there are multiple useful instances that overlap
+
+This is currently handled with newtypes. Whenever you want to call a function with a different
+instance you wrap the type with a newtype that has the desired instance. If you want to change
+multiple instances for a single call you just have to hope that the newtypes compose nicely by
+lifting through instances that are unrelated to the newtype's purpose. This is fairly ugly in my
+opinion and prohibits you from doing anything overly expressive and dynamic, as the newtype must
+be hardcoded on the top level and cannot be parameterized.
+
+The other way it is potentially going to be handled in future is with ApplyingVia. Which is
+essentially the same underlying principal as the above, but with special TypeApplications sugar
+that allows for codegening the necessary coercions.
+
+If the underlying typeclass structures are exposed, you can simply define variants of functions that
+take in an explicit typeclass dictionary or multiple explicit typeclass dictionaries.
+
+Old:
+
+```
+sum :: Num a => [a] -> a
+sum = getSum . foldMap Sum
+
+product :: Num a => [a] -> a
+product = getProduct . foldMap Product
+```
+
+Potential:
+
+```
+sum :: forall a. Num a => [a] -> a
+sum = fold @_ @(a via Sum a)
+
+product :: forall a. Num a => [a] -> a
+product = fold @_ @(a via Product a)
+```
+
+New:
+
+```
+sum :: Num a => [a] -> a
+sum = foldX addMonoid
+
+product :: Num a => [a] -> a
+product = foldX multMonoid
+```
 
 ## Proposal
 
