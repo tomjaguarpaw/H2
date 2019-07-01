@@ -229,6 +229,39 @@ conversions from `Foo` to `Bar` each parameterized by an Int or a String, sudden
 cannot help you. I also don't like the ergonomics of defining a brand new top level type for every
 possible conversion when a function is much more direct and lightweight.
 
+Old:
+
+```
+newtype Modulo7 a = Modulo7 a
+
+instance Integral a => Num (Modulo7 a) where ...
+
+newtype Modulo1B7 a = Modulo1B7 a
+
+instance Integral a => Num (Modulo1B7 a) where ...
+
+sumModuloN :: (Foldable f, Integral a) => f a -> a -> a
+sumModuloN = ...
+```
+
+New:
+
+```
+numModuloN :: Integral a => a -> Num_ a
+numModuloN = ...
+
+newtype Modulo7 = Modulo7 a
+
+instance Integral a => Num (Modulo7 a) = coerce @(Num_ a) (numModuloN 7)
+
+newtype Modulo1B7 a = Modulo1B7 a
+
+instance Integral a => Num (Modulo1B7 a) = coerce @(Num_ a) (numModuloN 1000000007)
+
+sumModuloN :: (Foldable f, Integral a) => f a -> a -> a
+sumModuloN xs n = sumX (numModuloN n) xs
+```
+
 ### Handle situations where there are multiple useful instances that overlap
 
 This is currently handled with newtypes. Whenever you want to call a function with a different
