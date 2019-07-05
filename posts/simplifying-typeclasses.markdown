@@ -1,5 +1,7 @@
 # Simplifying typeclasses
 
+-- *Guest post by Daniel Smith (tysonzero)*
+
 The current implementation of typeclasses in GHC/Haskell is quite complex, as they have a variety of
 different features. A small portion of these features are fundamental to typeclasses and cannot be
 removed, but many of these features already exist in other forms in Haskell, and those other forms
@@ -40,7 +42,7 @@ than the featureset built around typeclasses.
 Typeclasses are fundamentally different than regular data types, so we need a separate syntax of
 some sort to define them.
 
-```
+```haskell
 class Eq a
 ```
 
@@ -49,7 +51,7 @@ class Eq a
 Haskell doesn't really have any notion of subtyping outside of typeclasses, so this is also pretty
 fundamental.
 
-```
+```haskell
 class Eq a => Ord a
 ```
 
@@ -59,7 +61,7 @@ Classes can be thought of as open and extensible functions from the type level t
 thus instance declerations are extending this function with specific clauses. Again pretty unique
 and fundamental.
 
-```
+```haskell
 instance Eq Int
 ```
 
@@ -71,13 +73,13 @@ Haskell type what the underlying structure of a typeclass is.
 
 Old:
 
-```
+```haskell
 class Monoid a where
     mempty :: a
     mappend :: a -> a -> a
 ```
 
-```
+```haskell
 class Monoid a = monoid :: Monoid_ a
 data Monoid_ a = Monoid
     { mempty :: a
@@ -93,7 +95,7 @@ pragma you can simply expose as many smart constructors as you would like.
 
 Old:
 
-```
+```haskell
 class Eq a where
     (==) :: a -> a -> Bool
     (/=) :: a -> a -> Bool
@@ -110,7 +112,7 @@ instance Eq Bool where
 
 New:
 
-```
+```haskell
 class Eq a = (==) :: a -> a -> Bool
 
 (/=) :: Eq a => a -> a -> Bool
@@ -147,7 +149,7 @@ common patterns of converting between typeclasses, to avoid having to import as 
 
 Old:
 
-```
+```haskell
 instance Monad Foo where
     (>>=) = ...
 
@@ -164,7 +166,7 @@ data Bar = ...
 
 New:
 
-```
+```haskell
 instance Monad Foo = Monad
     { mBind = ...
     , mPure = ...
@@ -186,14 +188,14 @@ important, as you can just use coerce explicitly.
 
 Old:
 
-```
+```haskell
 newtype Foo = Foo Int
     deriving (Bar, Baz)
 ```
 
 New:
 
-```
+```haskell
 newtype Foo = Foo Int
 instance Bar Foo = coerce (bar @Int)
 instance Baz Foo = coerce (baz @Int)
@@ -207,14 +209,14 @@ not be needed with this new approach, as you can simply adjust the explicit coer
 
 Old:
 
-```
+```haskell
 newtype Foo = Foo Int
     deriving Monoid via (Sum Int)
 ```
 
 New:
 
-```
+```haskell
 newtype Foo = Foo Int
 instance Monoid Foo = coerce (monoid @(Sum Int))
 ```
@@ -231,7 +233,7 @@ possible conversion when a function is much more direct and lightweight.
 
 Old:
 
-```
+```haskell
 newtype Modulo7 a = Modulo7 a
 
 instance Integral a => Num (Modulo7 a) where ...
@@ -246,7 +248,7 @@ sumModuloN = ...
 
 New:
 
-```
+```haskell
 numModuloN :: Integral a => a -> Num_ a
 numModuloN = ...
 
@@ -273,14 +275,15 @@ be hardcoded on the top level and cannot be parameterized.
 
 The other way it is potentially going to be handled in future is with ApplyingVia. Which is
 essentially the same underlying principal as the above, but with special TypeApplications sugar
-that allows for codegening the necessary coercions.
+that allows for codegening the necessary coercions. I personally think this syntax is quite ugly
+and not beginner friendly.
 
 If the underlying typeclass structures are exposed, you can simply define variants of functions that
 take in an explicit typeclass dictionary or multiple explicit typeclass dictionaries.
 
 Old:
 
-```
+```haskell
 sum :: Num a => [a] -> a
 sum = getSum . foldMap Sum
 
@@ -288,9 +291,9 @@ product :: Num a => [a] -> a
 product = getProduct . foldMap Product
 ```
 
-Potential:
+Proposed:
 
-```
+```haskell
 sum :: forall a. Num a => [a] -> a
 sum = fold @_ @(a via Sum a)
 
@@ -300,7 +303,7 @@ product = fold @_ @(a via Product a)
 
 New:
 
-```
+```haskell
 sum :: Num a => [a] -> a
 sum = foldX addMonoid
 
@@ -318,7 +321,7 @@ I use above:
 
 Old:
 
-```
+```haskell
 class Eq a where (==) :: a -> a -> Bool
 
 instance Eq Int where (==) = ...
@@ -326,7 +329,7 @@ instance Eq Int where (==) = ...
 
 New:
 
-```
+```haskell
 class Eq a = (==) :: a -> a -> Bool
 
 instance Eq Int = ...
