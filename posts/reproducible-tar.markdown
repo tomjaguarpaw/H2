@@ -76,3 +76,23 @@ pax headers.  I cannot find any way to tell GNU Tar to turn these off.
 
 In conclusion, reproducible builds are currently best done with GNU Tar
 format.
+
+## Addendum
+
+*ivfsurtm* contacted me to point out that it is possible to omit the
+ `atime` and `ctime` fields with the following command
+
+```
+tar --format=posix
+    --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime,delete=mtime
+    --mtime='1970-01-01 00:00:00Z'
+    --sort=name
+    --owner=0
+    --group=0
+    --numeric-owner
+    -cvf archive.tar
+    examplefile
+```
+
+The options are documented in [the Gnu tar
+manual](https://www.gnu.org/software/tar/manual/html_section/tar_70.html).
