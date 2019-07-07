@@ -61,15 +61,15 @@ create a file in a reproducible way.  For example, if you try to create a
 pax archive containing one empty file, thus
 
     touch example \
-     && tar -cf output.tar \
+     && tar -cf - \
             --format=posix \
             --numeric-owner \
             --owner=0 \
             --group=0 \
-            --mode="go-rwx,u-rw"
-            --mtime='1970-01-01' \
+            --mode="go-rwx,u-rw" \
+            --mtime='1970-01-01 00:00:00Z' \
             example \
-      && hexdump -C output.tar
+      | hexdump -C
 
 then you will see that pax creates `atime` and `ctime` fields in extended
 pax headers.  I cannot find any way to tell GNU Tar to turn these off.
@@ -83,15 +83,18 @@ format.
  `atime` and `ctime` fields with the following command
 
 ```
-tar --format=posix
-    --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime,delete=mtime
-    --mtime='1970-01-01 00:00:00Z'
-    --sort=name
-    --owner=0
-    --group=0
-    --numeric-owner
-    -cvf archive.tar
-    examplefile
+touch example \
+&& tar --format=posix \
+       --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime,delete=mtime \
+       --mtime='1970-01-01 00:00:00Z' \
+       --sort=name \
+       --numeric-owner \
+       --owner=0 \
+       --group=0 \
+       --mode="go-rwx,u-rw" \
+       -cvf - \
+       example \
+  | hexdump -C
 ```
 
 The options are documented in [the Gnu tar
