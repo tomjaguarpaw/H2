@@ -42,3 +42,15 @@ but then something like
 ```
 
 would be even closer.
+
+Deleting a if statement whose condition is never true can convert a
+generator into a normal function.
+
+```python
+def g():
+    if False: yield "Hello"
+    pass
+
+def h():
+    pass
+```
