@@ -85,6 +85,16 @@
   [Ian Miell's "git log -- The Good
   Parts"](https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/).)
 
+* To see the status
+
+        git status -uno
+
+  By default `git status` shows untracked, unignored files.  I don't
+  need to ignore files because I use `git commit --patch`.  On the
+  other hand I don't want to see untracked, unignored files in `git
+  status`.  Instead I use `git status -uno` which supresses display of
+  untracked files.
+
 ## Things I don't do
 
 * I almost never `git merge`.  If I want to do a fast forward "merge"
