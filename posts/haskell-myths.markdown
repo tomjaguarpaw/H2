@@ -14,4 +14,6 @@ https://news.ycombinator.com/item?id=20257322
 (I haven't checked this 100% but I've never come across or heard about
 a significant incompatibility)
 
+https://news.ycombinator.com/item?id=20744477
+
 ## A pure language can have effects
