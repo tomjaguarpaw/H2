@@ -17,3 +17,5 @@ a significant incompatibility)
 https://news.ycombinator.com/item?id=20744477
 
 ## A pure language can have effects
+
+## Haskellers don't literally believe "if it compiles it works"
