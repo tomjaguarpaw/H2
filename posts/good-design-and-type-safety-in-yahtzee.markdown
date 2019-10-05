@@ -271,7 +271,7 @@ We don't need to know what the program does to apply this refactoring.
 
 ### Rearrange arguments further
 
-Once we have separated `DiceVals` from its `Integer` we notice that
+Once we have separated `DiceVals` from the `Integer` we notice that
 `DiceChoice` and `DiceVals` seem to naturally belong together.  Again
 the diff makes the change look bigger than it is.  We're just passing
 `DiceChoice` and `DiceVals` as a tuple rather than two arguments.
@@ -362,7 +362,7 @@ works rather than just apply a mechanical translation.
 
 ### Introduce a type synonym
 
-Given thaht `DiceChoice` and `DiceVals` seem to belong together
+Given that `DiceChoice` and `DiceVals` seem to belong together
 let's add a type synonym (`DiceTurn`) for that.
 
 We don't need to know what the program does to apply this refactoring.
@@ -481,7 +481,7 @@ We don't need to know what the program does to apply this refactoring.
 ### Use do notation
 
 The use of the bind operator (`>>=`) and list comprehension are not
-particularly clear.  Let's rewrite it to do notation.  (In fact I
+particularly clear.  Let's rewrite it to use do notation.  (In fact I
 recommend defaulting to do notation over operators unless there's some
 compelling readability benefit to using the latter.)
 
@@ -512,7 +512,7 @@ ought to be called `mapA` but [people don't like the idea of that
 change](https://www.reddit.com/r/haskell/comments/68w09h/proposal_to_add_mapa_as_synonym_for_traverse/).)
 
 In this change we just make the function we are mapping take explicit
-arguments.
+arguments.  We'll switch to use `mapM` in the next change.
 
 We don't need to know what the program does to apply this refactoring.
 
@@ -569,8 +569,9 @@ the documentation is kept in line with the implementation?  I want a
 single source of truth!
 
 Let's add a type to avoid "boolean blindness".  The type of
-`allRollsBetter` still does not guarantee that it does the right thing
-with its argument but it does make any deviation glaringly obvious.
+`allRollsBetter` still does not guarantee that the implementation does
+the right thing with its argument but it does make any deviation
+glaringly obvious.
 
 We don't need to know what the program does to apply this refactoring.
 It requires the uncontroversial `LambdaCase` language extension.
