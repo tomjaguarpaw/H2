@@ -28,3 +28,7 @@ https://news.ycombinator.com/item?id=21171484
    write simple programs
 
 https://news.ycombinator.com/item?id=21171031
+
+## You can adopt Haskell features piecemeal
+
+https://news.ycombinator.com/item?id=21171772
