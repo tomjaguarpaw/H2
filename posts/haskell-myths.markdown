@@ -23,3 +23,8 @@ https://news.ycombinator.com/item?id=20744477
 ## You can use "debugging `printf`s"
 
 https://news.ycombinator.com/item?id=21171484
+
+## You don't have to engage with the whole complexity of Haskell to
+   write simple programs
+
+https://news.ycombinator.com/item?id=21171031
