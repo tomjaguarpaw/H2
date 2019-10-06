@@ -19,3 +19,7 @@ https://news.ycombinator.com/item?id=20744477
 ## A pure language can have effects
 
 ## Haskellers don't literally believe "if it compiles it works"
+
+## You can use "debugging `printf`s"
+
+https://news.ycombinator.com/item?id=21171484
