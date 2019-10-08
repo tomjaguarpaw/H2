@@ -1,5 +1,7 @@
 # Correcting Haskell myths
 
+WIP
+
 There are many myths about Haskell floating around.  Here is the
 truth.  (Work in progress)
 
@@ -19,6 +21,21 @@ https://news.ycombinator.com/item?id=20744477
 ## A pure language can have effects
 
 ## Haskellers don't literally believe "if it compiles it works"
+
+The origin seems to be unrelated to Haskell.  See some early
+references.  Some appear to be tongue in cheek.
+
+* https://liw.fi/programming-truths/
+
+* http://lambda-the-ultimate.org/node/100
+
+* https://people.cs.kuleuven.be/~dirk.craeynest/ada-belgium/events/09/090207-fosdem/01-intro-ada.pdf
+
+Some Haskellers discussing the notion
+
+* https://www.reddit.com/r/haskell/comments/37tp2c/what_i_found_inconvenient_in_haskell/
+
+* https://www.reddit.com/r/haskell/comments/3mpip2/hask_anything_the_thread_where_you_ask_and_we_try/
 
 ## You can use "debugging `printf`s"
 
