@@ -392,7 +392,7 @@ We just observe that the pair of things are always used together.
 
 ### Make illegal states unrepresentable
 
-Our invariant is that number of `DiceChoice`s must be the same as the
+Our invariant is that the number of `DiceChoice`s must be the same as the
 number of `DiceVals`.  Semantically, we actually want something
 stronger: each of the `DiceChoice`s corresponds to exactly one of the
 `DiceVals`.  In my experience this is the single most common
