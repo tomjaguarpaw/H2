@@ -3,7 +3,7 @@
 Cameron Gera and Taylor Fausak [produced a
 podcast](https://haskellweekly.news/episode/22.html) on [an article of
 mine about good design and
-typesafety](good-design-and-type-safety-in-yahtzee/).  The article is
+typesafety](../good-design-and-type-safety-in-yahtzee/).  The article is
 about refactoring code to improve design and how that goes
 hand-in-hand with type safety.  Intriguingly, listening to others talk
 about my article gave me a new perspective.
@@ -27,7 +27,7 @@ answer is yes!  Let's see how to do it.
 ### The starting point
 
 We start from the "Add `pop` function" stage of the [previous
-article](good-design-and-type-safety-in-yahtzee/).  We've got a
+article](../good-design-and-type-safety-in-yahtzee/).  We've got a
 suspicion that, although the argument `n` to `allRolls` *is* used, the
 argument `n-1` to the recursive call is not.  How can we transform the
 code to make that clear?
@@ -62,7 +62,7 @@ example =
 ### Use `do`-notation
 
 Let's immediately simplify by using `do`-notation.  In the [previous
-article](good-design-and-type-safety-in-yahtzee/) we left this stage
+article](../good-design-and-type-safety-in-yahtzee/) we left this stage
 until later but given that the recursive call is currently part of a
 `>>=` expression let's apply the simplification now.
 
@@ -301,7 +301,7 @@ allRollsBody choices vs = case pop choices vs of
 
 ## Conclusion
 
-In the [earlier article](good-design-and-type-safety-in-yahtzee/) I
+In the [earlier article](../good-design-and-type-safety-in-yahtzee/) I
 said that "the only way I can suggest that one discovers [that the
 argument is unused] is to think through how the the code actually
 works ... this is not just a simple refactoring".  I was wrong!  There
