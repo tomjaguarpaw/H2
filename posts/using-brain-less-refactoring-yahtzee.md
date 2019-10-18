@@ -7,12 +7,13 @@ typesafety](../good-design-and-type-safety-in-yahtzee/) using code
 from an implementation of the game Yahtzee.  The article is
 about refactoring code to improve design and how that goes
 hand-in-hand with type safety.  Intriguingly, listening to others talk
-about my article gave me a new perspective.
+about my article gave me fresh ideas.
 
-At one point we observed that a variable to an argument was unused.
-Eventually we removed it.  The only justification given for removing
-it was to convince ourselves that it was unused by looking at the
-implementation of the function and to insert a run time check.
+At one point in the article we observed that a variable to an argument
+was unused.  Subsequently we removed it.  The only justification given
+that the removal of the argument was valid was that we could convince
+ourselves that it was unused by looking at the implementation of the
+function, and that we could insert a run time check.
 
 Hearing Cameron and Taylor talk about the article made me think again.
 There were only two changes to the code that really relied upon
@@ -105,7 +106,7 @@ I'll write the "pair with `n-1`" function as `(, n-1)` (using the
 
 ### Lift `fmap` outside `do`
 
-Now `n` is used, we think, just twice, and in each case mapping the
+Now `n` is used, we think, just twice, and in each case to map the
 "pair with `n-1`" function over a list.  We've made this duplication
 obvious but we can't yet remove it.  First we have to lift the `fmap`
 outside the `do`.  We use the rule that
@@ -141,7 +142,7 @@ This is how the rewriting applies in our case:
 ### Combine duplicated functions at top level
 
 Now that both branches of the `case` statement are `fmap (, n-1)` of
-something we can apply the `fmap (, n-1)` to the overall `case`
+something, we can apply `fmap (, n-1)` to the overall `case`
 statement instead.  Specifically, the rule is that we can rewrite
 
 ```haskell
@@ -230,7 +231,8 @@ allRollsBody choices (vs, n) = case pop choices vs of
           where rollList = if chosen then [v] else [ 1..6 ]
 ```
 
-Previously we had to use our brains to spot that the `Integer`
+[Previously]((../good-design-and-type-safety-in-yahtzee/))
+we had to use our brains to spot that the `Integer`
 argument to the recursive call was unused.  We inserted a run time
 check to convince ourselves that we were right.  Now we have split the
 original function into two, only one of which contains a recursive
@@ -246,46 +248,46 @@ However, the check is demonstrated in a strange way, and if you're not
 familiar with it then it will look utterly bizarre.
 
 We generalise the type signature so that the function doesn't just
-work for an `Integer` but rather for *any* type of numeric argument,
-that is, any type with an instance of the `Num` type class.
+work for an `Integer` but rather for *any* type of numeric argument `a`,
+that is, any type `a` with an instance of the `Num` type class.
 
 ```haskell
-allRollsBody :: Num t => DiceChoice -> (DiceVals, t) -> [DiceVals]
+allRollsBody :: Num a => DiceChoice -> (DiceVals, a) -> [DiceVals]
 ```
 
 Believe it or not, from this type signature alone, without knowing
-anything about the implementation, we can conclude that the `t`
+anything about the implementation, we can conclude that the `a`
 argument is not used!  How on earth can we conclude that?  It's
 because of the
 [parametricity](https://en.wikipedia.org/wiki/Parametricity) property
 enjoyed by Haskell's type system.  Basically, the type signature says
-that the only operations involving type `t` that `allRollsBody` can
+that the only operations involving type `a` that `allRollsBody` can
 use are the ones from the `Num` type class.  [Looking at
 them](https://www.stackage.org/haddock/lts-13.21/base-4.12.0.0/Prelude.html#t:Num),
-we see that they give us a way to *make* new `t`s from an `Integer`
-(`fromInteger`) and ways to *combine* `t`s to give other `t`s (`+`,
+we see that they give us a way to *make* new `a`s from an `Integer`
+(`fromInteger`) and ways to *combine* `a`s to give other `a`s (`+`,
 `*`, etc.).  On the other hand, there is no way that a value of
-another type can be *created from* a `t`.  Therefore, the only way
-that an argument of type `t` could be used to affect the result is if
-the type variable `t` appears in the type of the result.  The result
+another type can be *created from* an `a`.  Therefore, the only way
+that an argument of type `a` could be used to affect the result is if
+the type variable `a` appears in the type of the result.  The result
 has type `[DiceVals]` so it cannot be affected by the argument of type
-`t`!
+`a`!
 
 If that seems baffling to you, do not be despondent.  Although
-parametricity is an extremely sophisticated property with a complex
-proof, using it in practice becomes second nature.  Haskell
+parametricity is an extremely sophisticated property
+using it in practice becomes second nature.  Haskell
 programmers use it to great advantage in creating APIs which remain
 flexible whilst providing strong guarantees via their type signatures.
 
 
 ### Remove unused argument
 
-One way or another our program transformations have taken us to a
+One way or another, our program transformations have taken us to a
 place where we feel comfortable removing the `Integer` argument
 without having to think too hard about the justification.  We can
-inspect the body and see that is not used in a way that can affect the
+inspect the body and see that the argument is not used in a way that can affect the
 result or we can use parametricity to deduce the same thing.  Either
-way we can remove the argument.
+way we can remove it.
 
 ```haskell
 allRolls :: DiceChoice -> DiceState -> [ DiceState ]
@@ -310,14 +312,15 @@ is a small sequence of simple transformations that improve the code
 whilst at the same time taking us to a place where we easily see that
 the argument is unused.  For the latter either we use a small amount
 of brainpower to inspect the implementation or we take advantage of
-parametricity.
+parametricity.  This is great!  We want to save as much brainpower as
+possible for the really hard problems.
 
-A small amount of Haskell knowledge was required but that is mostly
-just because the code is written in Haskell.  Other languages will
+A small amount of Haskell knowledge was required but that is
+because the code is written in Haskell.  Other languages will
 have their own particular constructs and equivalent transformations,
 although if they lack `case` statements and expression-valued blocks
 the transformations might appear a bit more clunky. The only
-typed-functional-laguage-specific concept in this article is
+typed-functional-language-specific concept in this article is
 parametricity.  In this small example we were happy to just inspect
 the body of the function.  Parametricity really shines in more
 complicated codebases where unrelated, opaque, pieces of functionality
