@@ -3,7 +3,8 @@
 Cameron Gera and Taylor Fausak [produced a
 podcast](https://haskellweekly.news/episode/22.html) on [an article of
 mine about good design and
-typesafety](../good-design-and-type-safety-in-yahtzee/).  The article is
+typesafety](../good-design-and-type-safety-in-yahtzee/) using code
+from an implementation of the game Yahtzee.  The article is
 about refactoring code to improve design and how that goes
 hand-in-hand with type safety.  Intriguingly, listening to others talk
 about my article gave me a new perspective.
