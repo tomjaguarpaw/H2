@@ -9,3 +9,4 @@ Do you abbreviate then pronounce or pronounce then abbreviate?
 * regex
 * `toDyn`
 * `mapAccumL`
+* [enum](https://twitter.com/importantshock/status/1197982056791314435?s=20)
