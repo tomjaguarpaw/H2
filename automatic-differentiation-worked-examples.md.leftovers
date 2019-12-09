@@ -1,0 +1,308 @@
+## Appendix
+
+[From here on: bits and bobs that I will delete before publishing]
+
+Differences from [Automatic Differentiation in Machine Learning: a
+Survey](https://arxiv.org/abs/1502.05767) by Baydin, Pearlmutter,
+Radul and Siskind.
+
+* I call it differential instead of derivative.
+
+* I use `dx` and `d_dx` instead of dotted `x` and barred `x`.
+
+* I don't believe in this notion of backpropagating "errors"!
+
+## To do
+
+Address this idea of "reverse mode being less costly to evaluate" for
+functions with large numbers of inputs.  It's not!  It's less costly
+to evaluate the *Jacobian* by repeated evaluation, naturally.
+
+Differences from Griewank
+
+* SSA means you don't need tape (for straight line derivatives)
+
+## Credits
+
+I learned the "explicit duplication form" from [Tom
+Minka](https://tminka.github.io/)'s talk [From automatic
+differentiation to message
+passing](https://tminka.github.io/papers/acmll2019/).
+
+## For another article
+
+### Derivative in terms of map of differentials
+
+For full generality our differentiation will need to be able to handle
+functions that take multiple values as arguments and return multiple
+values.  Let's consider an example of multivariate differential
+calculus, that is, partial differentiation, using the following
+equation
+
+$$
+(x, y) = (r \cos \theta, r \sin \theta)
+$$
+
+(which happens to be the change of 2d coordinates from polar to
+rectangular but that's not important here).  If you are familiar with
+multivariable calculus then you will be able to write down the partial
+derivatives
+
+$$
+\frac{\partial x}{\partial r} = \cos \theta; \,\,
+\frac{\partial x}{\partial \theta} = -r \sin \theta; \,\,
+\frac{\partial y}{\partial r} = \sin \theta; \,\,
+\frac{\partial y}{\partial \theta} = r \cos \theta
+$$
+
+This collection of facts could well be considered to be "the"
+derivative of the above equation but for our purposes we need to go
+one step further and combine the facts above with the multivariate
+chain rule of differential calculus.  Let's see what that means.
+
+Suppose that $r$ and $\theta$ themselves were functions of a single
+real variable $t$.  Then by the chain rule we would have
+
+$$
+\left(\frac{dx}{dt}, \frac{dy}{dt} \right)
+= \left(\frac{\partial x}{\partial r} \frac{dr}{dt}
++ \frac{\partial x}{\partial \theta} \frac{d\theta}{dt}, \,
+\frac{\partial y}{\partial r} \frac{dr}{dt}
++ \frac{\partial y}{\partial \theta} \frac{d\theta}{dt}\right)
+$$
+
+Because $t$ is arbitrary I'm going to take a liberty with notation to
+keep $t$ implicit and write
+
+$$
+\left(dx, dy \right)
+= \left(\frac{\partial x}{\partial r} dr
++ \frac{\partial x}{\partial \theta} d\theta, \,
+\frac{\partial y}{\partial r} dr
++ \frac{\partial y}{\partial \theta} d\theta\right)
+$$
+
+This liberty serves to make the notation a bit neater.  If you prefer
+to mentally insert $\frac{}{dt}$ in several places to get back to the
+original form then please do so.
+
+Substituting in the partial derivatives we calculated above we get
+
+$$
+\left(dx, dy \right)
+= \left(\cos \theta \, dr
+- r \sin \theta \, d\theta, \,
+\sin \theta \, dr
++ r \cos \theta \, d\theta\right)
+$$
+
+This is the derivative of our original equation (in terms of the
+partial derivatives) *combined* with the chain rule.  Every assignment
+in our program has a derivative that can be written in this form.
+
+It might be interesting to note that one can express the same thing in
+matrix form as
+
+$$
+\left(
+\begin{array}{c}
+dx \\
+dy
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+\frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} \\
+\frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta}
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+dr \\
+d\theta
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+\cos \theta & -r \sin \theta \\
+\sin \theta &  r \cos \theta
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+dr \\
+d\theta
+\end{array}
+\right)
+$$
+
+This is sometimes called the "Jacobian-vector product".
+
+Combining the derivative with the chain rule gave us new variables
+($dx$, $dy$, $dr$ and $d\theta$) that will appear in our forward mode
+derivative code.  I'm going to say, without further explanation, that
+what we have written down is a formula for the "differentials" ($dx$
+and $dy$) of the output variables in terms of the "differentials"
+($dr$ and $d\theta$) of the input variables, and this is the form of
+deravitive that we will be using in the forward mode AD algorithm.  I
+won't go more into this here because it really deserves an article (or
+more) all of its own, but I hope examples will make it easy enough to
+become comfortable with the pattern.
+
+## Derivative in terms of map of gradients
+
+The reverse mode derivative transformation will proceed by
+differentiating individual lines of our source program, just like the
+forward mode transformation.  Instead of generating the map of
+"differentials" we are going to generate the map of "gradients" by
+applying the chain rule in the opposite direction.
+
+Let's recall our example multi-variable function from above.  Its
+definition is
+
+$$
+(x, y) = (r \cos \theta, r \sin \theta)
+$$
+
+and its partial derivatives are
+
+$$
+\frac{\partial x}{\partial r} = \cos \theta; \,\,
+\frac{\partial x}{\partial \theta} = -r \sin \theta; \,\,
+\frac{\partial y}{\partial r} = \sin \theta; \,\,
+\frac{\partial y}{\partial \theta} = r \cos \theta
+$$
+
+Suppose there were an $\alpha$ which was a function of $x$ and $y$.
+Then by the chain rule we would have
+
+$$
+\left(\frac{\partial \alpha}{\partial r},
+\frac{\partial \alpha}{\partial \theta} \right)
+= \left(\frac{\partial \alpha}{\partial x} \frac{\partial x}{\partial r}
++ \frac{\partial \alpha}{\partial y} \frac{\partial y}{\partial r},
+\frac{\partial \alpha}{\partial x} \frac{\partial x}{\partial \theta}
++ \frac{\partial \alpha}{\partial y} \frac{\partial y}{\partial \theta}\right)
+$$
+
+Again I will slightly abuse notation to write
+
+$$
+\left(\frac{\partial}{\partial r},
+\frac{\partial}{\partial \theta} \right)
+= \left(\frac{\partial x}{\partial r} \frac{\partial}{\partial x}
++ \frac{\partial y}{\partial r} \frac{\partial}{\partial y},
+\frac{\partial x}{\partial \theta} \frac{\partial}{\partial x}
++ \frac{\partial y}{\partial \theta} \frac{\partial}{\partial y}\right)
+$$
+
+And in terms of the partial derivatives given above this is
+
+$$
+\left(\frac{\partial}{\partial r},
+\frac{\partial}{\partial \theta} \right)
+= \left(\cos \theta \frac{\partial}{\partial x}
++ \sin\theta \frac{\partial}{\partial y},
+-r \sin \theta \frac{\partial}{\partial x}
++ r \cos \theta \frac{\partial}{\partial y}\right)
+$$
+
+Now it is definitely interesting to express the same thing in matrix
+form because we can see that it corresponds to matrix multiplication
+in the opposite direction from the forward mode example
+
+$$
+\left(
+\begin{array}{cc}
+\frac{\partial}{\partial r} & \frac{\partial}{\partial \theta}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y}
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+\frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} \\
+\frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cc}
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y}
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+\cos \theta & -r \sin \theta \\
+\sin \theta &  r \cos \theta
+\end{array}
+\right)
+$$
+
+This is sometimes called the "vector-Jacobian product".
+
+I'm going to say, without further explanation, that what we have
+written down is a formula for the "gradient" of the *input* variables
+($\frac{\partial}{\partial r}$ and $\frac{\partial}{\partial \theta}$)
+in terms of the "gradient" of the *output* variables
+($\frac{\partial}{\partial x}$ and $\frac{\partial}{\partial y}$).  In
+other words this form of the derivative works in the opposite direction
+to the original function.
+
+## Old bits from examples
+
+then it corresponds to $y = x_1 + x_2$ in mathematical notation, and
+the form of the derivative that we will be using in forward mode is
+$dy =dx_1 + dx_2$ which we write in pseudocode as
+
+then it corresponds to $y = x_1 x_2$ in mathematical notation, and the
+form of the derivative that we will be using in forward mode is $dy =
+x_2 \, dx_1 + x_1 \, dx_2$ which we write in pseudocode as
+
+then it corresponds to $y = x_1 / x_2$ in mathematical notation, and
+the form of the derivative that we will be using in forward mode is
+$dy = dx_1 / x_2 - (x_1 / x_2^2) dx_2$ which we write in pseudocode as
+
+then it corresponds to $y = x_1 + x_2$ in mathematical notation, and
+the form of the derivative that we will be using in reverse mode is
+
+$$
+\left(\frac{\partial }{\partial x_1}, \frac{\partial }{\partial x_2} \right)
+= \left(\frac{\partial }{\partial y}, \frac{\partial }{\partial y}\right)
+$$
+
+It will probably seem very strange if I say that this is a way of
+expressing the derivative of addition -- we've never seen anything
+like this in our multivariate calculus courses -- but it is!  We write
+it in pseudocode as
+
+corresponding to the equation $y = x_1 x_2$ then the form of the
+derivative that we will be using in reverse mode is
+
+$$
+\left(\frac{\partial}{\partial x_1},
+\frac{\partial}{\partial x_2} \right)
+= \left(x_2 \, \frac{\partial}{\partial y},
+x_1 \, \frac{\partial}{\partial y} \right)
+$$
+
+Again, this doesn't look like the form of the derivative of
+multiplication that we are familiar with!  We write it in our program
+as
+
+corresponding to the equation $(y_1, y_2) = (x, x)$ then the form of
+the derivative that we will be using in reverse mode is
+
+$$
+\frac{\partial}{\partial x}
+= \frac{\partial}{\partial y_1}
++ \frac{\partial}{\partial y_2}
+$$
+
+which we write in our program as
