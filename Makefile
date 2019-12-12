@@ -6,5 +6,5 @@ build: site
 deploy:	build
 	rsync --itemize-changes -vr _site/ `cat host`
 
-site: site.hs
+site: h2.cabal site.hs
 	cabal v2-install --installdir . --overwrite-policy=always site
