@@ -122,14 +122,14 @@ expression](../why-is-naive-symbolic-differentiation-slow).
     1.0100754777229357
     -- Trust me, that was slow
 
-## The key idea of Automatic Differentiation
+## The key idea of forward mode Automatic Differentiation
 
 We can calculate derivatives efficiently (in time linear in the size
 of the expression) by using the *key idea* of AD.  The *key idea* is
 to evaluate both the expression *and* its derivative *at the same
 time*.  I'm not going to go into why this is faster (it's to do with
 avoiding redundant calculation) but suffice it to know that this is
-indeed the unique, key idea of AD.
+indeed the unique, key idea of forward mode AD.
 
 It's not even hard to write.  For each term, we evaluate the subterms
 and the derivative of the subterms, and then combine them using the
@@ -208,7 +208,7 @@ that contains the effects interpreted in a particular way.
 
 ## Conclusion
 
-AD is a very cool idea and at its heart is very simple.  There are
+Forward mode AD is a very cool idea and at its heart is very simple.  There are
 surely many important details that come later when you want to
 optimize your AD implementation or extend it to higher dimensions, but
 for the basics all you need is one key idea, and that is to calculate
