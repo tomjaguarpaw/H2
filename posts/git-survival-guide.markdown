@@ -4,23 +4,23 @@
 
 * To create a new branch from the current one
 
-        git checkout -b <new branch>
+      git checkout -b <new branch>
 
 * To switch to an existing branch
 
-        git checkout <existing branch>
+      git checkout <existing branch>
 
 * To make a commit
 
-        git -c interactive.singleKey=true commit --verbose --patch
+      git -c interactive.singleKey=true commit --verbose --patch
 
 * To revert an uncommited change
 
-        git -c interactive.singleKey=true checkout --patch
+      git -c interactive.singleKey=true checkout --patch
 
 * To add a new file
 
-        git add --intent-to-add <filename>
+      git add --intent-to-add <filename>
 
   (or `-N`) I don't use `git add` because it adds the file to the staging area.
   I don't want to bother with the staging area (see below for more
@@ -29,17 +29,17 @@
 * To see the difference between different revisions (or my working
   copy)
 
-        git diff
+      git diff
 
   and it is useful to use `--word-diff` or `--ignore-whitespace`.
 
 * To rebase
 
-        git rebase
+      git rebase
 
   or to be really specific about it
 
-    git rebase -i --onto <target> <from> <to>
+      git rebase -i --onto <target> <from> <to>
 
   The latter will interactively rebase the collection of patches
   `<from>..<to>` onto `<target>` (`<from>` is exclusive, `<to>`
@@ -50,35 +50,35 @@
 
 * To split a patch in two
 
-        # I'm currently on <branch>
-  
-        COMMIT=<commit>
-        git checkout $COMMIT
-        git reset $COMMIT^
+      # I'm currently on <branch>
 
-        # Commit just the changes you want in the first patch
-        git commit --patch --verbose
+      COMMIT=<commit>
+      git checkout $COMMIT
+      git reset $COMMIT^
 
-        git reset --hard HEAD
-        git revert --no-edit HEAD
-        git rebase --onto HEAD $COMMIT^ <branch>
-        # ... which will always succeed because the revert returned the
-        # working copy to the state it was in before $COMMIT was
-        # applied.
+      # Commit just the changes you want in the first patch
+      git commit --patch --verbose
 
-        git rebase --interactive $COMMIT^
-        # ... squash the third commit (the original one we wanted to
-        # split) into the second (the Revert) and keep only the original
-        # commit message.
+      git reset --hard HEAD
+      git revert --no-edit HEAD
+      git rebase --onto HEAD $COMMIT^ <branch>
+      # ... which will always succeed because the revert returned the
+      # working copy to the state it was in before $COMMIT was
+      # applied.
+
+      git rebase --interactive $COMMIT^
+      # ... squash the third commit (the original one we wanted to
+      # split) into the second (the Revert) and keep only the original
+      # commit message.
 
 * To see the entire history of my repository
 
-        git log --graph --decorate --oneline --all
+      git log --graph --decorate --oneline --all
 
   or for a slightly better display but much more complicated command
   line
 
-    PAGER="less -S" git log --decorate --all --graph --pretty=format:"%C(auto)%h %<(7,trunc)%ae %s%d [%cr]%Creset"
+      PAGER="less -S" git log --decorate --all --graph --pretty=format:"%C(auto)%h %<(7,trunc)%ae %s%d [%cr]%Creset"
 
   If you only want to see the topology of the tree instead of every
   commit then add `--simplify-by-decoration`.  (You might like to read
@@ -87,7 +87,7 @@
 
 * To see the status
 
-        git status -uno
+      git status -uno
 
   By default `git status` shows untracked, unignored files.  I don't
   need to ignore files because I use `git commit --patch`.  On the
@@ -100,12 +100,12 @@
 * I almost never `git merge`.  If I want to do a fast forward "merge"
   (which is not really a merge at all) then I do
 
-        git merge --ff-only
+      git merge --ff-only
 
   and if I want to bring my branch up to date with the remote then I
   do
 
-    git rebase <remote>/<branch>
+      git rebase <remote>/<branch>
 
 * I never `git pull`.  `git pull` just does `git fetch` followed by
   `git merge`.  I very rarely want to merge and when I do I will be
