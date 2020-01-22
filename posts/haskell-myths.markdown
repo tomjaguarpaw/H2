@@ -49,3 +49,7 @@ https://news.ycombinator.com/item?id=21171031
 ## You can adopt Haskell features piecemeal
 
 https://news.ycombinator.com/item?id=21171772
+
+## Haskell is not "just math"/"just category theory"/"just lambda calculus"
+
+https://news.ycombinator.com/item?id=22112939
