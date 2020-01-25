@@ -40,12 +40,13 @@ main = do
 ```
 
 There are a couple of small differences between the Python version and
-the Haskell version.  In the Haskell version we explicitly continue by
+the Haskell version, and two bigger ones.  The small ones are that in
+the Haskell version we explicitly continue by
 naming `myLoop` whereas the Python version explicitly `break`s
 instead, and naturally the Haskell version explicitly passes the state
 for the next iteration.
 
-There are also two bigger differences that make the Haskell version
+The two bigger differences make the Haskell version
 clumsier.  Firstly we have to name `myLoop` and call it explicitly.
 Secondly the initial state (`0`) is passed in far from the definition
 of `myLoop`.
