@@ -16,6 +16,10 @@ https://news.ycombinator.com/item?id=20257322
 (I haven't checked this 100% but I've never come across or heard about
 a significant incompatibility)
 
+Haskell language extensions do not *change* the language semantics.
+They *extend* the semantics with additional functionality.  Existing
+code does not change its meaning when you enable an extension.
+
 https://news.ycombinator.com/item?id=20744477
 
 ## A pure language can have effects
