@@ -8,3 +8,6 @@ deploy:	build
 
 site: h2.cabal site.hs
 	cabal v2-install --installdir . --overwrite-policy=always site
+
+watch:
+	while true; do inotifywait --event modify posts; make build; done
