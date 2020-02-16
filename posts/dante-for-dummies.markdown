@@ -1,5 +1,15 @@
 # Dante for dummies
 
+## This article is outdated!
+
+The article is old, from before I knew how to manage Emacs packages
+properly (the secret: use
+[straight.el](https://github.com/raxod502/straight.el/)).  My new
+article "[How I use dante](../how-i-use-dante/)" is much better and I
+suggest you read it instead of this one.
+
+## The old article
+
 I wanted to get started with [Dante: Emacs mode for Interactive
 Haskell](https://github.com/jyp/dante) but found it difficult for
 various reasons.  Here's how I managed it.
