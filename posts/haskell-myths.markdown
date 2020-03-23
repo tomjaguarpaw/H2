@@ -20,6 +20,16 @@ Haskell language extensions do not *change* the language semantics.
 They *extend* the semantics with additional functionality.  Existing
 code does not change its meaning when you enable an extension.
 
+It seems to me that the parser has to parse a single "extended
+Haskell" language.  The absence of an extension selectively disables a
+part of this language.
+
+As far as I know, yes.  That's why I'm somewhat confused by @smdiehl
+'s tweet.  It seems to me a bit like saying that if you use 10-letter
+alphabetic variable names the parser has to parse 26^10 potential
+combinations of variable name varieties.
+
+
 https://news.ycombinator.com/item?id=20744477
 
 ## A pure language can have effects
