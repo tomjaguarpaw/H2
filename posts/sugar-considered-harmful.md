@@ -6,7 +6,7 @@
 
 * Sugar makes it easier to swallow a bitter pill.
 
-* Sugar is anything that makes an immediate term difficulty more
+* Sugar is anything that makes an immediate-term difficulty more
   palatable at the expense of long term codebase health.
 
 * Sugar can give you a boost of energy when you need to get over a
