@@ -14,4 +14,4 @@ or a strict linear data structure, such as
 
 Using lazy lists leads to bugs such as
 
-* https://www.reddit.com/r/haskell/comments/8b7jkd/awful_memory_consumption_when_using_lazy/
+* <https://www.reddit.com/r/haskell/comments/8b7jkd/awful_memory_consumption_when_using_lazy/>
