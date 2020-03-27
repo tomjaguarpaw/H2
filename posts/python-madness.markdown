@@ -30,14 +30,14 @@ Not valid:
 
 Valid:
 
-```
+```python
 (l for ls in lss for l in ls if l[2] == False)
 ```
 
 I guess the order of the `for`s mimcs the order in a nested for loop,
 but then something like
 
-```
+```python
 (for ls in lss for l in ls if l[2] == False: l)
 ```
 
