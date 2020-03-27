@@ -9,14 +9,15 @@ and handle side effects through an `IO` type.
 ## Unclean
 
 I've got a strongly-typed, impure, lazy, programming language called
-"Unclean".  Impure means that function application can have side
-effects.  Lazy means that function arguments are not evaluated until
-they are demanded and the results of computations bound to an
+"Unclean".  Impure means that let binding and function application can
+have side effects.  Lazy means that, firstly, let bindings and
+function arguments are not evaluated until they are demanded and,
+secondly, the results of computations bound to an
 identifier are memoized.
 
 ## Laziness and memoization
 
-One part of laziness is that function arguments are not evaluated
+The first part of laziness is that function arguments are not evaluated
 until and unless they are used.  In the following example the value of
 `x` is never demanded, so it is never calculated and the expression is
 quickly evaluated to `"Hello"`.
@@ -26,7 +27,7 @@ quickly evaluated to `"Hello"`.
 "Hello"
 ````
 
-The other part of laziness is that the result of an expression bound
+The second part of laziness is that the result of an expression bound
 to an identifier is memoized (cached) for reuse.  In the following
 example the first time we evaluate `y` the computation bound to it is
 run and there is some delay before we see the result.  The second time
