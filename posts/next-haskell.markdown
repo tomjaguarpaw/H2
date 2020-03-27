@@ -19,6 +19,23 @@ the Next Haskell.
   Any arguments can be passed to it using the normal means of function
   application.
 
+* It should be possible to "eta-reduce `case` branches".  That is, I
+  should be able to write
+
+  ```haskell
+  \case
+      Just    -> foo
+      Nothing -> bar
+  ```
+
+  instead of
+
+  ```haskell
+  \case
+      Just x  -> foo x
+       Nothing -> bar
+  ```
+
 * Either arguments should be taken on the left hand side of a
   function, or the function type constructor should be reversed.
 
