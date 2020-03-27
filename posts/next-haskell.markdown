@@ -16,7 +16,7 @@ the Next Haskell.
 * Either do notation or comprehensions, not both.
 
 * Remove `if`.  The only version of `case` should be a "lambda case".
-  An arguments can be passed to it using the normal means of function
+  Any arguments can be passed to it using the normal means of function
   application.
 
 * Either arguments should be taken on the left hand side of a
@@ -28,7 +28,7 @@ the Next Haskell.
 
 * No partial record fields
 
-* x `f` y should desugar to f y x
+* ``x `f` y`` should desugar to `f y x`
 
 * Warnings that should be errors
 

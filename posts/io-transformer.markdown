@@ -28,7 +28,7 @@ In fact, it's just a use of the `Reader` transformer.
     newtype IOT m a = IOT { runIOT :: ReaderT (Morph m IO) IO a }
 
 Using `ReaderT` here is just a convenience that means we automatically
-get a `Monad` for free.  It doesn't play a role of any substance.
+get a `Monad` instance cheaply.  It doesn't play a role of any substance.
 
     instance Monad (IOT m) where
       return = IOT . return
