@@ -4,8 +4,11 @@ def foo1():
 def foo2():
     print("foo2")
 
-def foo3():
-    print("foo3")
+def foo3_1():
+    print("f", end='')
+
+def foo3_2:
+    print("oo3")
 
 def foo4():
     print("foo4")
@@ -16,4 +19,5 @@ def foo5():
 def main():
     foo1()
     foo2()
-    foo3()
+    foo3_1()
+    foo3_2()
