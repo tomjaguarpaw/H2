@@ -64,12 +64,16 @@ It's important to use `git -c merge.conflictStyle=diff3 rebase` (or
  ++>>>>>>> Add foo 5
 ```
 
-The correct way to resolve this conflict is to apply the logical
-change of the bottom hunk (adding `foo5`) to the state of the top hunk
-beyond what the bottom patch expected (the addition of `foo4`) (in
-your editor this will typically be easier to do by making that change
-to the top hunk), that is, we want to end up with the file we save in
-our editor as
+The commit you are transplanting expected to see the state of the file
+in the middle and to change it to the state of the file in the bottom
+hunk.  Instead what it saw was the state at the top.
+
+The correct way to resolve this conflict is to combine the logical
+change of the bottom hunk relative to the middle (adding `foo5`) and
+the logical change of the top hunk relative to the middle (adding
+`foo4`) (in your editor this will typically be easier to do by making
+that change to the top hunk), that is, we want to end up with the file
+we save in our editor as
 
 ```python
 def main():
