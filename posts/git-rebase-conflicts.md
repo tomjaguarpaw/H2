@@ -7,6 +7,16 @@ combine the logical changes of the two options.
 
 It is almost always the wrong thing to choose exactly one of them.
 
+The existence of a merge conflict means that the patches could not be
+merged textually.  However, the aim is actually to merge them
+*semantically*.  Merge tools are rarely (perhaps never) clever enough
+to be able to perform semantic merges so they settle for textual
+merges.  In the cases where textual merges are not possible the task
+is left to human ingenuity.
+
+Key takeaway: The aim is to merge the *semantic* content of the two
+patches.
+
 Suppose we start with this Python file
 
 ```python
@@ -69,6 +79,18 @@ It's important to use `git -c merge.conflictStyle=diff3 rebase` (or
 The commit you are transplanting expected to see the state of the file
 in the middle and to change it to the state of the file in the bottom
 hunk.  Instead what it saw was the state at the top.
+
+We can see the semantic content of the rebased patch by running the
+command `git show REBASE_HEAD`.  It shows the content of the rebased
+patch, from which we can easily see the intended semantic change: to
+add a call to `foo5`.
+
+```
+     foo1()
+     foo2()
+     foo3()
++    foo5()
+```
 
 The correct way to resolve this conflict is to combine the logical
 change of the bottom hunk relative to the middle (adding `foo5`) and
