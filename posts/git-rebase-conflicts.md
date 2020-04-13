@@ -430,7 +430,7 @@ a commit which combines `foo1` and `foo2` into a new function
 ```
 
 
-Then I get two different conflicting regions
+Then I get two conflicting regions
 
 ```
 ++<<<<<<< HEAD
