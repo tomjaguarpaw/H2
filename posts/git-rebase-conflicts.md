@@ -126,9 +126,10 @@ There are two equivalent ways to see the intent of the rebased commit.
   ancestors") and the bottom hunk (above the commit description, "Add
   foo 5")
 
-* The output of `git show REBASE_HEAD` (this is generally easier to
-  read, but more verbose as it also contains diffs relating to
-  non-conflicting parts of the patch).  In this case it shows
+* The output of `git show REBASE_HEAD`.  This is generally easier to
+  interpret than the above, but more verbose as it also contains diffs
+  relating to non-conflicting parts of the patch.  In this case it
+  shows
 
 ```diff
      foo1()
@@ -142,14 +143,14 @@ you are rebasing is to add `foo5()` after `foo3()`.
 
 ### Resolving the conflict
 
-There are two equivalent ways to see the state of the branch that you
-are rebasing onto (the "base branch").
+There are two equivalent ways to see the state of the base branch.
 
 * The top hunk (below `HEAD`)
 
-* The output of `git show HEAD:<filename>` (this is probably less
-  useful because it shows the entire state of `<filename>` without
-  drawing your attention to the conflicting section).  In this case
+* The output of `git show HEAD:<filename>`.  This latter form is
+  probably less useful than the former because it shows the entire
+  state of `<filename>` without drawing your attention to the
+  conflicting section.  In this case it shows
 
 ```
 ...
@@ -160,17 +161,18 @@ def main():
     foo4()
 ```
 
-Either way, you can see that the base branch has `foo4` after `foo3`.
+Either way, you can see that the base branch has `foo4()` after
+`foo3()`.
 
 The correct way to resolve this conflict is to apply the logical
-change of the rebased commit (adding `foo5` after `foo3`) to state of
-the base branch (which has `foo4` after `foo3`).  In your editor this
-will typically be easiest to do by making the necessary change to the
-top hunk and then deleting the other hunks.  It requires semantic
-understanding to know exactly which way of resolving the resolution is
+change of the rebased commit---adding `foo5()` after `foo3()`---to
+state of the base branch---which has `foo4()` after `foo3()`.  In your
+editor this will typically be easiest to do by making the change to
+the top hunk and then deleting the other hunks.  It requires semantic
+understanding to know exactly which way of resolving the conflict is
 satisfactory, if any.  For example, we could put `foo5()` before or
-after `foo4()`.  In this case a natural resolution we might add it
-after
+after the appearance of `foo4()`.  Let's choose the latter and add
+`foo5()` below `foo4()` in the top hunk (i.e. below `HEAD`).
 
 ```diff
       foo1()
@@ -238,7 +240,7 @@ If I try to rebase the latter onto the former the conflict is
 
 By looking at the difference between the "merged common ancestors"
 hunk and the rebased patch hunk, or by looking at `git show
-REBASE_HEAD` which shows
+REBASE_HEAD`---which shows
 
 ```diff
  def main():
@@ -247,11 +249,9 @@ REBASE_HEAD` which shows
 -    foo3()
 ```
 
-We can see that the intent of the rebased patch was to remove
-`foo3()`.
-
-On the other hand, the hunk under `HEAD`, and `git show
-HEAD:<filename>`, which is
+---we can see that the intent of the rebased patch was to remove
+`foo3()`.  On the other hand, the hunk under `HEAD`, and `git show
+HEAD:<filename>`---which is
 
 ```
 def main():
@@ -259,9 +259,10 @@ def main():
     foo3()
 ```
 
-show that the base branch does not contain `foo2()`.  We need to apply
-the logical intent of the rebased patch to this, which is sensibly
-done by
+---show that the base branch does not contain `foo2()`.  We need to
+apply the logical intent of the rebased patch to this context, which
+is sensibly done by removing the appearance of `foo3()` in the hunk
+below `HEAD`
 
 ```diff
       foo1()
@@ -310,7 +311,7 @@ conflict is
 ```
 
 so the intention of the rebased commit is to add `foo4()`.  Doing this
-in the top hunk leads to
+in the top hunk (i.e. below `HEAD`) leads to
 
 ```
   def main():
@@ -337,8 +338,24 @@ def main():
 
 ## Worked example: a renaming and a removal
 
-Suppose I rename `foo1` to `foo1_new_name` and rebase the removal of
-`foo2()` (as above) on top.  Then the conflict markers show
+Suppose I rename `foo1` to `foo1_new_name` like so
+
+```diff
+-def foo1():
++def foo1_new_name():
+     print("foo1")
+
+...
+
+ def main():
+-    foo1()
++    foo1_new_name()
+     foo2()
+     foo3()
+```
+
+and rebase the removal of `foo2()` (as above) on top.  Then the
+conflict markers show
 
 ```
   def main():
@@ -379,7 +396,8 @@ remove `foo2()`.  Doing so in the top hunk gives
       foo3()
 ```
 
-and after deleting the other hunks we are left with
+and after deleting the other hunks and conflict markers we are left
+with
 
 ```
 def main():
@@ -391,7 +409,28 @@ def main():
 
 Suppose I rename `foo1` to `foo1_new_name` as above, but rebase on top
 a commit which combines `foo1` and `foo2` into a new function
-`foo1and2`.  Then I get two different conflicting regions
+`foo1and2` like so
+
+```
++def foo1and2():
++    foo1()
++    foo2()
++
+ def foo1():
+     print("foo1")
+
+@@ -14,6 +18,5 @@ def foo5():
+     print("foo5")
+
+ def main():
+-    foo1()
+-    foo2()
++    foo1and2()
+     foo3()
+```
+
+
+Then I get two different conflicting regions
 
 ```
 ++<<<<<<< HEAD
@@ -441,11 +480,11 @@ REBASE_HEAD` shows
      foo3()
 ```
 
-The logical intent at the first conflict is to *add* a new function
-`foo1and2` which combines `foo1` and `foo2`.  The logical intent at
-the second conflict is to *replace* the calls of `foo1` and `foo2`
-with a call of `foo1and2`.  Applying these changes in the upper hunks
-gives
+The logical intent at the first conflict region is to *add* a new
+function `foo1and2` which calls `foo1` and `foo2`.  The logical intent
+at the second conflict region is to *replace* the calls of `foo1` and
+`foo2` with a call of `foo1and2`.  Applying these changes in the upper
+hunks gives
 
 ```
 ++<<<<<<< HEAD
