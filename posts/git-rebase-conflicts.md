@@ -31,6 +31,8 @@ def main():
     foo3()
 ```
 
+## Adding two different things
+
 Suppose I have a patch to add a call of `foo4` and another to
 add a call of `foo5`, that is
 
@@ -94,6 +96,49 @@ which corresponds to a diff of
 ```
 (different from the earlier addition of `foo5` diff because it
 contains `foo4` in its context.
+
+## Removing two different things
+
+If I have one branch which removes `foo2` and another which removes `foo3`, that is
+
+```diff
+def main():
+     foo1()
+-    foo2()
+     foo3()
+```
+and
+```diff
+ def main():
+     foo1()
+     foo2()
+-    foo3()
+```
+
+and I try to rebase the latter onto the former the conflict is
+
+
+```diff
+      foo1()
+++<<<<<<< HEAD
+ +    foo3()
+++||||||| merged common ancestors
++     foo2()
+++    foo3()
+++=======
+++    foo2()
+++>>>>>>> Remove foo3
+```
+
+This means that the rebased commit "Remove foo3" (top) expected to be
+applied to a context where `foo2` was still present (middle), but in
+the base branch (top) `foo2` had been removed.  To resolve we should
+apply the logical intent of the rebased commit (bottom) to the base
+branch (top).
+
+```diff
+      foo1()
+```
 
 
 ## Thanks
