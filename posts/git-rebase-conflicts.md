@@ -134,11 +134,26 @@ This means that the rebased commit "Remove foo3" (top) expected to be
 applied to a context where `foo2` was still present (middle), but in
 the base branch (top) `foo2` had been removed.  To resolve we should
 apply the logical intent of the rebased commit (bottom) to the base
-branch (top).
+branch (top).  That is we should end up with
 
 ```diff
       foo1()
 ```
+
+
+This is the commit you are trying to port
+
+```
+git show REBASE_HEAD
+```
+
+and this is how your port is currently looking
+
+```
+git diff HEAD
+```
+
+
 
 
 ## Thanks
