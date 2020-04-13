@@ -3,9 +3,11 @@
 How to resolve git rebase conflicts
 
 You will be presented with two different hunks.  Your task is to
-combine the logical changes of the two options.
+combine the semantic content of the two patches.
 
 It is almost always the wrong thing to choose exactly one of them.
+The whole point of merging is to *combine* two different changes, not
+to choose one or the other.
 
 The existence of a merge conflict means that the patches could not be
 merged textually.  However, the aim is actually to merge them
@@ -17,7 +19,39 @@ is left to human ingenuity.
 Key takeaway: The aim is to merge the *semantic* content of the two
 patches.
 
-Suppose we start with this Python file
+## General summary
+
+1. `git -c merge.conflictStyle=diff3 rebase ...`
+
+   (the `diff3` conflict style option shows important information in
+   the conflict markers that would otherwise be absent)
+
+2. For each conflict, observe the logical change that the rebased
+   commit was trying to make.
+
+   * Either look at the difference between the middle hunk and the bottom
+     hunk of the marked conflict, or
+
+   * look at `git show REBASE_HEAD`
+
+3. Observe the state of the base branch.
+
+   * Either look at the top hunk of the marked conflict, or
+
+   * look at `git show HEAD:<filename>`
+
+4. Apply the logical change that the rebased commit was trying to make
+   to the state of the base branch.
+
+   This will probably be easiest to do by editing the top hunk of the
+   conflict.
+
+5. `git rebase --continue`
+
+
+## Example file
+
+Let's work with this example Python file
 
 ```python
 def foo1():
@@ -43,7 +77,7 @@ def main():
 
 ## Adding two different things
 
-Suppose I have a patch to add a call of `foo4` and another to
+Suppose I have a patch to add a call of `foo4` and another patch to
 add a call of `foo5`, that is
 
 ```diff
@@ -63,27 +97,32 @@ and
 +    foo5()
 ```
 
-and I try to rebase the latter on the former the result is a conflict.
-It's important to use `git -c merge.conflictStyle=diff3 rebase` (or
-`merge`)
+If I try to rebase the latter on the former then the result is a
+conflict.
 
 ```diff
+      foo1()
+      foo2()
+      foo3()
 ++<<<<<<< HEAD
  +    foo4()
- ++||||||| merged common ancestors
- ++=======
- +     foo5()
- ++>>>>>>> Add foo 5
+++||||||| merged common ancestors
+++=======
++    foo5()
+++>>>>>>> Add foo 5
 ```
 
-The commit you are transplanting expected to see the state of the file
-in the middle and to change it to the state of the file in the bottom
-hunk.  Instead what it saw was the state at the top.
+### The intent of the rebased commit
 
-We can see the semantic content of the rebased patch by running the
-command `git show REBASE_HEAD`.  It shows the content of the rebased
-patch, from which we can easily see the intended semantic change: to
-add a call to `foo5`.
+There are two equivalent ways to see the intent of the rebased commit.
+
+* The difference between the middle hunk (labelled "merged common
+  ancestors") and the bottom hunk (labelled with the commit
+  description, "Add foo 5")
+
+* The output of `git show REBASE_HEAD` (this is generally easier to
+  read, but more verbose as it also contains diff information about
+  non-conflicting parts of the patch).  In this case it shows
 
 ```
      foo1()
@@ -92,12 +131,32 @@ add a call to `foo5`.
 +    foo5()
 ```
 
+Using either method you can see that the logical change of the commit
+you are rebasing is to add `foo5()` after `foo3()`.
+
+### Resolving the conflict
+
+There are two equivalent ways to see the state of the branch that you
+are rebasing onto.
+
+* The top hunk (labelled `HEAD`)
+
+* The output of `git show HEAD:<filename>` (this is probably less
+  useful because it shows the entire state of `<filename>` without
+  drawing your attention to the conflicting section)
+
+Either way, you can see that the target branch has `foo4` after
+`foo5`.
+
+
 The correct way to resolve this conflict is to combine the logical
-change of the bottom hunk relative to the middle (adding `foo5`) and
-the logical change of the top hunk relative to the middle (adding
-`foo4`) (in your editor this will typically be easier to do by making
-that change to the top hunk), that is, we want to end up with the file
-we save in our editor as
+change of the bottom hunk (adding `foo5` after `foo3`) and state of
+the base branch (which has `foo4` after `foo3`).  In your editor this
+will typically be easiest to do by making the necessary change to the
+top hunk.  It requires semantic understanding to know exactly which
+way of resolving the resolution is satisfactory, if any.  For example,
+we could put `foo5()` before or after `foo4()`.  In this case a
+natural resolution might be
 
 ```python
 def main():
@@ -107,17 +166,9 @@ def main():
     foo4()
     foo5()
 ```
-which corresponds to a diff of
-```diff
- def main():
-      foo1()
-      foo2()
-      foo3()
-      foo4()
-+     foo5()
-```
-(different from the earlier addition of `foo5` diff because it
-contains `foo4` in its context.
+
+Once this change has been made the file can be `git add`ed and
+rebasing can continue via `git rebase --continue`.
 
 ## Removing two different things
 
