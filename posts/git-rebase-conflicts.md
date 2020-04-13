@@ -21,10 +21,16 @@ patches.
 
 ## General summary
 
-1. `git -c merge.conflictStyle=diff3 rebase ...`
+1. Issue the `git rebase` command.
 
-   (the `diff3` conflict style option shows important information in
-   the conflict markers that would otherwise be absent)
+   Use the `diff3` conflict style option, for example
+
+   ```
+   git -c merge.conflictStyle=diff3 rebase ...
+   ```
+
+   because it shows important
+   information in the conflict markers that would otherwise be absent.
 
 2. For each conflict, observe the logical change that the rebased
    commit was trying to make.
@@ -34,14 +40,14 @@ patches.
 
    * look at `git show REBASE_HEAD`
 
-3. Observe the state of the base branch.
+3. Observe the state of the base branch at each conflict region.
 
    * Either look at the top hunk of the marked conflict, or
 
    * look at `git show HEAD:<filename>`
 
-4. Apply the logical change that the rebased commit was trying to make
-   to the state of the base branch.
+4. Apply, to the state of the base branch, the logical change that the
+   rebased commit was trying to make.
 
    This will probably be easiest to do by editing the top hunk of the
    conflict.
@@ -75,7 +81,7 @@ def main():
     foo3()
 ```
 
-## Worked example: Adding two different things
+## Worked example: adding two different things
 
 Suppose I have a patch that adds a call of `foo4` and another patch
 that adds a call of `foo5`, that is
@@ -124,7 +130,7 @@ There are two equivalent ways to see the intent of the rebased commit.
   read, but more verbose as it also contains diffs relating to
   non-conflicting parts of the patch).  In this case it shows
 
-```
+```diff
      foo1()
      foo2()
      foo3()
@@ -163,7 +169,24 @@ will typically be easiest to do by making the necessary change to the
 top hunk and then deleting the other hunks.  It requires semantic
 understanding to know exactly which way of resolving the resolution is
 satisfactory, if any.  For example, we could put `foo5()` before or
-after `foo4()`.  In this case a natural resolution might be
+after `foo4()`.  In this case a natural resolution we might add it
+after
+
+```diff
+      foo1()
+      foo2()
+      foo3()
+++<<<<<<< HEAD
+ +    foo4()
+ +    foo5()
+++||||||| merged common ancestors
+++=======
++    foo5()
+++>>>>>>> Add foo 5
+```
+
+and then delete the middle and bottom hunk, and the conflict markers,
+to get
 
 ```python
 def main():
@@ -177,9 +200,10 @@ def main():
 Once this change has been made the file can be `git add`ed and the
 rebase can continue via `git rebase --continue`.
 
-## Removing two different things
+## Worked example: removing two different things
 
-If I have one branch which removes `foo2` and another which removes `foo3`, that is
+Suppose I have a patch that removes the call of `foo2` and another patch
+that removes the call of `foo3`, that is
 
 ```diff
 def main():
@@ -195,7 +219,7 @@ and
 -    foo3()
 ```
 
-and I try to rebase the latter onto the former the conflict is
+If I try to rebase the latter onto the former the conflict is
 
 
 ```diff
@@ -210,32 +234,337 @@ and I try to rebase the latter onto the former the conflict is
 ++>>>>>>> Remove foo3
 ```
 
-This means that the rebased commit "Remove foo3" (top) expected to be
-applied to a context where `foo2` was still present (middle), but in
-the base branch (top) `foo2` had been removed.  To resolve we should
-apply the logical intent of the rebased commit (bottom) to the base
-branch (top).  That is we should end up with
+### The intent of the rebased commit
+
+By looking at the difference between the "merged common ancestors"
+hunk and the rebased patch hunk, or by looking at `git show
+REBASE_HEAD` which shows
+
+```diff
+ def main():
+     foo1()
+     foo2()
+-    foo3()
+```
+
+We can see that the intent of the rebased patch was to remove
+`foo3()`.
+
+On the other hand, the hunk under `HEAD`, and `git show
+HEAD:<filename>`, which is
+
+```
+def main():
+    foo1()
+    foo3()
+```
+
+show that the base branch does not contain `foo2()`.  We need to apply
+the logical intent of the rebased patch to this, which is sensibly
+done by
 
 ```diff
       foo1()
+++<<<<<<< HEAD
+++||||||| merged common ancestors
++     foo2()
+++    foo3()
+++=======
+++    foo2()
+++>>>>>>> Remove foo3
 ```
 
-
-This is the commit you are trying to port
-
-```
-git show REBASE_HEAD
-```
-
-and this is how your port is currently looking
+and then we delete the middle and bottom hunks and the conflict
+resolution markers to get
 
 ```
-git diff HEAD
+def main():
+    foo1()
 ```
 
+## Worked example: one addition, one removal
 
+If I rebase the addition of `foo4()` on the removal of `foo3()` the
+conflict is
 
+```
+  def main():
+      foo1()
+      foo2()
+++<<<<<<< HEAD
+++||||||| merged common ancestors
+++    foo3()
+++=======
++     foo3()
++     foo4()
+++>>>>>>> Add foo4
+```
 
-## Thanks
+`git show REBASE_HEAD` shows
 
-https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/
+```
+     foo1()
+     foo2()
+     foo3()
++    foo4()
+```
+
+so the intention of the rebased commit is to add `foo4()`.  Doing this
+in the top hunk leads to
+
+```
+  def main():
+      foo1()
+      foo2()
+++<<<<<<< HEAD
+ +    foo4()
+++||||||| merged common ancestors
+++    foo3()
+++=======
++     foo3()
++     foo4()
+++>>>>>>> Add foo4
+```
+
+and after deleting the deleting the other hunks we are left with
+
+```
+def main():
+    foo1()
+    foo2()
+    foo4()
+```
+
+## Worked example: a renaming and a removal
+
+Suppose I rename `foo1` to `foo1_new_name` and rebase the removal of
+`foo2()` (as above) on top.  Then the conflict markers show
+
+```
+  def main():
+++<<<<<<< HEAD
+ +    foo1_new_name()
+ +    foo2()
+++||||||| merged common ancestors
++     foo1()
+++    foo2()
+++=======
+++    foo1()
+++>>>>>>> Remove foo2
+      foo3()
+```
+
+and `git show REBASE_HEAD` shows
+
+```
+def main():
+     foo1()
+-    foo2()
+     foo3()
+```
+
+Therefore to apply the logical intent of the rebased commit I need to
+remove `foo2()`.  Doing so in the top hunk gives
+
+```
+  def main():
+++<<<<<<< HEAD
+ +    foo1_new_name()
+++||||||| merged common ancestors
++     foo1()
+++    foo2()
+++=======
+++    foo1()
+++>>>>>>> Remove foo2
+      foo3()
+```
+
+and after deleting the other hunks we are left with
+
+```
+def main():
+    foo1_new_name()
+    foo3()
+```
+
+## Worked example: a renaming and an extraction
+
+Suppose I rename `foo1` to `foo1_new_name` as above, but rebase on top
+a commit which combines `foo1` and `foo2` into a new function
+`foo1and2`.  Then I get two different conflicting regions
+
+```
+++<<<<<<< HEAD
+ +def foo1_new_name():
+++||||||| merged common ancestors
+++def foo1():
+++=======
++ def foo1and2():
++     foo1()
++     foo2()
++
++ def foo1():
+++>>>>>>> Replace foo1 and foo2 with foo1and2
+      print("foo1")
+
+...
+
+  def main():
+++<<<<<<< HEAD
+ +    foo1_new_name()
+ +    foo2()
+++||||||| merged common ancestors
+++    foo1()
+++    foo2()
+++=======
++     foo1and2()
+++>>>>>>> Replace foo1 and foo2 with foo1and2
+```
+
+What was the logical intent of the rebasing commit?  `git show
+REBASE_HEAD` shows
+
+```
++def foo1and2():
++    foo1()
++    foo2()
++
+ def foo1():
+     print("foo1")
+
+...
+
+ def main():
+-    foo1()
+-    foo2()
++    foo1and2()
+     foo3()
+```
+
+The logical intent at the first conflict is to *add* a new function
+`foo1and2` which combines `foo1` and `foo2`.  The logical intent at
+the second conflict is to *replace* the calls of `foo1` and `foo2`
+with a call of `foo1and2`.  Applying these changes in the upper hunks
+gives
+
+```
+++<<<<<<< HEAD
+ +def foo1and2():
+ +    foo1_new_name()
+ +    foo2()
+ +
+ +def foo1_new_name():
+++||||||| merged common ancestors
+++def foo1():
+++=======
++ def foo1and2():
++     foo1()
++     foo2()
++
++ def foo1():
+++>>>>>>> Replace foo1 and foo2 with foo1and2
+      print("foo1")
+
+...
+
+  def main():
+++<<<<<<< HEAD
+ +    foo1and2()
+++||||||| merged common ancestors
+++    foo1()
+++    foo2()
+++=======
++     foo1and2()
+++>>>>>>> Replace foo1 and foo2 with foo1and2
+```
+
+leading to a final result of
+
+```
+def foo1and2():
+    foo1_new_name()
+    foo2()
+
+def foo1_new_name():
+    print("foo1")
+
+...
+
+def main():
+    foo1and2()
+```
+
+## Worked example: a semantic conflict
+
+Suppose we renamed `foo1` as above and then tried to rebase upon it a
+commit that renames `foo1` to something else.  The conflict would look
+something like
+
+```
+++<<<<<<< HEAD
+ +def foo1_new_name():
+++||||||| merged common ancestors
+++def foo1():
+++=======
++ def foo1_another_new_name():
+++>>>>>>> Rename foo1 again
+      print("foo1")
+
+...
+
+  def main():
+++<<<<<<< HEAD
+ +    foo1_new_name()
+++||||||| merged common ancestors
+++    foo1()
+++=======
++     foo1_another_new_name()
+++>>>>>>> Rename foo1 again
+      foo2()
+      foo3()
+```
+
+`git show REBASE_HEAD` shows
+
+```
+-def foo1():
++def foo1_another_new_name():
+     print("foo1")
+
+ def foo2():
+@@ -14,6 +14,6 @@ def foo5():
+     print("foo5")
+
+ def main():
+-    foo1()
++    foo1_another_new_name()
+     foo2()
+     foo3()
+```
+
+that is, the logical change is that `foo1` is renamed
+`foo1_another_new_name`.  On the other hand, `git show
+HEAD:<filename>` shows
+
+```
+def foo1_new_name():
+    print("foo1")
+
+...
+
+def main():
+    foo1_new_name()
+    foo2()
+    foo3()
+```
+
+There is nothing called `foo1`!  This is a genuine semantic conflict.
+Should the new name of `foo1` be `foo1_new_name` or
+`foo1_another_new_name`?  The knowledge required to answer that
+question is not contained within the conflict resolution markers of
+the merge conflict.  Local reasoning can't help.  You now have to
+think globally about the meaning of the two branches in question.
+
+## References
+
+<https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/>
