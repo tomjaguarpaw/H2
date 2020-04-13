@@ -1,15 +1,13 @@
 # Resolving git rebase conflicts
 
-How to resolve git rebase conflicts
-
 You will be presented with two different hunks.  Your task is to
 combine the semantic content of the two patches.
 
 It is almost always the wrong thing to choose exactly one of them.
-The whole point of merging is to *combine* two different changes, not
+The whole point of rebasing is to *combine* two different changes, not
 to choose one or the other.
 
-The existence of a merge conflict means that the patches could not be
+The existence of a rebase conflict means that the patches could not be
 merged textually.  However, the aim is actually to merge them
 *semantically*.  Merge tools are rarely (perhaps never) clever enough
 to be able to perform semantic merges so they settle for textual
@@ -19,7 +17,13 @@ is left to human ingenuity.
 Key takeaway: The aim is to merge the *semantic* content of the two
 patches.
 
-## General summary
+## Executable summary
+
+Resolving rebase conflicts requires considering two different
+repository states and applying the logically intended change from one
+onto the other.  This will require you to textually edit changes from
+one conflict hunk into another.
+
 
 1. Issue the `git rebase` command.
 
