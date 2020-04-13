@@ -75,10 +75,10 @@ def main():
     foo3()
 ```
 
-## Adding two different things
+## Worked example: Adding two different things
 
-Suppose I have a patch to add a call of `foo4` and another patch to
-add a call of `foo5`, that is
+Suppose I have a patch that adds a call of `foo4` and another patch
+that adds a call of `foo5`, that is
 
 ```diff
  def main():
@@ -116,12 +116,12 @@ conflict.
 
 There are two equivalent ways to see the intent of the rebased commit.
 
-* The difference between the middle hunk (labelled "merged common
-  ancestors") and the bottom hunk (labelled with the commit
-  description, "Add foo 5")
+* The difference between the middle hunk (below "merged common
+  ancestors") and the bottom hunk (above the commit description, "Add
+  foo 5")
 
 * The output of `git show REBASE_HEAD` (this is generally easier to
-  read, but more verbose as it also contains diff information about
+  read, but more verbose as it also contains diffs relating to
   non-conflicting parts of the patch).  In this case it shows
 
 ```
@@ -137,26 +137,33 @@ you are rebasing is to add `foo5()` after `foo3()`.
 ### Resolving the conflict
 
 There are two equivalent ways to see the state of the branch that you
-are rebasing onto.
+are rebasing onto (the "base branch").
 
-* The top hunk (labelled `HEAD`)
+* The top hunk (below `HEAD`)
 
 * The output of `git show HEAD:<filename>` (this is probably less
   useful because it shows the entire state of `<filename>` without
-  drawing your attention to the conflicting section)
+  drawing your attention to the conflicting section).  In this case
 
-Either way, you can see that the target branch has `foo4` after
-`foo5`.
+```
+...
+def main():
+    foo1()
+    foo2()
+    foo3()
+    foo4()
+```
 
+Either way, you can see that the base branch has `foo4` after `foo3`.
 
-The correct way to resolve this conflict is to combine the logical
-change of the bottom hunk (adding `foo5` after `foo3`) and state of
+The correct way to resolve this conflict is to apply the logical
+change of the rebased commit (adding `foo5` after `foo3`) to state of
 the base branch (which has `foo4` after `foo3`).  In your editor this
 will typically be easiest to do by making the necessary change to the
-top hunk.  It requires semantic understanding to know exactly which
-way of resolving the resolution is satisfactory, if any.  For example,
-we could put `foo5()` before or after `foo4()`.  In this case a
-natural resolution might be
+top hunk and then deleting the other hunks.  It requires semantic
+understanding to know exactly which way of resolving the resolution is
+satisfactory, if any.  For example, we could put `foo5()` before or
+after `foo4()`.  In this case a natural resolution might be
 
 ```python
 def main():
@@ -167,8 +174,8 @@ def main():
     foo5()
 ```
 
-Once this change has been made the file can be `git add`ed and
-rebasing can continue via `git rebase --continue`.
+Once this change has been made the file can be `git add`ed and the
+rebase can continue via `git rebase --continue`.
 
 ## Removing two different things
 
