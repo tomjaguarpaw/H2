@@ -1,11 +1,22 @@
 # Resolving git rebase conflicts
 
-You will be presented with two different hunks.  Your task is to
-combine the semantic content of the two patches.
+This article is about `git rebase` conflicts, but much, or perhaps
+all, of it will apply to `git merge` conflicts.  We use "merge" as an
+informal term for combining the content of two different branches, not
+to refer to `git merge`ing specifically.
 
-It is almost always the wrong thing to choose exactly one of them.
-The whole point of rebasing is to *combine* two different changes, not
-to choose one or the other.
+During a merge conflict you will be presented with two different
+hunks.  Your task is to combine the semantic content of the two
+patches.
+
+It is almost always the wrong thing to choose one of patches over the
+other.  Some merge tools (for example [Emacs
+SMerge](https://emacs.stackexchange.com/questions/16469/how-to-merge-git-conflicts-in-emacs/16470#16470))
+offer you the option to "keep their changes" or "keep our changes",
+but this makes no sense at all.  The whole point of merging (remember,
+we're using that word in the informal sense, not to refer to `git
+merge`ing specifically) is to *combine* two conflicting changes, not
+to choose one over the other.
 
 The existence of a rebase conflict means that the patches could not be
 merged textually.  However, the aim is actually to merge them
