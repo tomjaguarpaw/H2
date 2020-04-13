@@ -14,6 +14,10 @@
 
       git -c interactive.singleKey=true commit --verbose --patch
 
+  `interactive.singleKey=true` requires the Perl module
+  Term::ReadKey.  On Debian this is available in the
+  `libterm-readkey-perl` package.
+
 * To revert an uncommited change
 
       git -c interactive.singleKey=true checkout --patch
