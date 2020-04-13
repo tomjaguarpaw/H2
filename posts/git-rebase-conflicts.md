@@ -1,39 +1,45 @@
 # Resolving git rebase conflicts
 
-This article is about `git rebase` conflicts, but much, or perhaps
-all, of it will apply to `git merge` conflicts.  We use "merge" as an
-informal term for combining the content of two different branches, not
-to refer to `git merge`ing specifically.
+## A note about terminology
 
-During a merge conflict you will be presented with two different
-hunks.  Your task is to combine the semantic content of the two
-patches.
+This article is about `git rebase` conflicts.  A similar article with
+slightly different technical details could be written for `git merge`
+conflicts.  I use "merge" as a general term for combining the content
+of two different repository states, not to refer to `git merge`ing
+specifically.
 
-It is almost always the wrong thing to choose one of patches over the
-other.  Some merge tools (for example [Emacs
+## Introduction
+
+During a rebase conflict you will be presented with two different
+hunks.  Your task is to combine the semantic content of the two hunks.
+
+It is almost always wrong to choose one of hunks over the other.  Some
+merge tools (for example [Emacs
 SMerge](https://emacs.stackexchange.com/questions/16469/how-to-merge-git-conflicts-in-emacs/16470#16470))
-offer you the option to "keep their changes" or "keep our changes",
-but this makes no sense at all.  The whole point of merging (remember,
-we're using that word in the informal sense, not to refer to `git
-merge`ing specifically) is to *combine* two conflicting changes, not
-to choose one over the other.
+offer you the option to "keep their changes" or "keep our changes".
+This makes no sense; the whole point of merging (remember, I'm using
+that word in the general sense, not to refer to `git merge`ing
+specifically) is to *combine* two conflicting repository states, not
+to choose one over the other.  By choosing one you ignore a change in
+the other that may be required by other parts of the same commit
+(parts that may not see because they merged without conflict!).
 
-The existence of a rebase conflict means that the patches could not be
-merged textually.  However, the aim is actually to merge them
-*semantically*.  Merge tools are rarely (perhaps never) clever enough
-to be able to perform semantic merges so they settle for textual
-merges.  In the cases where textual merges are not possible the task
-is left to human ingenuity.
+The existence of a conflict means that the patches could not be merged
+textually.  However, the aim is actually to merge them *semantically*.
+Merge tools are rarely (perhaps never) clever enough to be able to
+perform semantic merges so they settle for textual merges.  In the
+cases where textual merges are not possible the task is left to human
+ingenuity.
 
-Key takeaway: The aim is to merge the *semantic* content of the two
-patches.
+Key takeaway: the aim is to merge the *semantic* content of two
+repository states.
 
-## Executable summary
+## Summary of the conflict resolution procedure
 
 Resolving rebase conflicts requires considering two different
-repository states and applying the logically intended change from one
-onto the other.  This will require you to textually edit changes from
-one conflict hunk into another.
+repository states and applying the logically intended (semantic)
+change from one onto the other.  This will require you to textually
+edit changes from one conflict hunk into another.
 
 
 1. Issue the `git rebase` command.
@@ -137,14 +143,14 @@ conflict.
 
 There are two equivalent ways to see the intent of the rebased commit.
 
-* The difference between the middle hunk (below "merged common
+* It is the difference between the middle hunk (below "merged common
   ancestors") and the bottom hunk (above the commit description, "Add
   foo 5")
 
-* The output of `git show REBASE_HEAD`.  This is generally easier to
-  interpret than the above, but more verbose as it also contains diffs
-  relating to non-conflicting parts of the patch.  In this case it
-  shows
+* It is shown in the output of `git show REBASE_HEAD`.  This is
+  generally easier to interpret than the above, but more verbose as it
+  also contains diffs relating to non-conflicting parts of the commit.
+  In this case it shows
 
 ```diff
      foo1()
@@ -156,7 +162,7 @@ There are two equivalent ways to see the intent of the rebased commit.
 Using either method you can see that the logical change of the commit
 you are rebasing is to add `foo5()` after `foo3()`.
 
-### Resolving the conflict
+### The state of the base branch
 
 There are two equivalent ways to see the state of the base branch.
 
@@ -178,6 +184,8 @@ def main():
 
 Either way, you can see that the base branch has `foo4()` after
 `foo3()`.
+
+### Resolving the conflict
 
 The correct way to resolve this conflict is to apply the logical
 change of the rebased commit---adding `foo5()` after `foo3()`---to
@@ -254,7 +262,7 @@ If I try to rebase the latter onto the former the conflict is
 ### The intent of the rebased commit
 
 By looking at the difference between the "merged common ancestors"
-hunk and the rebased patch hunk, or by looking at `git show
+hunk and the rebased commit hunk, or by looking at `git show
 REBASE_HEAD`---which shows
 
 ```diff
@@ -265,7 +273,11 @@ REBASE_HEAD`---which shows
 ```
 
 ---we can see that the intent of the rebased patch was to remove
-`foo3()`.  On the other hand, the hunk under `HEAD`, and `git show
+`foo3()`.
+
+### The state of the base branch
+
+On the other hand, the hunk under `HEAD`, and `git show
 HEAD:<filename>`---which is
 
 ```
@@ -274,10 +286,10 @@ def main():
     foo3()
 ```
 
----show that the base branch does not contain `foo2()`.  We need to
-apply the logical intent of the rebased patch to this context, which
-is sensibly done by removing the appearance of `foo3()` in the hunk
-below `HEAD`
+---show that the base branch does not contain `foo2()`, but `foo3()`
+is still there, ripe for removal.  We need to apply the logical intent
+of the rebased patch to this context, which is done by removing the
+appearance of `foo3()` in the hunk below `HEAD`
 
 ```diff
       foo1()
