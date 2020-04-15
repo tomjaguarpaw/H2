@@ -716,8 +716,8 @@ def main():
 <<<<<<< HEAD
     foo1and2()
 =====
--   foo1()
 +   foo1_new_name()
+-   foo1()
     foo2()
 >>>>>>> Rename foo1 to foo1_new_name
     foo3()
