@@ -723,6 +723,13 @@ def main():
     foo3()
 ```
 
+Unfortunately we cannot patch this into git ourselves because [the
+conflict style choices is hard-coded into
+git](https://stackoverflow.com/a/50726972/997606).  Nonetheless, an
+editor plugin or even text-to-text processor could rewrite the `diff3`
+style into the "context plus diff style" I propose above.
+
+
 ## References
 
 <https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/>
