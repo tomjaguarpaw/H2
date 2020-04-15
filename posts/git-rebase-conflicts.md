@@ -434,69 +434,20 @@ def main():
 
 ## Worked example: a renaming and an extraction
 
-Suppose I rename `foo1` to `foo1_new_name` as above, but rebase on top
-a commit which combines `foo1` and `foo2` into a new function
-`foo1and2` like so
+Suppose I rebase the patch changing `foo1` to `foo1_new_name` as above
+onto a commit which combines `foo1` and `foo2` into a new function
+called `foo1and2` like so
 
 ```
+ def foo2():
+     print("foo2")
+
 +def foo1and2():
 +    foo1()
 +    foo2()
 +
- def foo1():
-     print("foo1")
-
-@@ -14,6 +18,5 @@ def foo5():
-     print("foo5")
-
- def main():
--    foo1()
--    foo2()
-+    foo1and2()
-     foo3()
-```
-
-
-Then I get two conflicting regions
-
-```
-++<<<<<<< HEAD
- +def foo1_new_name():
-++||||||| merged common ancestors
-++def foo1():
-++=======
-+ def foo1and2():
-+     foo1()
-+     foo2()
-+
-+ def foo1():
-++>>>>>>> Replace foo1 and foo2 with foo1and2
-      print("foo1")
-
-...
-
-  def main():
-++<<<<<<< HEAD
- +    foo1_new_name()
- +    foo2()
-++||||||| merged common ancestors
-++    foo1()
-++    foo2()
-++=======
-+     foo1and2()
-++>>>>>>> Replace foo1 and foo2 with foo1and2
-```
-
-What was the logical intent of the rebasing commit?  `git show
-REBASE_HEAD` shows
-
-```
-+def foo1and2():
-+    foo1()
-+    foo2()
-+
- def foo1():
-     print("foo1")
+ def foo3():
+     print("foo3")
 
 ...
 
@@ -507,32 +458,9 @@ REBASE_HEAD` shows
      foo3()
 ```
 
-The logical intent at the first conflict region is to *add* a new
-function `foo1and2` which calls `foo1` and `foo2`.  The logical intent
-at the second conflict region is to *replace* the calls of `foo1` and
-`foo2` with a call of `foo1and2`.  Applying these changes in the upper
-hunks gives
+The conflict is
 
 ```
-++<<<<<<< HEAD
- +def foo1and2():
- +    foo1_new_name()
- +    foo2()
- +
- +def foo1_new_name():
-++||||||| merged common ancestors
-++def foo1():
-++=======
-+ def foo1and2():
-+     foo1()
-+     foo2()
-+
-+ def foo1():
-++>>>>>>> Replace foo1 and foo2 with foo1and2
-      print("foo1")
-
-...
-
   def main():
 ++<<<<<<< HEAD
  +    foo1and2()
@@ -540,24 +468,45 @@ hunks gives
 ++    foo1()
 ++    foo2()
 ++=======
-+     foo1and2()
-++>>>>>>> Replace foo1 and foo2 with foo1and2
++     foo1_new_name()
++     foo2()
+++>>>>>>> Rename foo1 to foo1_new_name
+      foo3()
 ```
 
-leading to a final result of
+What was the logical intent of the rebased commit?  `git show
+REBASE_HEAD` shows
+
+```
+-def foo1():
++def foo1_new_name():
+     print("foo1")
+
+...
+
+ def main():
+-    foo1()
++    foo1_new_name()
+     foo2()
+     foo3()
+```
+
+so the logical intent is to rename `foo1` to `foo1_new_name`.  This
+poses a conundrum.  There is no way to make this change within the
+conflicted region itself!  The call of `foo1` has been moved into a
+different function.  We must make the change there instead, leading to
+a final result of
 
 ```
 def foo1and2():
     foo1_new_name()
     foo2()
 
-def foo1_new_name():
-    print("foo1")
-
 ...
 
 def main():
     foo1and2()
+    foo3()
 ```
 
 ## Worked example: a semantic conflict
