@@ -4,6 +4,10 @@ def foo1():
 def foo2():
     print("foo2")
 
+def foo1and2():
+    foo1()
+    foo2()
+
 def foo3():
     print("foo3")
 
@@ -16,7 +20,3 @@ def foo5():
 def main():
     foo1and2()
     foo3()
-
-def foo1and2():
-    foo1()
-    foo2()
