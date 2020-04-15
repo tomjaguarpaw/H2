@@ -546,9 +546,7 @@ something like
 +def foo1_another_new_name():
      print("foo1")
 
- def foo2():
-@@ -14,6 +14,6 @@ def foo5():
-     print("foo5")
+...
 
  def main():
 -    foo1()
