@@ -578,6 +578,151 @@ question is not contained within the conflict resolution markers of
 the merge conflict.  Local reasoning can't help.  You now have to
 think globally about the meaning of the two branches in question.
 
+## Observations
+
+Rebase conflict markers would be more helpful displayed in a different
+form.  They should show the diff of the rebased commit and the context
+of the target branch.  From the examples above, where we had
+
+```diff
+      foo1()
+      foo2()
+      foo3()
+++<<<<<<< HEAD
+ +    foo4()
+++||||||| merged common ancestors
+++=======
++    foo5()
+++>>>>>>> Add foo 5
+```
+
+it would have been better shown as
+
+```diff
+      foo1()
+      foo2()
+      foo3()
+<<<<<<< HEAD
+      foo4()
+=======
++     foo5()
+>>>>>>> Add foo 5
+```
+
+Where we had
+
+```diff
+      foo1()
+++<<<<<<< HEAD
+ +    foo3()
+++||||||| merged common ancestors
++     foo2()
+++    foo3()
+++=======
+++    foo2()
+++>>>>>>> Remove foo3
+```
+
+it would have been better shown as
+
+```diff
+    foo1()
+<<<<<<< HEAD
+    foo3()
+=======
+    foo2()
+-   foo3()
+>>>>>>> Remove foo3
+```
+
+Where we had
+
+```
+  def main():
+      foo1()
+      foo2()
+++<<<<<<< HEAD
+++||||||| merged common ancestors
+++    foo3()
+++=======
++     foo3()
++     foo4()
+++>>>>>>> Add foo4
+```
+
+it would have been better shown as
+
+```
+def main():
+    foo1()
+    foo2()
+<<<<<<< HEAD
+=======
+    foo3()
++   foo4()
+>>>>>>> Add foo4
+```
+
+Where we had
+
+```
+  def main():
+++<<<<<<< HEAD
+ +    foo1_new_name()
+ +    foo2()
+++||||||| merged common ancestors
++     foo1()
+++    foo2()
+++=======
+++    foo1()
+++>>>>>>> Remove foo2
+      foo3()
+```
+
+it would be be better shown as
+
+```
+def main():
+<<<<<<< HEAD
+    foo1_new_name()
+    foo2()
+=======
+    foo1()
+-   foo2()
+>>>>>>> Remove foo2
+    foo3()
+```
+
+Where we had
+
+```
+  def main():
+++<<<<<<< HEAD
+ +    foo1and2()
+++||||||| merged common ancestors
+++    foo1()
+++    foo2()
+++=======
++     foo1_new_name()
++     foo2()
+++>>>>>>> Rename foo1 to foo1_new_name
+      foo3()
+```
+
+it would be better shown as
+
+```
+def main():
+<<<<<<< HEAD
+    foo1and2()
+=====
+-   foo1()
++   foo1_new_name()
+    foo2()
+>>>>>>> Rename foo1 to foo1_new_name
+    foo3()
+```
+
 ## References
 
 <https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/>
