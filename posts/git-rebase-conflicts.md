@@ -73,7 +73,7 @@ edit changes from one conflict hunk into another.
    This will probably be easiest to do by editing the top hunk of the
    conflict.
 
-5. `git rebase --continue`
+5. `git -c merge.conflictStyle=diff3 rebase --continue`
 
 
 ## Example file
