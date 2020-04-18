@@ -10,19 +10,21 @@ merge`ing specifically.
 
 ## Introduction
 
-During a rebase conflict you will be presented with two different
-hunks.  Your task is to combine the semantic content of the two hunks.
+When a git rebase conflict occurs you will be presented with a
+conflict region (or "hunk") that shows why the rebased commit couldn't
+be applied to the base branch.  To resolve a rebase conflict, your
+task is to apply the logically-intended (i.e. semantic) change of the
+rebased commit to the base branch.
 
-It is almost always wrong to choose one of hunks over the other.  Some
-merge tools (for example [Emacs
+Some merge tools (for example [Emacs
 SMerge](https://emacs.stackexchange.com/questions/16469/how-to-merge-git-conflicts-in-emacs/16470#16470))
 offer you the option to "keep their changes" or "keep our changes".
-This makes no sense; the whole point of merging (remember, I'm using
-that word in the non-technical sense, not to refer to `git merge`ing
-specifically) is to *combine* two conflicting repository states, not
-to choose one over the other.  By choosing one you ignore a change in
-the other that may be required by other parts of the same commit
-(parts that may not see because they merged without conflict!).
+This is almost always wrong.  The whole point of merging (remember,
+I'm using that word in the non-technical sense, not to refer to `git
+merge`ing specifically) is to *combine* two conflicting things, not to
+choose one over the other.  By choosing one you ignore a change in the
+other that may be required by other parts of the same commit (parts
+that may not see because they merged without conflict!).
 
 The existence of a conflict means that the patches could not be merged
 textually.  However, the aim is actually to merge them *semantically*.
@@ -31,8 +33,8 @@ perform semantic merges so they settle for textual merges.  In the
 cases where textual merges are not possible the task is left to human
 ingenuity.
 
-Key takeaway: the aim is to merge the *semantic* content of two
-repository states.
+Key takeaway: the aim is to apply the logical (i.e. semantic) content
+of the rebased commit to the base branch.
 
 ## Summary of the conflict resolution procedure
 
@@ -596,9 +598,20 @@ question is not contained within the conflict markers of the merge
 conflict.  Local reasoning can't help.  You now have to think globally
 about the meaning of the two branches in question.
 
+## Conclusion
+
+Resolving rebase conflicts is straightforward as long as you have a
+clear idea of what the logically-intended changes introduced by the
+rebased commit are, and you can see the state of base branch that you
+need to apply them to---and there is semantic compatibility between
+the two!
+
+The git tooling can be used to provide useful information.  It's not
+ideal though.  I explore a better conflict marker format in [Better
+display for git rebase conflicts](../git-rebase-conflicts-display/).
+
 ## References
 
-* See also [Better display for git rebase
-  conflicts](../git-rebase-conflicts-display/).
-
-<https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/>
+I found David Winterbottom's [article on the same
+topic](https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/)
+helpful when writing this one.
