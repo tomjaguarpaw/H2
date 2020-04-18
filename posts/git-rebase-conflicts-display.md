@@ -190,6 +190,3 @@ editor plugin or even text-to-text processor could rewrite the `diff3`
 style into the "context plus diff style" I propose.  I have written [a
 demo in
 Haskell](https://github.com/tomjaguarpaw/ad/blob/master/hunk.hs).
-
-
-
