@@ -12,3 +12,8 @@ for categories, explained in [Stuff, structure, and
 properties](https://ncatlab.org/nlab/show/stuff,+structure,+property)?
 (Forget about the "stuff" for now).  What, then, is the forgetful
 functor?
+
+* [Hillel Wayne has written about
+  this](https://buttondown.email/hillelwayne/archive/making-illegal-states-unrepresentable/)
+  using the names "predicative" for properties and "constructive" for
+  structure.
