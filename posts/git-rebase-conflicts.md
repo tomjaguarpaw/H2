@@ -615,3 +615,6 @@ display for git rebase conflicts](../git-rebase-conflicts-display/).
 I found David Winterbottom's [article on the same
 topic](https://codeinthehole.com/guides/resolving-conflicts-during-a-git-rebase/)
 helpful when writing this one.
+
+* [A Stackoverflow answer](https://stackoverflow.com/a/7589612) with
+ compatible information
