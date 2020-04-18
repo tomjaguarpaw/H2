@@ -4,9 +4,9 @@
 
 This article is about `git rebase` conflicts.  A similar article with
 slightly different technical details could be written for `git merge`
-conflicts.  I use "merge" as a general term for combining the content
-of two different repository states, not to refer to `git merge`ing
-specifically.
+conflicts.  I use "merge" as a non-technical term for combining the
+content of two different repository states, not to refer to `git
+merge`ing specifically.
 
 ## Introduction
 
@@ -18,7 +18,7 @@ merge tools (for example [Emacs
 SMerge](https://emacs.stackexchange.com/questions/16469/how-to-merge-git-conflicts-in-emacs/16470#16470))
 offer you the option to "keep their changes" or "keep our changes".
 This makes no sense; the whole point of merging (remember, I'm using
-that word in the general sense, not to refer to `git merge`ing
+that word in the non-technical sense, not to refer to `git merge`ing
 specifically) is to *combine* two conflicting repository states, not
 to choose one over the other.  By choosing one you ignore a change in
 the other that may be required by other parts of the same commit
@@ -36,49 +36,50 @@ repository states.
 
 ## Summary of the conflict resolution procedure
 
-Resolving rebase conflicts requires considering two different
-repository states and applying the logically intended (semantic)
-change from one onto the other.  This will require you to textually
-edit changes from one conflict hunk into another.
+Resolving a rebase conflict requires understanding the logically
+intended (semantic) change of the rebased commit and applying it
+manually to the base branch.  Here is the procedure to follow.  The
+details will be explained by way of example later.
 
 
 1. Issue the `git rebase` command.
 
-   Use the `diff3` conflict style option, for example
+   Use the `diff3` conflict style option because it shows important
+   information in the conflict markers that would otherwise be absent.
 
    ```
    git -c merge.conflictStyle=diff3 rebase ...
    ```
 
-   because it shows important
-   information in the conflict markers that would otherwise be absent.
-
 2. For each conflict, observe the logical change that the rebased
-   commit was trying to make.
+   commit was intended to make.
 
-   * Either look at the difference between the middle hunk and the bottom
-     hunk of the marked conflict, or
+   * Either look at the difference between the middle hunk section and
+     the bottom hunk section of the marked conflict, or
 
    * look at `git show REBASE_HEAD`
 
 3. Observe the state of the base branch at each conflict region.
 
-   * Either look at the top hunk of the marked conflict, or
+   * Either look at the top hunk section of the marked conflict, or
 
    * look at `git show HEAD:<filename>`
 
-4. Apply, to the state of the base branch, the logical change that the
-   rebased commit was trying to make.
+4. Apply, to the base branch, the logical change that the rebased
+   commit was intended to make.
 
-   This will probably be easiest to do by editing the top hunk of the
-   conflict.
+   This will probably be easiest to do by editing the top hunk section of the
+   conflict and then deleting the others.
 
-5. `git -c merge.conflictStyle=diff3 rebase --continue`
+5. Add the file and continue the rebase, with `git add` and
 
+   ```
+   git -c merge.conflictStyle=diff3 rebase --continue
+   ```
 
 ## Example file
 
-Let's work with this example Python file
+The examples will based on changes to this example Python file.
 
 ```python
 def foo1():
@@ -125,7 +126,22 @@ and
 ```
 
 If I try to rebase the latter on the former then the result is a
-conflict.
+conflict.  The conflict is marked in the file by conflict markers, as
+below.  This is sometimes referred to as a "hunk".  There are three
+sections in the hunk:
+
+1. Between `<<<` and `|||`: the state of the base branch, i.e. what
+   the rebase commit actually saw when it tried to apply its change
+
+2. Between `|||` and `===`: the state that the rebased commit
+   expected to see
+
+3. Between `===` and `>>>`: what the result of applying the rebased
+   commit would have been, if it had seen what it expected
+
+These three sections are always different from each other.  If any
+pair were the same then there would be no conflict!
+
 
 ```diff
       foo1()
@@ -141,11 +157,12 @@ conflict.
 
 ### The intent of the rebased commit
 
-There are two equivalent ways to see the intent of the rebased commit.
+There are two equivalent ways to see the logical intent of the rebased
+commit.
 
-* It is the difference between the middle hunk (below "merged common
-  ancestors") and the bottom hunk (above the commit description, "Add
-  foo 5")
+* It is the difference between the middle hunk section (below "merged common
+  ancestors") and the bottom hunk section (above the commit description, "Add
+  foo 5").
 
 * It is shown in the output of `git show REBASE_HEAD`.  This is
   generally easier to interpret than the above, but more verbose as it
@@ -159,14 +176,14 @@ There are two equivalent ways to see the intent of the rebased commit.
 +    foo5()
 ```
 
-Using either method you can see that the logical change of the commit
-you are rebasing is to add `foo5()` after `foo3()`.
+Using either method you can see that the logical change of the rebased
+commit is to add `foo5()` after `foo3()`.
 
 ### The state of the base branch
 
 There are two equivalent ways to see the state of the base branch.
 
-* The top hunk (below `HEAD`)
+* The top hunk section (below `HEAD`)
 
 * The output of `git show HEAD:<filename>`.  This latter form is
   probably less useful than the former because it shows the entire
@@ -191,11 +208,12 @@ The correct way to resolve this conflict is to apply the logical
 change of the rebased commit---adding `foo5()` after `foo3()`---to
 state of the base branch---which has `foo4()` after `foo3()`.  In your
 editor this will typically be easiest to do by making the change to
-the top hunk and then deleting the other hunks.  It requires semantic
-understanding to know exactly which way of resolving the conflict is
-satisfactory, if any.  For example, we could put `foo5()` before or
-after the appearance of `foo4()`.  Let's choose the latter and add
-`foo5()` below `foo4()` in the top hunk (i.e. below `HEAD`).
+the top hunk section and then deleting the other hunk sections.  It
+requires semantic understanding to know exactly which way of resolving
+the conflict is satisfactory, if any.  For example, we could put
+`foo5()` either before or after the appearance of `foo4()`.  Let's
+choose the latter and add `foo5()` below `foo4()` in the top hunk
+section (i.e. below `HEAD`).
 
 ```diff
       foo1()
@@ -210,8 +228,8 @@ after the appearance of `foo4()`.  Let's choose the latter and add
 ++>>>>>>> Add foo 5
 ```
 
-and then delete the middle and bottom hunk, and the conflict markers,
-to get
+and then delete the middle and bottom hunk sections, and the conflict
+markers, to get
 
 ```python
 def main():
@@ -261,9 +279,9 @@ If I try to rebase the latter onto the former the conflict is
 
 ### The intent of the rebased commit
 
-By looking at the difference between the "merged common ancestors"
-hunk and the rebased commit hunk, or by looking at `git show
-REBASE_HEAD`---which shows
+By looking at the difference between the middle hunk section and the
+bottom hunk section, or by looking at `git show REBASE_HEAD`---which
+shows
 
 ```diff
  def main():
@@ -277,7 +295,7 @@ REBASE_HEAD`---which shows
 
 ### The state of the base branch
 
-On the other hand, the hunk under `HEAD`, and `git show
+On the other hand, the hunk section under `HEAD`, and `git show
 HEAD:<filename>`---which is
 
 ```
@@ -289,7 +307,7 @@ def main():
 ---show that the base branch does not contain `foo2()`, but `foo3()`
 is still there, ripe for removal.  We need to apply the logical intent
 of the rebased patch to this context, which is done by removing the
-appearance of `foo3()` in the hunk below `HEAD`
+appearance of `foo3()` in the hunk section below `HEAD`
 
 ```diff
       foo1()
@@ -302,8 +320,8 @@ appearance of `foo3()` in the hunk below `HEAD`
 ++>>>>>>> Remove foo3
 ```
 
-and then we delete the middle and bottom hunks and the conflict
-resolution markers to get
+and then we delete the middle and bottom hunk sections and the
+conflict markers to get
 
 ```
 def main():
@@ -338,7 +356,7 @@ conflict is
 ```
 
 so the intention of the rebased commit is to add `foo4()`.  Doing this
-in the top hunk (i.e. below `HEAD`) leads to
+in the top hunk section (i.e. below `HEAD`) leads to
 
 ```
   def main():
@@ -354,7 +372,7 @@ in the top hunk (i.e. below `HEAD`) leads to
 ++>>>>>>> Add foo4
 ```
 
-and after deleting the deleting the other hunks we are left with
+and after deleting the deleting the other hunk sections we are left with
 
 ```
 def main():
@@ -408,7 +426,7 @@ def main():
 ```
 
 Therefore to apply the logical intent of the rebased commit I need to
-remove `foo2()`.  Doing so in the top hunk gives
+remove `foo2()`.  Doing so in the top hunk section gives
 
 ```
   def main():
@@ -423,8 +441,8 @@ remove `foo2()`.  Doing so in the top hunk gives
       foo3()
 ```
 
-and after deleting the other hunks and conflict markers we are left
-with
+and after deleting the other hunk sections and conflict markers we are
+left with
 
 ```
 def main():
@@ -493,7 +511,7 @@ REBASE_HEAD` shows
 
 so the logical intent is to rename `foo1` to `foo1_new_name`.  This
 poses a conundrum.  There is no way to make this change within the
-conflicted region itself!  The call of `foo1` has been moved into a
+conflict region itself!  The call of `foo1` has been moved into a
 different function.  We must make the change there instead, leading to
 a final result of
 
@@ -574,9 +592,9 @@ def main():
 There is nothing called `foo1`!  This is a genuine semantic conflict.
 Should the new name of `foo1` be `foo1_new_name` or
 `foo1_another_new_name`?  The knowledge required to answer that
-question is not contained within the conflict resolution markers of
-the merge conflict.  Local reasoning can't help.  You now have to
-think globally about the meaning of the two branches in question.
+question is not contained within the conflict markers of the merge
+conflict.  Local reasoning can't help.  You now have to think globally
+about the meaning of the two branches in question.
 
 ## Observations
 
