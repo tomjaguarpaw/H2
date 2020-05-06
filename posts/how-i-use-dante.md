@@ -136,7 +136,7 @@ environment.  Thus to install dante I do the following.
   To fix this problem I do `M-x dante-restart` and re-save the file.
   Then it becomes unstuck.
 
-* Dante cannot add missing type signatures with constrains
+* Dante cannot add missing type signatures with constraints
 
   Unfortunately dante doesn't seem able to add a missing type
   signature if the type signature requires constraints (for example,
