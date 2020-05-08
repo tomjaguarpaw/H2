@@ -52,14 +52,17 @@ environment.  Thus to install dante I do the following.
   :init
   (add-hook 'haskell-mode-hook 'flycheck-mode)
   (add-hook 'haskell-mode-hook 'dante-mode)
+  :config
+  (flycheck-add-next-checker 'haskell-dante '(info . haskell-hlint))
   )
 ```
 
-  (These are the default install commands from the
+  These are the default install commands from the
   [dante](https://github.com/jyp/dante#installation) and
   [attrap](https://github.com/jyp/attrap#attrap-emacs-mode-to-fix-the-flycheck-error-at-point)
   installation guides, adapted to use `straight.el` and slightly
-  simplified.)
+  simplified.  Additionally I have configured HLint messages at the
+  "info" level and in a simpler way than appears in the dante README.
 
 ## Dante's features
 
@@ -72,6 +75,8 @@ environment.  Thus to install dante I do the following.
   * `C-c ! n`: next error/warning
   * `C-c ! p`: previous error/warning
   * `C-c ! l`: list errors/warnings
+
+* HLint suggestions
 
 * Automatic error fixing
 
