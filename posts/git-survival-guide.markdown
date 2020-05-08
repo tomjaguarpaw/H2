@@ -59,9 +59,8 @@
 
 * To split a patch in two
 
-      # I'm currently on <branch>
-
-      COMMIT=<commit>
+      CURRENT=$(git rev-parse HEAD)
+      COMMIT=<commit to split>
       git checkout $COMMIT
       git reset $COMMIT^
 
@@ -70,7 +69,7 @@
 
       git reset --hard HEAD
       git revert --no-edit HEAD
-      git rebase --onto HEAD $COMMIT^ <branch>
+      git rebase --onto HEAD $COMMIT^ $CURRENT
       # ... which will always succeed because the revert returned the
       # working copy to the state it was in before $COMMIT was
       # applied.
