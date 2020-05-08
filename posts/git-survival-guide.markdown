@@ -39,11 +39,16 @@
 
 * To rebase
 
-      git rebase
+      git -c merge.conflictStyle=diff3 rebase ...
 
-  or to be really specific about it
+  The `diff3` conflict style will make resolving rebase conflicts much
+  easier.  You can read more about that in [my article about how to
+  resolve git rebase conflicts](../git-rebase-conflicts).  To be
+  really specific about which sequences of commits you are rebasing
+  where, use
 
-      git rebase -i --onto <target> <from> <to>
+      git -c merge.conflictStyle=diff3 rebase -i \
+	      --onto <target> <from> <to>
 
   The latter will interactively rebase the collection of patches
   `<from>..<to>` onto `<target>` (`<from>` is exclusive, `<to>`
