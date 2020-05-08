@@ -184,10 +184,12 @@ git show <commit>:<filename>
     not have added any new remote.  For example, you can `git checkout
     -b <new branch name> FETCH_HEAD`.
 
-## What a rebase/merge is
+## What a rebase/merge conflict is
 
-TODO: explain how conflicts mean you have to merge the semantic
-content of *both* patches
+When you are presented with a rebase or merge conflict your job is to
+merge the semantic content of *both* patches.  In particular, you
+should not be choosing just "ours" or just "theirs".  See [Resolving
+git rebase conflicts](../git-rebase-conflicts) for more information.
 
 ## Darcs translation
 
