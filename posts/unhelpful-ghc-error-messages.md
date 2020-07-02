@@ -44,3 +44,26 @@ block that is difficult to understand even when GHC isn't complaining
 about a syntax error.  I would like GHC's *help* here not a reference
 to an unrelated [small syntax
 extension](https://osa1.net/posts/2020-01-22-no-small-syntax-extensions.html).
+
+Under GHC 8.10 I get an error message in the correct place, but *also*
+the unhelpful and misleading error about enabling `BlockArguments`.
+Ah well, that's better than nothing.
+
+```
+badd.hs:1:8: error:
+    Unexpected do block in function application:
+        do let foo = 1
+    You could write it with parentheses
+    Or perhaps you meant to enable BlockArguments?
+  |
+1 | main = do
+  |        ^^...
+
+badd.hs:3:10: error:
+    parse error on input ‘=’
+    Perhaps you need a 'let' in a 'do' block?
+    e.g. 'let x = 5' instead of 'x = 5'
+  |
+3 |      bar = 3
+  |          ^
+```
