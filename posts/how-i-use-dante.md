@@ -61,8 +61,7 @@ environment.  Thus to install dante I do the following.
   [dante](https://github.com/jyp/dante#installation) and
   [attrap](https://github.com/jyp/attrap#attrap-emacs-mode-to-fix-the-flycheck-error-at-point)
   installation guides, adapted to use `straight.el` and slightly
-  simplified.  Additionally I have configured HLint messages at the
-  "info" level and in a simpler way than appears in the dante README.
+  simplified.
 
 ## Dante's features
 
