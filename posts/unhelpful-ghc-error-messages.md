@@ -36,9 +36,10 @@ bad-block-args.hs:1:8: error:
   |        ^^...
 ```
 
-No, I didn't mean to enable `BlockArguments`.  I never saw the point
-of them in the first place, and now they are providing me with
-*negative* value when I'm not even trying to use them.  I have had
+No, I didn't mean to enable `BlockArguments`.  I was not a supporter
+of the `BlockArguments` extension in the first place, and now it is
+providing me with *negative* value when I'm not even trying to use it.
+I have had
 this occur to me a few times in the wild, always in an unwieldy `do`
 block that is difficult to understand even when GHC isn't complaining
 about a syntax error.  I would like GHC's *help* here not a reference
