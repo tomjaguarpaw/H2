@@ -159,7 +159,7 @@ y = div (x1, x2)
 then the derivative line is
 
 ```
-dy = add (div (dx1, x2), negate (mul (div (x1, mul (x2, x2))), dx2))
+dy = add (div (dx1, x2), negate (mul (div (x1, mul (x2, x2)), dx2)))
 ```
 
 ## Forward mode
