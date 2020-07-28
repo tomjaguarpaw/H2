@@ -61,11 +61,11 @@
 
       CURRENT=$(git rev-parse HEAD)
       COMMIT=<commit to split>
+
       git checkout $COMMIT
       git reset $COMMIT^
-
-      # Commit just the changes you want in the first patch
       git commit --patch --verbose
+      # ^ Commit just the changes you want in the first patch
 
       git reset --hard HEAD
       git revert --no-edit HEAD
