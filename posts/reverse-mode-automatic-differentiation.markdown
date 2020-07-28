@@ -2,6 +2,14 @@
 
 -- made simpler
 
+## Warning: this article is old and rather idiosyncratic
+
+I have a much better explanation of reverse mode AD at [Automatic
+differentiation: source-to-source worked
+examples](../automatic-differentiation-worked-examples.md).  I would
+advise you not to read this article.  I'm only keeping it around for
+historical interest.
+
 In "[Symbolic expressions can be Automatically differentiated
 too](../symbolic-expressions-can-be-automatically-differentiated)" I
 demonstrated that forward mode Automatic Differentiation (AD) is not
