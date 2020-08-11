@@ -461,4 +461,8 @@ me](http://web.jaguarpaw.co.uk/~tom/contact).
 
 ## Acknowledgements
 
-Thanks to Mark Saroufim and Pashmina Cameron for helpful feedback.
+I learned the "explicit duplication form" from [Tom
+Minka](https://tminka.github.io/)'s talk [From automatic
+differentiation to message
+passing](https://tminka.github.io/papers/acmll2019/).  Thanks to Mark
+Saroufim and Pashmina Cameron for helpful feedback.
