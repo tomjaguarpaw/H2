@@ -6,7 +6,7 @@
 
 I have a much better explanation of reverse mode AD at [Automatic
 differentiation: source-to-source worked
-examples](../automatic-differentiation-worked-examples.md).  I would
+examples](../automatic-differentiation-worked-examples).  I would
 advise you not to read this article.  I'm only keeping it around for
 historical interest.
 
