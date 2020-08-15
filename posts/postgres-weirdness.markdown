@@ -48,3 +48,5 @@ SELECT * from table ORDER BY 1 + 1;
 ````
 
 * <https://stackoverflow.com/questions/42588304/postgresql-why-cant-i-create-composite-foreign-key-based-on-unique-column-wit>
+
+* <https://edgedb.com/blog/we-can-do-better-than-sql/>
