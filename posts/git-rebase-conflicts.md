@@ -134,9 +134,9 @@ default merge conflict style will show
 ```
 
 Under the default conflict style the case of removing two functions is
-completely indistinguishable from the case of adding two functions
+indistinguishable from the case of adding two functions
 (besides the text of the commit message which can only ever be a
-hint)!  Therefore it is completely insufficient for purpose of
+hint)!  Therefore it is insufficient for purpose of
 resolving conflicts.  This probably explains why resolving conflicts
 is seen as a dark art.  `diff3` not only makes it possible, below we
 will see that it is often easy.
