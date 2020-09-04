@@ -79,6 +79,68 @@ details will be explained by way of example later.
    git -c merge.conflictStyle=diff3 rebase --continue
    ```
 
+## Why use `diff3`?
+
+Resolving conflicts is literally impossible using the default merge
+conflict style. I suggest setting `diff3` in your global options.
+
+```
+git config --global merge.conflictStyle diff3
+```
+
+Why is it literally impossible?  Consider a branch which adds a
+function `foo1` at a particular source file location
+
+```python
+def foo1():
+    print("foo1")
+```
+
+and another branch which adds a function `foo2` at the same location
+
+```python
+def foo2():
+    print("foo2")
+```
+
+If I rebase one on the other I get a conflict.  The default merge
+conflict style will show
+
+```diff
+++<<<<<<< HEAD
+ +def foo1():
+ +    print("foo1")
+++=======
++ def foo2():
++     print("foo2")
+++>>>>>>> Add foo2
+```
+
+What are the conflict markers telling me?  They're telling me that I
+need to *add* both `foo1` and `foo2` to the file, right?
+Unfortunately not!  Consider a file in which `foo1` and `foo2` already
+exist, and two branches, one of which removes `foo1` and one of which
+removes `foo2`.  If I rebase one on the other what is the result?  The
+default merge conflict style will show
+
+```diff
+++<<<<<<< HEAD
+ +def foo1():
+ +    print("foo1")
+++=======
++ def foo2():
++     print("foo2")
+++>>>>>>> Remove foo1
+```
+
+Under the default conflict style the case of removing two functions is
+completely indistinguishable from the case of adding two functions
+(besides the text of the commit message which can only ever be a
+hint)!  Therefore it is completely insufficient for purpose of
+resolving conflicts.  This probably explains why resolving conflicts
+is seen as a dark art.  `diff3` not only makes it possible, below we
+will see that it is often easy.
+
 ## Example file
 
 The examples will based on changes to this example Python file.
