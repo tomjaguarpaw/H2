@@ -81,7 +81,7 @@ details will be explained by way of example later.
 
 ## Why use `diff3`?
 
-Resolving conflicts is literally impossible using the default merge
+It is literally impossible to resolve conflicts using the default merge
 conflict style. I suggest setting `diff3` in your global options.
 
 ```
@@ -136,7 +136,7 @@ default merge conflict style will show
 Under the default conflict style the case of removing two functions is
 indistinguishable from the case of adding two functions
 (besides the text of the commit message which can only ever be a
-hint)!  Therefore it is insufficient for purpose of
+hint)!  Therefore the default conflict style is insufficient for purpose of
 resolving conflicts.  This probably explains why resolving conflicts
 is seen as a dark art.  `diff3` not only makes it possible, below we
 will see that it is often easy.
