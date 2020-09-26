@@ -176,7 +176,7 @@ git show <commit>:<filename>
 
 * `git checkout -b <new branch name> <existing revision>`
 
-* `git push origin <local revision>:<name of remote branch>`
+* `git push <url of remote repository> <local revision>:<name of remote branch>`
 
 * `git fetch <url of remote repository> <branch>`
 
