@@ -151,3 +151,5 @@ environment.  Thus to install dante I do the following.
 
 * I wish it were easier to understand the diagnostics from
   `dante-diagnose`.
+
+* dante doesn't seem to cope with hs-boot files
