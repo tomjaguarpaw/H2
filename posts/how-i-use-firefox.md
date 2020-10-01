@@ -1,14 +1,40 @@
 # How I use Firefox
 
-https://stackoverflow.com/questions/56401662/firefox-how-to-test-prefers-color-scheme/56757527#56757527
+* Create a profile using the profile manager
 
-* Make it dark with https://github.com/SrKomodo/shadowfox-updater
+  ```
+  firefox -no-remote -profileManager
+  ```
+
+  I have different profiles for different usages of Firefox, to keep
+  them separate. Hopefully that increases my privacy a bit. For
+  example I have separate profiles for general browsing, Twitter,
+  WhatsApp, Facebook, Google Calendar and my bank website.
+
+* Launch Firefox with a profile with
+
+  ```
+  firefox -no-remote -P "name_of_the_profile"
+  ```
+
+* Set prefers colour scheme to dark
+
+  > You can update the style used by Firefox by going to `about:config`
+  > and adding a new property `ui.systemUsesDarkTheme` of integer type
+  > with value `1`.
+
+ From
+ [StackOverflow](https://stackoverflow.com/questions/56401662/firefox-how-to-test-prefers-color-scheme/56757527#56757527)
+
+* Make everything dark with <https://github.com/SrKomodo/shadowfox-updater>
 
 
-https://support.mozilla.org/en-US/kb/firefox-uses-too-much-memory-or-cpu-resources?redirectslug=firefox-uses-too-much-memory-ram&redirectlocale=en-US
+* Reduce Firefox's memory consumption
 
-Performance
+  <https://support.mozilla.org/en-US/kb/firefox-uses-too-much-memory-or-cpu-resources?redirectslug=firefox-uses-too-much-memory-ram&redirectlocale=en-US>
 
-uncheck Use recommended performance settingsLearn more
+  Performance
 
-Content process limit -> 1
+  uncheck Use recommended performance settingsLearn more
+
+  Content process limit -> 1
