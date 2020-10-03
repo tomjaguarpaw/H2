@@ -3,7 +3,7 @@
 build: site
 	./site build
 
-deploy:	build
+deploy: build
 	rsync --itemize-changes -vr _site/ `cat host`
 
 upload: deploy
