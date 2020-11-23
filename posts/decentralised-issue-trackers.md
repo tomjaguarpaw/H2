@@ -6,3 +6,4 @@
 
 * [tracker-tool](https://github.com/vicjicaman/tracker-tool)
 
+* [Bugs Everywhere](https://bugseverywhere.org/)
