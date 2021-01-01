@@ -171,35 +171,6 @@
 * I rarely use `cherry-pick`. I find that interactive rebase provides
   a better approach to reaching my goal.
 
-## Advanced stuff
-
-### All the things your branch has ever been
-
-Are you scared that you've lost commits because of a rebase gone wrong
-or some other git mystery?  Try this command with the name of your
-branch in the place of `<branch>`.
-
-```shell
-BRANCH=<branch>; \
-PAGER="less -S" \
-git log --graph \
-        --decorate \
-        --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset" \
-        $(git reflog $BRANCH | cut '-d ' -f1)
-```
-
-You will be
-presented with a tree that contains everything that has even been on
-the given branch.  You can then reset your branch to one of its
-earlier versions and perhaps `cherry-pick` into it commits from other
-versions.
-
-### All the changes to files you care about
-
-```shell
-git fetch && PAGER="less '+/^commit'" git log --patch --since="1 week" --extended-regexp --author='^([^T]|.[^o])' -- $(git rev-list --since="1 month" --author="Tom Ellis" origin/master | while read commit; do git diff-tree --no-commit-id --name-only -r $commit; done)
-```
-
 ## Explicit git
 
 * Show a file from a commit without checking that commit out
@@ -248,6 +219,35 @@ When you are presented with a rebase or merge conflict your job is to
 merge the semantic content of *both* patches.  In particular, you
 should not be choosing just "ours" or just "theirs".  See [Resolving
 git rebase conflicts](../git-rebase-conflicts) for more information.
+
+## Advanced stuff
+
+### All the things your branch has ever been
+
+Are you scared that you've lost commits because of a rebase gone wrong
+or some other git mystery?  Try this command with the name of your
+branch in the place of `<branch>`.
+
+```shell
+BRANCH=<branch>; \
+PAGER="less -S" \
+git log --graph \
+        --decorate \
+        --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset" \
+        $(git reflog $BRANCH | cut '-d ' -f1)
+```
+
+You will be
+presented with a tree that contains everything that has even been on
+the given branch.  You can then reset your branch to one of its
+earlier versions and perhaps `cherry-pick` into it commits from other
+versions.
+
+### All the changes to files you care about
+
+```shell
+git fetch && PAGER="less '+/^commit'" git log --patch --since="1 week" --extended-regexp --author='^([^T]|.[^o])' -- $(git rev-list --since="1 month" --author="Tom Ellis" origin/master | while read commit; do git diff-tree --no-commit-id --name-only -r $commit; done)
+```
 
 ## Darcs translation
 
