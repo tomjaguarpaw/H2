@@ -189,6 +189,10 @@
 
 ## Explicit git
 
+Many git commands make it possible to perform an action on a commit or
+on a remote without checking out that commit or without adding that
+remote.
+
 * Show a file from a commit without checking that commit out
 
   ```
