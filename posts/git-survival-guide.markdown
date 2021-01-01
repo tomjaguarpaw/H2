@@ -213,6 +213,15 @@
    As above, instead of `<url of remote repository>` you can use a
    previously-defined remote name, like `origin`, if you want.
 
+* Inform my local repository of the state of the remote
+
+  ```
+  git fetch
+  ```
+
+  Then I can refer to remote branches via the names
+  `<remote>/<branch-name>`, for example `origin/master`.
+
 ## What a rebase/merge conflict is
 
 When you are presented with a rebase or merge conflict your job is to
