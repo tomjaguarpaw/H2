@@ -202,15 +202,39 @@ git show <commit>:<filename>
 
 ## Explicit git
 
-* `git checkout -b <new branch name> <existing revision>`
+* Create a new branch at an existing revision without checking out
+  that revision first
 
-* `git push <url of remote repository> <local revision>:<name of remote branch>`
+  ```
+  git checkout -b <new branch name> <existing revision>
+  ```
 
-* `git fetch <url of remote repository> <branch>`
+* Push a branch to the remote without explicitly adding that remote or
+  explicitly adding a remote tracking branch
+
+  ```
+  git push <url of remote repository> <local revision>:refs/heads/<name of remote branch>
+  ```
+
+   The `refs/heads` prefix is only necessary if the branch doesn't
+   already exist on the remote.  If the branch does exist then the
+   prefix is redundant but doesn't do any harm.
+
+   Instead of `<url of remote repository>` you can use a
+   previously-defined remote name, like `origin`, if you want.
+
+* Fetch a branch from a remote without explicitly adding that remote
+
+  ```
+  git fetch <url of remote repository> <branch>
+  ```
 
     Then you can do whatever you want with `FETCH_HEAD` and you will
     not have added any new remote.  For example, you can `git checkout
     -b <new branch name> FETCH_HEAD`.
+
+   As above, instead of `<url of remote repository>` you can use a
+   previously-defined remote name, like `origin`, if you want.
 
 ## What a rebase/merge conflict is
 
