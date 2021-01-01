@@ -101,6 +101,15 @@
   fail](https://raw.githubusercontent.com/tomjaguarpaw/ad/300d63ae15ed2f12f48f83883af1aacad6905ddf/git-split/split.sh)
   -- so that's what I did!
 
+* Inform my local repository of the state of the remote
+
+  ```
+  git fetch
+  ```
+
+  Then I can refer to remote branches via the names
+  `<remote>/<branch-name>`, for example `origin/master`.
+
 * To see the status
 
       git status -uno
@@ -219,15 +228,6 @@
 
    As above, instead of `<url of remote repository>` you can use a
    previously-defined remote name, like `origin`, if you want.
-
-* Inform my local repository of the state of the remote
-
-  ```
-  git fetch
-  ```
-
-  Then I can refer to remote branches via the names
-  `<remote>/<branch-name>`, for example `origin/master`.
 
 ## What a rebase/merge conflict is
 
