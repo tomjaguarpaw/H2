@@ -33,7 +33,7 @@
 * To see the difference between different revisions (or my working
   copy)
 
-      git diff
+      git diff --color-moved
 
   and it is useful to use `--word-diff` or `--ignore-whitespace`.
 
