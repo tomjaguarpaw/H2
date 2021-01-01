@@ -26,7 +26,7 @@
 
       git add --intent-to-add <filename>
 
-  (or `-N`) I don't use `git add` because it adds the file to the staging area.
+  (or `-N`). I don't use `git add` because it adds the file to the staging area.
   I don't want to bother with the staging area (see below for more
   details).
 
