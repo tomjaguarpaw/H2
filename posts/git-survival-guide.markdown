@@ -52,7 +52,8 @@
   inclusive).  It's always a reasonable idea to rebase interactively
   so at least you can see the list of commits that will be rebased.
   It might turn out you got some of the arguments wrong and then you
-  can bail out early.
+  can bail out early (by deleting all the text from the interactive
+  rebase instruction file, saving it, and closing the editor).
 
 * To split a commit in two use [my `git-split.sh`
   script](https://raw.githubusercontent.com/tomjaguarpaw/ad/300d63ae15ed2f12f48f83883af1aacad6905ddf/git-split/split.sh).
