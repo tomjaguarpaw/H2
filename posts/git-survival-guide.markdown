@@ -133,6 +133,14 @@
 
 ## Things I don't do
 
+* <a name="no-staging-area"></a>
+  I never use the staging area.  It is a piece of mutable state and
+  I'd rather remove it from my mental model.  You do not need to touch
+  the staging area if you use `git commit --patch`.
+
+* I never use `.gitignore`.  You don't need it if you use `git commit
+  --patch`.
+
 * I almost never `git merge`.  If I want to do a fast forward "merge"
   (which is not really a merge at all) then I do
 
@@ -155,14 +163,6 @@
     If you have "stashed" by committing then you can pop your "stash"
     by using `git cherry-pick` and doing `git reset HEAD^`.  You
     probably then want to delete the temporary branch.
-
-* <a name="no-staging-area"></a>
-  I never use the staging area.  It is a piece of mutable state and
-  I'd rather remove it from my mental model.  You do not need to touch
-  the staging area if you use `git commit --patch`.
-
-* I never use `.gitignore`.  You don't need it if you use `git commit
-  --patch`.
 
 * I never `commit --amend`.  Interactive rebase (see above) allows you
   access to the same functionality without needing to remember a
