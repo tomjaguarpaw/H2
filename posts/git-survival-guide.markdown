@@ -39,6 +39,12 @@
 
   (See [`interactive.singleKey=true`](#config-interactive-singlekey))
 
+* To see the full history of my current branch
+
+  ```
+  git log --patch --color-moved
+  ```
+
 * To revert an uncommited change
 
       git checkout --patch
