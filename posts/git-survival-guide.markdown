@@ -111,6 +111,13 @@
   status`.  Instead I use `git status -uno` which supresses display of
   untracked files.
 
+* grep the repository, without looking at untracked files or the
+  `.git` directory
+
+  ```
+  git grep ...
+  ```
+
 ## Global config settings
 
 * <a name="config-interactive-singlekey"></a>To avoid having to press `<Enter>`
