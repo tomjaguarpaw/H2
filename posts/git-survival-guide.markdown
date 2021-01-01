@@ -194,13 +194,13 @@ versions.
 git fetch && PAGER="less '+/^commit'" git log --patch --since="1 week" --extended-regexp --author='^([^T]|.[^o])' -- $(git rev-list --since="1 month" --author="Tom Ellis" origin/master | while read commit; do git diff-tree --no-commit-id --name-only -r $commit; done)
 ```
 
-### Show a file from a commit
-
-```
-git show <commit>:<filename>
-```
-
 ## Explicit git
+
+* Show a file from a commit without checking that commit out
+
+  ```
+  git show <commit>:<filename>
+  ```
 
 * Create a new branch at an existing revision without checking out
   that revision first
