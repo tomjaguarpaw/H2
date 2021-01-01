@@ -12,15 +12,15 @@
 
 * To make a commit
 
-      git -c interactive.singleKey=true commit --verbose --patch
+      git commit --verbose --patch
 
-  `interactive.singleKey=true` requires the Perl module
-  Term::ReadKey.  On Debian this is available in the
-  `libterm-readkey-perl` package.
+  (See [`interactive.singleKey=true`](#config-interactive-singlekey))
 
 * To revert an uncommited change
 
-      git -c interactive.singleKey=true checkout --patch
+      git checkout --patch
+
+  (See [`interactive.singleKey=true`](#config-interactive-singlekey))
 
 * To add a new file
 
@@ -107,6 +107,18 @@
   other hand I don't want to see untracked, unignored files in `git
   status`.  Instead I use `git status -uno` which supresses display of
   untracked files.
+
+## Global config settings
+
+* <a name="config-interactive-singlekey"></a>To avoid having to press `<Enter>`
+  after each choice
+
+      git config --global interactive.singlekey true
+
+  (in `git commit --patch`, `git checkout --patch`, `git stash
+  --patch`, etc.)  `interactive.singleKey=true` requires the Perl
+  module `Term::ReadKey`.  On Debian this is available in the
+  `libterm-readkey-perl` package.
 
 ## Things I don't do
 
