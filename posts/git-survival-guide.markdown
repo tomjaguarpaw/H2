@@ -24,13 +24,14 @@
   [Ian Miell's "git log -- The Good
   Parts"](https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/).)
 
-* To create a new branch from the current one
+* To see the difference between different revisions (or my working
+  copy)
 
-      git checkout -b <new branch>
+      git diff --color-moved
 
-* To switch to an existing branch
+  and it is useful to use `--word-diff` or `--ignore-whitespace`.
 
-      git checkout <existing branch>
+  This is my second most used git command.
 
 * To make a commit
 
@@ -44,19 +45,20 @@
 
   (See [`interactive.singleKey=true`](#config-interactive-singlekey))
 
+* To create a new branch from the current one
+
+      git checkout -b <new branch>
+
+* To switch to an existing branch
+
+      git checkout <existing branch>
+
 * To add a new file
 
       git add --intent-to-add <filename>
 
   (or `-N`). I don't use `git add` because it adds the file to the staging area.
   [I don't want to bother with the staging area](#no-staging-area).
-
-* To see the difference between different revisions (or my working
-  copy)
-
-      git diff --color-moved
-
-  and it is useful to use `--word-diff` or `--ignore-whitespace`.
 
 * To rebase
 
