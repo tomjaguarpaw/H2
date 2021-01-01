@@ -133,6 +133,22 @@ completely certain.  Certainly it required some manual jiggery.
 
 # Notes
 
+* After year 1 I filed some tickets
+
+  * <https://github.com/haskell/cabal/issues/6355>
+  * <https://github.com/haskell/containers/issues/685>
+      * Original developer did try to tackle this one
+        <https://github.com/haskell/containers/issues/590>
+  * <https://github.com/haskell/stm/issues/25>
+  * <https://github.com/haskell/xhtml/issues/12>
+      * This one seems not to be needed
+
+  But what I *should* have done was ask them to enable
+  `-Wincomplete-uni-patterns` and `-Wincomplete-record-updates` on
+  their build because that would have pointed them to exactly where
+  the problems lay.
+
+
 * stm was not mirroring
 
 > Pull mirroring failed 11 months ago.  Repository mirroring has been
