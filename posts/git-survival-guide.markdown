@@ -38,16 +38,14 @@
 
 * To rebase
 
-      git -c merge.conflictStyle=diff3 rebase ...
+      git rebase ...
 
-  The `diff3` conflict style will make resolving rebase conflicts much
-  easier.  You can read more about that in [my article about how to
-  resolve git rebase conflicts](../git-rebase-conflicts).  To be
-  really specific about which sequences of commits you are rebasing
-  where, use
+  (See [`merge.conflictStyle=diff3`](#config-merge-conflict-style))
 
-      git -c merge.conflictStyle=diff3 rebase -i \
-	      --onto <target> <from> <to>
+  To be really specific about which sequences of commits you are
+  rebasing where, use
+
+      git rebase -i --onto <target> <from> <to>
 
   The latter will interactively rebase the collection of patches
   `<from>..<to>` onto `<target>` (`<from>` is exclusive, `<to>`
@@ -118,6 +116,14 @@
   --patch`, etc.)  `interactive.singleKey=true` requires the Perl
   module `Term::ReadKey`.  On Debian this is available in the
   `libterm-readkey-perl` package.
+
+* <a name="config-merge-conflict-style"></a>To be able to resolve
+  rebase/merge conflicts
+
+      git config --global merge.conflictStyle diff3
+
+  [It is literally impossible](../git-rebase-conflicts/) to resolve
+  rebase/merge conflicts without using the `diff3` conflict style.
 
 ## Things I don't do
 
