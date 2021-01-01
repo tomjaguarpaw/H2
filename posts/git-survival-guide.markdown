@@ -54,7 +54,7 @@
   It might turn out you got some of the arguments wrong and then you
   can bail out early.
 
-* To split a patch in two
+* To split a commit in two
 
       CURRENT=$(git rev-parse HEAD)
       COMMIT=<commit to split>
