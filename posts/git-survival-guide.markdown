@@ -27,8 +27,7 @@
       git add --intent-to-add <filename>
 
   (or `-N`). I don't use `git add` because it adds the file to the staging area.
-  I don't want to bother with the staging area (see below for more
-  details).
+  [I don't want to bother with the staging area](#no-staging-area).
 
 * To see the difference between different revisions (or my working
   copy)
@@ -145,7 +144,8 @@
     by using `git cherry-pick` and doing `git reset HEAD^`.  You
     probably then want to delete the temporary branch.
 
-* I never use the staging area.  It is a piece of mutable state and
+* <a name="no-staging-area"></a>
+  I never use the staging area.  It is a piece of mutable state and
   I'd rather remove it from my mental model.  You do not need to touch
   the staging area if you use `git commit --patch`.
 
