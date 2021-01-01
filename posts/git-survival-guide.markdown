@@ -2,6 +2,28 @@
 
 ## Roughly orthogonal git commands
 
+* To see the current status of all branches in the repository
+
+      git log --graph --decorate --all --oneline
+
+  It is my most used git command.  I run it after almost every other
+  git operation to maintain a clear understanding of the current
+  repository state.
+
+  For a slightly better display but much more complicated command line
+
+      PAGER="less -S" \
+        git log \
+          --graph \
+          --decorate \
+          --all \
+          --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset"
+
+  If you only want to see the topology of the tree instead of every
+  commit then add `--simplify-by-decoration`.  (You might like to read
+  [Ian Miell's "git log -- The Good
+  Parts"](https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/).)
+
 * To create a new branch from the current one
 
       git checkout -b <new branch>
@@ -70,25 +92,6 @@
   and can't
   fail](https://raw.githubusercontent.com/tomjaguarpaw/ad/300d63ae15ed2f12f48f83883af1aacad6905ddf/git-split/split.sh)
   -- so that's what I did!
-
-* To see the entire history of my repository
-
-      git log --graph --decorate --all --oneline
-
-  or for a slightly better display but much more complicated command
-  line
-
-      PAGER="less -S" \
-        git log \
-          --graph \
-          --decorate \
-          --all \
-          --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset"
-
-  If you only want to see the topology of the tree instead of every
-  commit then add `--simplify-by-decoration`.  (You might like to read
-  [Ian Miell's "git log -- The Good
-  Parts"](https://zwischenzugs.com/2018/03/26/git-log-the-good-parts/).)
 
 * To see the status
 
