@@ -54,27 +54,21 @@
   It might turn out you got some of the arguments wrong and then you
   can bail out early.
 
-* To split a commit in two
+* To split a commit in two use [my `git-split.sh`
+  script](https://raw.githubusercontent.com/tomjaguarpaw/ad/300d63ae15ed2f12f48f83883af1aacad6905ddf/git-split/split.sh).
 
-      CURRENT=$(git rev-parse HEAD)
-      COMMIT=<commit to split>
+      sh <path>/git-split.sh bash <commit-id-to-split>
 
-      git checkout $COMMIT
-      git reset $COMMIT^
-      git commit --patch --verbose
-      # ^ Commit just the changes you want in the first patch
-
-      git reset --hard HEAD
-      git revert --no-edit HEAD
-      git rebase --onto HEAD $COMMIT^ $CURRENT
-      # ... which will always succeed because the revert returned the
-      # working copy to the state it was in before $COMMIT was
-      # applied.
-
-      git rebase --interactive $COMMIT^
-      # ... squash the third commit (the original one we wanted to
-      # split) into the second (the Revert) and keep only the original
-      # commit message.
+  There are many, many guides on the web about "how to split a git
+  commit".  All the ones that I have seen give some version of the
+  ["Splitting Commits" recipe from the `git rebase` man
+  page](https://git-scm.com/docs/git-rebase#_splitting_commits).  That
+  recipe is fiddly for a non-expert and one can easily find oneself in
+  a confused state.  On the other hand the recipe can easily be made
+  robust and packaged in [a script that gives the user helpful hints
+  and can't
+  fail](https://raw.githubusercontent.com/tomjaguarpaw/ad/300d63ae15ed2f12f48f83883af1aacad6905ddf/git-split/split.sh)
+  -- so that's what I did!
 
 * To see the entire history of my repository
 
