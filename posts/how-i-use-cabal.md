@@ -24,6 +24,51 @@ The binary that it installs will end up at
 `~/.ghcup/bin/cabal-3.2.0.0` and a symlink to it will probably be
 created at `~/.ghcup/bin/cabal`.
 
+## I want to play around with a package in the REPL
+
+For very quick exploration you can specify a dependency on the
+command line. If you want something that is a little more persistent
+you can create a temporary project and add it as a dependency.
+
+### Specify a dependency on the command line
+
+In a directory that doesn't contain a Haskell package's `.cabal` file
+(perhaps your home directory) run
+
+```
+cabal v2-repl --build-depends QuickCheck
+<it downloads and builds QuickCheck if necessary...>
+*Main> import Test.QuickCheck
+*Main Test.QuickCheck> let prop h t = (length t + 1) == (length $ h:t)
+*Main Test.QuickCheck> quickCheck prop
++++ OK, passed 100 tests.
+```
+
+### Create a temporary project and add it as a dependency
+
+    $ mkdir my-temporary-package
+    $ cd my-temporary-package
+    $ cabal init
+
+Edit `my-temporary-package.cabal` to change
+
+    build-depends:       base >=... && <...
+
+to
+
+    build-depends:       base, QuickCheck
+
+(The constraints on base are going to cause you more harm than good
+for a quick exploratory project. You can add them back later if it
+becomes necessary.)
+
+    $ cabal v2-repl
+
+### What about `cabal install --lib`?
+
+I would avoid it.  To me it seems like a fools errand to try to load
+non-system packages with anything but `cabal`.
+
 ## I have a package in local source directory. I want to use it in another local package.
 
 Suppose I have a package called `package1` in a local source directory
