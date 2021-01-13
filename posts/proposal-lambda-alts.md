@@ -1,5 +1,8 @@
 # Proposal: `LambdaAlts`
 
+NOTE: When this is published link it at
+https://twitter.com/purelyagile/status/1349333019874758662
+
 ## `LambdaCase`
 
 `LambdaCase` is a wonderful GHC language extension.  62% of
