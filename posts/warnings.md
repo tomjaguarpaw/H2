@@ -28,18 +28,18 @@ f :: Maybe Int -> Int
 f = \(Just n) -> n + 10
 ```
 
-But this is a bad function to write because if you evaluate `f
-Nothing` then it will fail at run time.
+But this is a bad function to write because evaluating `f Nothing`
+will fail with an error.
 
 ```
 > f Nothing
 *** Exception: Non-exhaustive patterns in lambda
 ```
 
-Failures like this are easy to spot statically so we don't want them
-in our Haskell programs.  Fortunately there is a GHC warning called
-`incomplete-uni-patterns` that will spot this mistake and warn us.
-Unfortunately it is not enabled by default nor in the grab bag of
+Such problems are easy to spot statically so we would prefer it if the
+compiler could tell us about them.  Fortunately there is a GHC warning
+called `incomplete-uni-patterns` that will spot this mistake and warn
+us.  Unfortunately it is not enabled by default nor in the grab bag of
 useful warnings called "`-Wall`".  The latter is particularly
 confusing since if I wrote `f` as
 
@@ -57,16 +57,16 @@ then enabling `-Wall` *would* trigger a warning because
 Haskell allows you to define record data types that have field names.
 The field names can be used when creating records, extracting
 components from records and updating records.  Unfortunately these
-field names act very poorly with sum types.  For example, it is highly
+field names interact poorly with sum types.  For example, it is highly
 dubious to define field names like
 
 ```haskell
 data Foo = Bar { bar :: Int } | Quux { quux :: Bool }
 ```
 
-Why is it dubious?  Because if, for example, you use `quux` in an
-attempt to update a `Foo` which is actually a `Bar` then you will
-receive a run time error.
+Why dubious?  Because if, for example, you use `quux` in an attempt to
+update a `Foo` which is actually a `Bar` then you will receive a run
+time error.
 
 ```
 > (Quux True) { bar = 1000 }
@@ -74,22 +74,22 @@ receive a run time error.
 ```
 
 The GHC warning `incomplete-record-updates` will warn us about this
-but nor it is in `-Wall`.  Again this is confusing since if I try to
-create a record with a missing field then I do get a
+but it is not in `-Wall` either.  Again this is confusing since if I
+try to create a record with a missing field then I do get a
 `no-missing-fields` warning at compile time.  Furthermore this warning
 is a *default* warning.  I don't even have to enable `-Wall` to get
 it!
 
 ## The proposal
 
-Such beneficial changes should be quick to get past the GHC committee
-right?  Wrong.
+Having these warnings in `-Wall` seems beneficial. Such a change
+should be quick to get past the GHC committee right?  Wrong.
 
 Haskellers generally appreciate the great static safety of the
-language.  Even though these warnings exist they need to be somewhere
-default for people to actually use them in practice.  `-Wall` should
-really be "programming according to best practice".  It's not perfect,
-but it's pretty good.
+language.  Even though these warnings can be specifically enabled,
+their full benefit won't be felt unless they are enabled through some
+sort of default.  `-Wall` should really be "programming according to
+best practice".  It's not perfect, but it's pretty good.
 
 [My original suggestion on
 Reddit](https://www.reddit.com/r/haskell/comments/6q9tcp/ghc_warnings_you_should_use_in_addition_to_wall/dkvrk0e/)
@@ -106,10 +106,10 @@ I assumed that once the proposal was accepted a GHC developer would
 change a couple of lines in the GHC codebase and the work would be
 complete.  Should be easy right?  Wrong.
 
-Someone [did create a ticket and start work on
-it](https://gitlab.haskell.org/ghc/ghc/-/issues/15656) 13
-months after the proposal was submitted.  The change to enable the
-warnings themselves is simple
+Someone [created a ticket and started work on
+it](https://gitlab.haskell.org/ghc/ghc/-/issues/15656) 13 months after
+the proposal was submitted.  The change to enable the warnings
+themselves is simple
 
 ```patch
 +        Opt_WarnIncompletePatternsRecUpd
@@ -123,17 +123,49 @@ its own source code must be clean for the warnings in `-Wall`.
 code](https://gitlab.haskell.org/ghc/ghc/-/commit/4bada77d5882974514d85d4bd0fd4e1801dad755)
 where the GHC developers had themselves used code that violated the
 policy of `incomplete-uni-patterns` and `incomplete-record-updates`.
-
-
 [The original ticket creator had already done most of this
-work](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/181).  I
-probably rebased his patch on the contemporary master although I'm not
-completely certain.  Certainly it required some manual jiggery.
+work](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/181).
 
 
-# Notes
+## I took over the development
 
-* After year 1 I filed some tickets
+I probably rebased his patch on the contemporary master although I'm
+not completely certain.  Certainly it required some manual jiggery.
+
+I was flying completely blind.  I had no idea about how to develop on
+GHC how to build it, how to submit merge requests.
+
+There was no way that I was going to actually *fix* the causes of each
+of these warnings.
+
+I fixed all 126 locations that were raising those warnings by
+suppressing the warning with a `OPTIONS_GHC` pragma at the top of the
+file.
+
+Once that was complete we're ready to merge, right?  Wrong.  GHC not
+only requires that it be able to build itself clean for `-Wall` but
+all the boot libraries too!  Boot libraries are the normal Haskell
+packages that GHC itself depends on, like `cabal`, `stm` and
+`containers`.
+
+Now the problem becomes a lot more difficult.  Adding this warning to
+GHC, and suppressing it in GHC's source, with a single commit is not
+enough.  We also have to suppress it in the source of all boot
+packages and make a single commit that updates the boot packages'
+submodules at the same time.
+
+That means I, or the boot package maintainers, have to go through the
+source of all boot packages and make sure it is clean for `-Wall`.
+
+I decided to get to a stable position of adding
+`-Wincomplete-uni-patterns` and `-Wincomplete-record-updates` to the
+build of GHC so no new such bad behaviour was added.  Even this was
+non trivial.  There are two separate build systems (make and Hadrian)
+and I needed two separate people (Ben Gamari and Alp Mestanogullari)
+to tell me where exactly to find the relevant place to add the
+warning.
+
+I filed some tickets and gave up.
 
   * <https://github.com/haskell/cabal/issues/6355>
   * <https://github.com/haskell/containers/issues/685>
@@ -143,13 +175,28 @@ completely certain.  Certainly it required some manual jiggery.
   * <https://github.com/haskell/xhtml/issues/12>
       * This one seems not to be needed
 
-  But what I *should* have done was ask them to enable
-  `-Wincomplete-uni-patterns` and `-Wincomplete-record-updates` on
-  their build because that would have pointed them to exactly where
-  the problems lay.
+## Pushing things on
+
+After a year I came back to it.
+
+I had suppressed every raised warning in the boot packages during the
+validation of GHC and forwarded the list of such warnings to the
+maintainers of the boot packages.  However this proved not to be a
+great strategy.  For one thing, [it was request which caused
+puzzlement](https://github.com/haskell/cabal/issues/6355#issuecomment-554724281).
+It's understandable.  Saying "please suppress this warnings that don't
+occur" seems like a request to make.
+
+But what I *should* have done was ask them to enable
+`-Wincomplete-uni-patterns` and `-Wincomplete-record-updates` on their
+build and then fix any errors that come up. That would have pointed
+them to exactly where the problems lay and ensured that no new code
+that triggers the warning would be added.
+
+# Notes
 
 
-* stm was not mirroring
+* stm was not mirroring https://gitlab.haskell.org/ghc/packages/stm/-/issues/1
 
 > Pull mirroring failed 11 months ago.  Repository mirroring has been
 > paused due to too many failed attempts, and can be resumed by a
@@ -180,3 +227,6 @@ https://github.com/haskell/haddock/pull/1268#issuecomment-745988796
   * Alp
   * Ben Gamari
   * Sebastian Graf (check name is correct)
+
+* [The Haddock policy is up for
+  revision](https://hackmd.io/zXC78N8JTPi34BTXHBaFgg)
