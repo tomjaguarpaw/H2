@@ -37,3 +37,13 @@
 * Git blame
 
   <https://stackoverflow.com/questions/15460550/git-blame-with-commit-details-in-emacs>
+
+* TAB means TAB
+
+  ```
+  M-x local-set-key<RET> <TAB> self-insert-command
+  ```
+
+  See [Understanding GNU Emacs and
+  Tabs](http://pement.org/emacs_tabs.htm#one_thing).  I really want to
+  apply this to particular files only, but I'm not sure how.
