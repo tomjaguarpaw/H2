@@ -230,3 +230,5 @@ https://github.com/haskell/haddock/pull/1268#issuecomment-745988796
 
 * [The Haddock policy is up for
   revision](https://hackmd.io/zXC78N8JTPi34BTXHBaFgg)
+
+* 19:43  * bgamari_ wishes he understood how tomjaguarpaw is so good at finding all of these bugs
