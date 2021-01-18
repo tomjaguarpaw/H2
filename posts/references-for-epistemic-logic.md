@@ -16,3 +16,5 @@
   and Temporal Logic, Department of ComputingImperial College,
   London, Autumn
   2008](https://www.doc.ic.ac.uk/~mjs/teaching/ModalTemporal499/Epistemic_499_v0809_2up.pdf)
+
+* [It’s Common Knowledge](https://arxiv.org/abs/1909.02415)
