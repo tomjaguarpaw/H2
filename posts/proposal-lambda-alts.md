@@ -167,3 +167,12 @@ I can just use `\case` like
 
 if the expressions on the right hand sides were functions applied
 directly to the constructor field.
+
+
+## Real world example
+
+```
+tcUnderlyingFunTyped fun ty = case baseFunArgTy fun ty of
+  Right baseTy -> pure (toUserFunTyped @p fun baseTy)
+  Left err -> addErr err
+```
