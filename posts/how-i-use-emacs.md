@@ -47,3 +47,7 @@
   See [Understanding GNU Emacs and
   Tabs](http://pement.org/emacs_tabs.htm#one_thing).  I really want to
   apply this to particular files only, but I'm not sure how.
+
+* `toggle-truncate-lines`
+
+* `auto-revert-mode`
