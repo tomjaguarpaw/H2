@@ -18,3 +18,12 @@
 * <https://lists.gnu.org/archive/html/qemu-devel/2012-02/msg03159.html>
 
 * <http://timhatch.com/ark/2006/01/31/syntactic-sugar-considered-harmful>
+
+* <https://jelv.is/blog/Structure-your-Errors/>
+
+  > try to keep data structured as long as possible and push operations
+  that lose information towards the edges of your system. Information
+  is fundamentally easier to destroy than to (re)create!
+
+  This is not about sugar but has the same underlying dynamics.  Sugar
+  is fundamentally easier to apply than to remove!
