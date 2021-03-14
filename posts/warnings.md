@@ -232,3 +232,9 @@ https://github.com/haskell/haddock/pull/1268#issuecomment-745988796
   revision](https://hackmd.io/zXC78N8JTPi34BTXHBaFgg)
 
 * 19:43  * bgamari_ wishes he understood how tomjaguarpaw is so good at finding all of these bugs
+
+* Between the first go and the second go Sylvan renamed a bunch of
+  modules which meant I had to solve merge conflicts (or did I?
+  Shouldn't git have done that for me?)
+
+  https://hsyl20.fr/home/posts/2021-03-13-contributions-to-ghc-90.html
