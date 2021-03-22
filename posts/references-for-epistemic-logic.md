@@ -18,3 +18,7 @@
   2008](https://www.doc.ic.ac.uk/~mjs/teaching/ModalTemporal499/Epistemic_499_v0809_2up.pdf)
 
 * [It’s Common Knowledge](https://arxiv.org/abs/1909.02415)
+
+* [The Proof Theory of Common
+  Knowledge](https://home.inf.unibe.ch/~tstuder/papers/CommonKnowledge.pdf)
+  -- Michel Marti and Thomas Studer
