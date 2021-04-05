@@ -14,6 +14,8 @@
 * [The Pilot-Wave perspective on
   spin](https://arxiv.org/abs/1305.1280)
 
+* [bohmian-mechanics.net](https://bohmian-mechanics.net)
+
 ## Hidden variables
 
 * [The Mermin&ndash;Peres magic square
