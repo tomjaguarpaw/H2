@@ -31,3 +31,7 @@
   again
   &ndash; Aravind](http://users.wpi.edu/~paravind/Publications/MSQUARE5.pdf)
 
+## Bell
+
+* [(Tricky) Words of JS
+  Bell](https://sites.google.com/site/dlhquantum/words-of-john-stewart-bell-f-r-s-nobel-prize-nominee)
