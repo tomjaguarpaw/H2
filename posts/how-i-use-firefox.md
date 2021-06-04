@@ -38,3 +38,5 @@
   uncheck Use recommended performance settingsLearn more
 
   Content process limit -> 1
+
+* Disable "Ctrl-Tab cycles through tabs in recently used order"
