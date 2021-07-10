@@ -47,3 +47,8 @@
   See [Understanding GNU Emacs and
   Tabs](http://pement.org/emacs_tabs.htm#one_thing).  I really want to
   apply this to particular files only, but I'm not sure how.
+
+## Things I want to know
+
+* How to do the equivalent of mouse middle button paste from the
+keyboard.  See <https://www.emacswiki.org/emacs/CopyAndPaste>.
