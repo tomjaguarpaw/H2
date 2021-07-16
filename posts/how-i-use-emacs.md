@@ -52,3 +52,5 @@
 
 * How to do the equivalent of mouse middle button paste from the
 keyboard.  See <https://www.emacswiki.org/emacs/CopyAndPaste>.
+
+* How to disable `C-t` from transposing characters.
