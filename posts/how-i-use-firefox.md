@@ -40,3 +40,6 @@
   Content process limit -> 1
 
 * Disable "Ctrl-Tab cycles through tabs in recently used order"
+
+* [`browser.search.context.loadInBackground =
+  true`](https://support.mozilla.org/en-US/questions/929983#answer-34412)
