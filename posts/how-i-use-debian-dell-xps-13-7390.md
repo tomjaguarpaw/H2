@@ -5,6 +5,14 @@
 I can happily report that this machine works well with Debian
 11/Bullseye!
 
+Reportedly, other options for a machine that is highly compatible with
+Linux include Lenovo, [Laptop with
+Linux](https://laptopwithlinux.com/),
+[Slimbook](https://slimbook.es/en/), [Tuxedo
+Computers](https://www.tuxedocomputers.com/index.php),
+[System76](https://system76.com/), [Purism](https://shop.puri.sm/),
+[Pine](https://pine64.com/) and [Framework](https://frame.work/).
+
 ### Installation
 
 Installing Debian on this machine poses a few challenges.
