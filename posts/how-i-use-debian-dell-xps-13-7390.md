@@ -159,6 +159,21 @@ I haven't tested Bluetooth thoroughly but it seems to work.  Some useful notes f
    * does work with the microphone of Surface headphones but
      quality seems not great
 
+### Auto-dimming screen on battery power
+
+By default, when running on batter power the screen automatically dims
+and brightens depending on what is on the screen.  It seems somewhat
+random, but it depends on a strange way on the brightness of what is
+already on the screen.  I worked out how to turn it off:
+
+* In the BIOS (F2 at startup) go to Video then turn EcoPower off.
+
+Then the brightness must be controlled manually, for example
+
+```
+echo 40000 > /sys/class/backlight/intel_backlight/brightness
+```
+
 ## References
 
 * The [Dell XPS 13 7390 installation reference on the Debian
