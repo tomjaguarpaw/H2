@@ -30,7 +30,7 @@
 
 ## Change Caps Lock key to deliver Enter
 
-Run `caps-enter-local-machine.reg` (caps-enter.reg doesn't seem to
+Run `caps-enter-local-machine.reg` (`caps-enter.reg` doesn't seem to
 work). May have to restart.
 
 `caps-enter-local-machine.reg`
@@ -57,6 +57,6 @@ REGEDIT4
 * Expand the key that matches the VID value for your mouse and the one
   under it. (You can discover the in Device Manager)
 
-* Set Device Parameters\FlipFlopWheel to 1
+* Set `Device Parameters\FlipFlopWheel` to 1
 
 * (I needed to restart.  Logging out and back in was not enough.)
