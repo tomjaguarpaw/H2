@@ -10,3 +10,10 @@ new bug.  These are the ones I've encountered, and their fixes:
   transaction](https://bugs.launchpad.net/ubuntu/+source/gnucash/+bug/1802994)
 
 (Interestingly both bugs related to GTK)
+
+## Dark mode
+
+See the [GTK `settings.ini`
+configuration](https://wiki.gnucash.org/wiki/GTK3#Themes) and then
+also do Edit -> Preferences -> Settings -> Register -> Disable "Use
+Gnucash built-in color theme"
