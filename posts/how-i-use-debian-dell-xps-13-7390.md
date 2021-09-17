@@ -174,6 +174,17 @@ Then the brightness must be controlled manually, for example
 echo 40000 > /sys/class/backlight/intel_backlight/brightness
 ```
 
+### Monitor
+
+Resurrecting from no wake sleep mode:
+
+* Internal monitor
+* Dual head (it will probably be fuzzy)
+* Internal monitor again
+* Turn the monitor off
+* Turn the monitor on
+* Dual head (it will probably be back to normal)
+
 ## References
 
 * The [Dell XPS 13 7390 installation reference on the Debian
