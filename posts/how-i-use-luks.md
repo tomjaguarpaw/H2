@@ -9,6 +9,17 @@
   $ MOUNT_POINT=/mnt/my_mount_point
   ```
 
+* Formatting a LUKS device
+
+  ```
+  $ sudo cryptsetup luksFormat --type luks2 $DEVICE
+  ...
+  $ sudo cryptsetup open $DEVICE $MAPPING_NAME
+  Enter passphrase for /dev/sdc:
+  $ sudo mkfs.ext4 /dev/mapper/$MAPPING_NAME
+  $ sudo cryptsetup close $MAPPING_NAME
+  ```
+
 * Mounting a LUKS device
 
   ```
