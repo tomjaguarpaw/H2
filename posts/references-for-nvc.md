@@ -9,3 +9,6 @@
   to something that isn't harmful as suffering an emotional flashback
   from unhealed Complex
   PTSD"](https://news.ycombinator.com/item?id=21341910)
+
+* [Evaluative
+  words](https://en.nvcwiki.com/index.php/Evaluative_words)
