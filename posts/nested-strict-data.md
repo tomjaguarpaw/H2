@@ -225,7 +225,7 @@ which preserve the invariant).
 -- the invariant holds when you use it then you will violate the
 -- expectations of the consumer.
 newtype Strict a = MkStrictUnsafe a deriving Show
-pattern Strict a = MkStrictUnsafe a
+pattern Strict a <- MkStrictUnsafe a
 
 class Strictly a where
   strict :: a -> Strict a
