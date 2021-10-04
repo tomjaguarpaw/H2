@@ -139,6 +139,11 @@ rewrite rules for strict and lazy
 `map`](https://www.stackage.org/haddock/lts-13.21/containers-0.6.0.1/src/Data-Map-Strict-Internal.html#map)
 for this reason.)
 
+[EDIT: [/u/sjakobi on Reddit pointed
+out](https://www.reddit.com/r/haskell/comments/q16haw/datamapstrictmap_is_not_a_strict_map/hfd2ww3/)
+that such a package already exists:
+[`strict-containers`](https://hackage.haskell.org/package/strict-containers)]
+
 So what should be done?  I really don't know. My best idea is, as
 above, to create a strict `newtype`.  Does this have other drawbacks?
 Is there an alternative way to achieve space leak free programming
