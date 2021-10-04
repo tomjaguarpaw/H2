@@ -111,6 +111,8 @@ process (using
 [`ProcessConfig`](https://hackage.haskell.org/package/typed-process-0.2.6.0/docs/System-Process-Typed.html#t:ProcessConfig))
 and launching it (with functions like
 [`runProcess`](https://hackage.haskell.org/package/typed-process-0.2.6.0/docs/System-Process-Typed.html#v:runProcess)).
+The components that `typed-process` provides compose together very
+neatly.  It makes life much more convenient than `process`.
 
 I was so impressed by the library that I decided to help improve the
 documentation in the hope of reducing the chance that someone will be
@@ -275,7 +277,10 @@ documentation of any software package and some (like "explained
 `typed-process` was always a great library but I couldn't tell at
 first because I couldn't make my way into the documentation.
 Hopefully my improvements make the library more accessible to
-newcomers.  I would welcome your feedback on what I've done so far or
+newcomers.  `typed-process` is designed such that the types are an
+integral part of the documentation.  My aim was to arrange the
+documentation to allow the types to speak for themselves.
+I would welcome your feedback on what I've done so far or
 your suggestions for what to do next.  Please [contact
 me](http://web.jaguarpaw.co.uk/~tom/contact/).
 
