@@ -169,7 +169,7 @@ like
 ```haskell
 data MyData = MyData { field1 :: !String
                      , field2 :: ![Double]
-                     , field3 :: !Maybe Bool
+                     , field3 :: !(Maybe Bool)
                      }
 ```
 
@@ -278,7 +278,7 @@ now know that writing
 
 ```haskell
 data MyData = MyData
-    { field1 :: !Either Int Bool
+    { field1 :: !(Either Int Bool)
     , field2 :: !(Maybe Double, Data.Map.Strict.Map Int Float)
 ```
 
@@ -287,18 +287,18 @@ the parallel universe version
 
 ```haskell
 data MyData = MyData
-    { field1 :: !StrictEither Int Bool
-    , field2 :: !StrictPair (StrictMaybe Double)
-                            (Data.Map.Strict.Map Int Float)
+    { field1 :: !(StrictEither Int Bool)
+    , field2 :: !(StrictPair (StrictMaybe Double)
+                             (Data.Map.Strict.Map Int Float))
 ```
 
 we can use `Strict` with the existing universe of data types
 
 ```haskell
 data MyData = MyData
-    { field1 :: !Strict (Either Int Bool)
-    , field2 :: !Strict (Strict (Maybe Double),
-                         Data.Map.Strict.Map Int Float)
+    { field1 :: !(Strict (Either Int Bool))
+    , field2 :: !(Strict (Strict (Maybe Double),
+                          Data.Map.Strict.Map Int Float))
 ```
 
 ### Performance impact
@@ -378,7 +378,7 @@ pointless:
 ```haskell
 data MyData = MyData { field1 :: !String
                      , field2 :: ![Double]
-                     , field3 :: !Maybe Bool
+                     , field3 :: !(Maybe Bool)
                      }
 ```
 

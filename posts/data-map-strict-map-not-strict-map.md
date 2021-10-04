@@ -73,7 +73,7 @@ program should we should use a strict map like this
 
 ```haskell
 data MyData = MyData { myBool :: !Bool
-                     , myMap  :: !S.Map String Integer
+                     , myMap  :: !(S.Map String Integer)
                      }
 ```
 
@@ -81,7 +81,7 @@ rather than a lazy map like this?
 
 ```haskell
 data MyData = MyData { myBool :: !Bool
-                     , myMap  :: !L.Map String Integer
+                     , myMap  :: !(L.Map String Integer)
                      }
 ```
 
