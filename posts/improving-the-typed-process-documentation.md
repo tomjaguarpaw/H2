@@ -1,5 +1,16 @@
 # Improving the `typed-process` documentation
 
+Summary: *The Haskell package
+[`typed-process`](https://hackage.haskell.org/package/typed-process)
+provides an API for launching and managing processes.  It is more
+type-safe and composable than its older cousin,
+[`process`](https://hackage.haskell.org/package/process).  In this
+article I explain how I improved the
+[`typed-process`](https://hackage.haskell.org/package/typed-process)
+documentation to make this library shine brighter!  Hopefully the
+techniques explained here can help other library authors with their
+documentation too.*
+
 ## `process`
 
 Haskell has a package called
