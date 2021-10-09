@@ -140,14 +140,20 @@ rewrite rules for strict and lazy
 for this reason.) The "strict containers" functor law is `fmap f . fmap
 g == fmap (\x -> f $! g x)`.  Perhaps that's not such a terrible loss.
 
-[EDIT: [/u/sjakobi on Reddit pointed
+After the first version of this article was published, [/u/sjakobi on
+Reddit pointed
 out](https://www.reddit.com/r/haskell/comments/q16haw/datamapstrictmap_is_not_a_strict_map/hfd2ww3/)
-that such a package already exists:
-[`strict-containers`](https://hackage.haskell.org/package/strict-containers)]
+that a package for strict `Data.Map` (and other `containers` types)
+already exists:
+[`strict-containers`](https://hackage.haskell.org/package/strict-containers).
+There is a [discussion on GitHub
+issues](https://github.com/haskellari/strict/issues/22) about how the
+package came to be. Relatedly, there is an open issue to provide a
+[`Data.Sequence.Strict`
+API](https://github.com/haskell/containers/issues/752).
 
-So what should be done?  I really don't know. My best idea is, as
-above, to create a strict `newtype`.  Does this have other drawbacks?
-Is there an alternative way to achieve space leak free programming
-whilst `Data.Map.Strict` remains only an interface?  Is there another
+Does the strict `newtype` have other drawbacks?  Is there an
+alternative way to achieve space leak free programming whilst
+`Data.Map.Strict` remains only an interface?  Is there another
 solution?  If you know then please [tell
 me](http://web.jaguarpaw.co.uk/~tom/contact).
