@@ -137,7 +137,8 @@ functor law `fmap f . fmap g == fmap (f . g)`: for `f = const ()` and
 strict map but `fmap (f . g)` wouldn't be.  (`Data.Map` has [separate
 rewrite rules for strict and lazy
 `map`](https://www.stackage.org/haddock/lts-13.21/containers-0.6.0.1/src/Data-Map-Strict-Internal.html#map)
-for this reason.)
+for this reason.) The "strict containers" functor law is `fmap f . fmap
+g == fmap (\x -> f $! g x)`.  Perhaps that's not such a terrible loss.
 
 [EDIT: [/u/sjakobi on Reddit pointed
 out](https://www.reddit.com/r/haskell/comments/q16haw/datamapstrictmap_is_not_a_strict_map/hfd2ww3/)
