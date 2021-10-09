@@ -104,7 +104,10 @@ is explicit about this
 Perhaps it could afford to be *more* explicit that the type
 `Data.Map.Strict.Map` is exactly the same as its lazy counterpart, but
 it's not trying to hide anything.  Nonetheless it was closer to a
-decade than a year into my Haskell journey that I learned this.
+decade than a year into my Haskell journey that I learned this.  It
+seems I'm [not the only
+one](https://www.reddit.com/r/haskell/comments/ns0af1/haskell_position_openings_at_boozt/h0l1a2n/)
+who got the wrong impression.
 
 Consequently, even if you diligently attempt to avoid space leaks by
 defining strict data types then elsewhere in your program you or your
