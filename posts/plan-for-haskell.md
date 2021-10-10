@@ -17,3 +17,5 @@
     * Force on the way out not the way in
     * Strict containers
     * Nested strict data
+    * Get people to take seriously that programs must perform will in
+      space and time without optimisations
