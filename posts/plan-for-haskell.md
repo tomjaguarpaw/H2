@@ -5,6 +5,8 @@
 
 * Make cabal’s api usable
 
+* Stop cabal rebuilding pandoc and aeson
+
 * Improve important libraries:
     * Improve their API
     * Document their API
