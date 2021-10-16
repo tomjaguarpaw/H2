@@ -201,7 +201,7 @@ documentation of any software package and some (like "explained
   Similarly, `startProcess` and `stopProcess` [used to be documented
   at the top of the "Launch a process"
   section](https://hackage.haskell.org/package/typed-process-0.2.6.0/docs/System-Process-Typed.html#g:6)
-  even though you're not suppose to use them.  You're supposed to use
+  even though you're not supposed to use them.  You're supposed to use
   one of the `withProcess...` functions instead.  Even *those*
   functions should be rarely used yet they took up positions 3-8.  I
   [reordered
