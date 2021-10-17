@@ -27,3 +27,5 @@
 
   This is not about sugar but has the same underlying dynamics.  Sugar
   is fundamentally easier to apply than to remove!
+
+* "Purity is composable, pragmatism is not"
