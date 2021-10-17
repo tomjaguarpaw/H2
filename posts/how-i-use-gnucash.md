@@ -11,6 +11,11 @@ new bug.  These are the ones I've encountered, and their fixes:
 
 (Interestingly both bugs related to GTK)
 
+* [new tabs open to right of current tab, not to the right of
+  rightmost tab](https://bugs.gnucash.org/show_bug.cgi?id=797787)
+
+  Actually this is a new behaviour, not a bug, but I find it annoying.
+
 ## Dark mode
 
 See the [GTK `settings.ini`
