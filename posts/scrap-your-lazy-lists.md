@@ -38,3 +38,11 @@ The benefits are
 
    See
    <https://www.reddit.com/r/haskell/comments/6h84vg/when_do_we_really_need_lazy_lists/diwhzwf/>
+
+## Evidence that people believe that lists should be used as control structures
+
+* <https://www.reddit.com/r/haskell/comments/6h84vg/when_do_we_really_need_lazy_lists/dixg3gx/>
+
+* <https://www.reddit.com/r/haskell/comments/6h84vg/when_do_we_really_need_lazy_lists/dixjjd6/>
+
+* <https://www.reddit.com/r/haskell/comments/qaeryr/avoiding_memoization_in_haskell/>
