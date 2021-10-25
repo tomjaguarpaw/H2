@@ -20,3 +20,9 @@ encapsulation, modularity, polymorphism, inheritance
   
   ssivark -- <https://news.ycombinator.com/item?id=24357408>
   
+> To make constructors pure, you must insist on value semantics for
+> all objects, which implies the elimination of all shared mutable
+> state in objects. Now the essence of object-oriented programming is
+> lost: encapsulation of state and behavior in a single unit.
+
+-- [Erik Meijer](https://queue.acm.org/detail.cfm?id=2611829)
