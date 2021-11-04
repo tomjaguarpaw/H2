@@ -303,30 +303,19 @@ data MyData = MyData
 
 ### Performance impact
 
+#### Efficient construction
+
 If `strict` is inlined then the compiler ought to be able to determine
 whether constructor arguments have already been evaluated and thus
 avoid redundantly evaluating them again.
 
-## What can't `Strict` buy us?
+#### Efficient destruction
 
-I don't see how `Strict` could help much with large lazy data
-structures such as lists (including `String`s).  The only way that I
-can see to use `Strict` with standard lists whilst satisfying its
-invariant would be to walk the whole list, which is prohibitively
-inefficient.  Instead I recommend not using large lazy data structures
-anywhere one desires strictness.  Instead use strict data structures
-such as strict `Text`, `ByteString`, `Map`, `Vector` or `Array` (I'm
-not sure of the strictness characteristics of `Seq` and I haven't
-validated the strictness guarantees of `Vector` or `Array`.  That will
-have to be another article.)
+*New 2020-11-04*
 
-
-### Performance impact
-
-Unfortunately although, as observed above, inlining `strict` ought to
-allow us to avoid redundant evaluations when constructing I don't
-think we can avoid redundant evaluation when destructing.  For
-example, if we write
+Although inlining `strict` allows us to avoid redundant evaluations
+when constructing I don't think the simple form above avoids redundant
+evaluation when destructing.  For example, if we write
 
 ```haskell
 case strictMaybe of
@@ -344,31 +333,79 @@ case strictMaybe of
     ...
 ```
 
-However, short of making `Strict` built-in to the compiler, I don't
-see how this could be possible.  The compiler doesn't know that
-someone hasn't violated the invariant of `MkStrictUnsafe`, after all!
-
-On the other hand the compiler *could* (I don't know if GHC does)
-elide the same evaluation if the code used `StrictMaybe`.  It knows
-that the payload of a `StrictJust` is always evaluated because it
-itself ensures that when each `StrictJust` is constructed!
+To achieve efficient destruction we need to use a more complicated,
+and somewhat hairy, setup.  The class becomes
 
 ```haskell
-case strictMaybe of
-    StrictJust x -> let !x' = x in f x'
-    ...
-
--- can be rewritten to
-
-case strictMaybe of
-    StrictJust x -> f x
-    ...
+class Strictly a where
+  data Strict a
+  strict :: a -> Strict a
+  matchStrict :: Strict a -> a
+  unstrict :: Strict a -> a
 ```
 
-For this reason, destructing `Strict` values is probably going to be
-less efficient than destructing values of individually handwritten
-types from a strict universe.  It's probably not a big deal for the
-vast majority of code though.
+and the `Maybe a` instance becomes
+
+```haskell
+instance Strictly (Maybe a) where
+  newtype Strict (Maybe a) = StrictMaybe (Data.Strict.Maybe a)
+  strict x = unsafeCoerce $ case x of
+    Nothing -> x
+    Just !_ -> x
+  matchStrict (StrictMaybe x) = case x of
+    Data.Strict.Just j  -> Just j
+    Data.Strict.Nothing -> Nothing
+  unstrict = unsafeCoerce
+
+pattern Strict :: Strictly a => a -> Strict a
+pattern Strict x <- (matchStrict->x)
+```
+
+Note that `Strict (Maybe a)` is now a separate data type to `Maybe a`,
+but representationally equivalent, so we can `unsafeCoerce` between
+them at zero run time cost.  How do we use this class and its methods?
+
+* To create a `Strict (Maybe a)` we use `strict :: Maybe a -> Strict
+  (Maybe a)`.  The contents (if any) of the `Maybe a` are evaluated
+  but nothing new is allocated.  If `strict` is inlined and the
+  compiler knows that the contents are *already* evaluated, then the
+  `strict` call should compile to a no-op!
+
+* To use a `Strict (Maybe a)` we do one of two things:
+
+  * If we simply want to unwrap the `Maybe a` and pass it to another
+    function then we can use `unstrict`, which is a no-op!
+
+  * If we want to match on the contents of the `Maybe a` then we use
+    the `Strict` pattern, for example:
+
+    ```haskell
+    case sm of
+        Strict (Just a) -> ...
+        Strict Nothing  -> ...
+    ```
+
+    The `Strict` pattern is implemented in terms of the function
+    `matchStrict`.  If `matchStrict` is inlined then a [case-of-case
+    transformation](https://www.sciencedirect.com/science/article/pii/S0167642397000294?via%3Dihub)
+    will eliminate the allocation and make `matchStrict` a no-op!
+
+The new setup is hairy because it requires us to be very careful with
+`unsafePerformIO`.  However, I believe it gives us a convenient API to
+strict data types at zero additional run time cost.
+
+## What can't `Strict` buy us?
+
+I don't see how `Strict` could help much with large lazy data
+structures such as lists (including `String`s).  The only way that I
+can see to use `Strict` with standard lists whilst satisfying its
+invariant would be to walk the whole list, which is prohibitively
+inefficient.  Instead I recommend not using large lazy data structures
+anywhere one desires strictness.  Instead use strict data structures
+such as strict `Text`, `ByteString`, `Map`, `Vector` or `Array` (I'm
+not sure of the strictness characteristics of `Seq` and I haven't
+validated the strictness guarantees of `Vector` or `Array`.  That will
+have to be another article.)
 
 ## Conclusion
 
