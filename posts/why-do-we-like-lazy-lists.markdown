@@ -50,4 +50,3 @@ Lennart's points
 
 any :: (a -> Bool) -> [a] -> Bool
 any p = or . map p
-
