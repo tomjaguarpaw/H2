@@ -34,6 +34,9 @@
 
     <https://www.reddit.com/r/haskell/comments/6h84vg/when_do_we_really_need_lazy_lists/dizksf1/>
 
+    (Ah, but this can be fixed by "tail recursion modulo cons", as is
+    [done in OCaml](https://github.com/ocaml/ocaml/pull/9760)).
+
 * `mapM XXX . fliter YYY . [AAA...BBB]` is meant to be running at constant space, and strict list will simply blow the heap.
 
     <https://www.reddit.com/r/haskell/comments/6h84vg/when_do_we_really_need_lazy_lists/dixkihy/>
