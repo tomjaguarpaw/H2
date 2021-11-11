@@ -21,3 +21,8 @@
       space and time without optimisations
 
 * Banish lists
+
+* Banish partial functions from base
+    * Deprecate them, or
+    * Remove them, or
+    * Annotate them with `Partial =>`
