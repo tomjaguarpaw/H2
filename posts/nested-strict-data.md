@@ -194,7 +194,7 @@ maybeFoldBangs = foldl' f (0, Nothing) [1..million]
   where f (!i, Nothing) x = (i + 1, Just x)
         f (!i, Just !j) x = (i + 2, Just (j + x))
 
-data StrictMaybe a = StrictNothing | StrictJust !a deriving Show
+data StrictMaybe a = StrictNothing | StrictJust !a
 
 maybeFoldStrictMaybe :: StrictPair Integer (StrictMaybe Integer)
 maybeFoldStrictMaybe = foldl' f (StrictPair 0 StrictNothing) [1..million]
@@ -224,7 +224,7 @@ which preserve the invariant).
 -- The constructor is "unsafe" in the sense that if you don't ensure
 -- the invariant holds when you use it then you will violate the
 -- expectations of the consumer.
-newtype Strict a = MkStrictUnsafe a deriving Show
+newtype Strict a = MkStrictUnsafe a
 pattern Strict a <- MkStrictUnsafe a
 
 class Strictly a where
