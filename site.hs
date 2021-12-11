@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 import Hakyll
+import Text.Pandoc.Options
 import Data.List (isSuffixOf)
 import System.FilePath.Posix (takeBaseName,takeDirectory,(</>))
 import Data.Monoid ((<>))
@@ -12,7 +13,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route directoryRoute
-        compile $ pandocCompiler
+        compile $ pandocCompilerWith defaultHakyllReaderOptions defaultHakyllWriterOptions{ writerHTMLMathMethod = MathJax "" }
             >>= loadAndApplyTemplate "templates/post.html" defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
