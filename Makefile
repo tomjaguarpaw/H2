@@ -1,7 +1,7 @@
 .PHONY: build deploy
 
 build: site
-	./site build
+	cabal run -- site build
 
 deploy: build
 	rsync --itemize-changes -vr _site/ `cat host`
@@ -9,7 +9,7 @@ deploy: build
 upload: deploy
 
 site: h2.cabal site.hs
-	cabal v2-install --installdir . --overwrite-policy=always site
+	cabal build
 
 watch: site
-	./site watch
+	cabal run -- site watch
