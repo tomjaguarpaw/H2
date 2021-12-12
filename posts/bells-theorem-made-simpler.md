@@ -25,7 +25,7 @@ fascinating as I do!
 
 ## The CHSH inequality
 
-We will look at the [the CHSH
+We will look at [the CHSH
 inequality](https://en.wikipedia.org/wiki/CHSH_inequality#Statement)
 because it is slightly more general than Bell's original inequality.
 It states that if there are physical observables $a$, $b$, $a'$ and
