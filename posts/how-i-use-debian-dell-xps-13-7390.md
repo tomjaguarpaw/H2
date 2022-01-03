@@ -84,6 +84,16 @@ I use a [StarTech USB-C to Display Port
 adaptor](https://www.startech.com/en-gb/audio-video-products/cdp2dp)
 with a standard Display Port to Display Port cable.
 
+### X11
+
+X11 works fine.  The only problem that I have noticed is that
+switching to the virtual terminals (Ctrl-Alt-F1 etc.) is flaky and
+running multiple X servers at the same time is flaky.  Sometimes it
+works, sometimes it doesn't.  Sometimes it seems to hang but can be
+recovered by closing the lid (i.e. putting the machine to sleep) and
+then opening it again.  Sometimes it hangs and closing and opening the
+lid doesn't work; in those cases I have to reboot.
+
 ### Suspend
 
 Only `s2idle`/`freeze` (which are both names for S0/suspend to idle)
