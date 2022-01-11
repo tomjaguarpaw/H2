@@ -29,3 +29,6 @@
   is fundamentally easier to apply than to remove!
 
 * "Purity is composable, pragmatism is not"
+
+* Sugar prevents users from having to understand the details but it
+  also makes it harder for them to understand the details at all.
