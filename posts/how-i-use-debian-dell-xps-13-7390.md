@@ -173,7 +173,7 @@ I haven't tested Bluetooth thoroughly but it seems to work.  Some useful notes f
 
 By default, when running on batter power the screen automatically dims
 and brightens depending on what is on the screen.  It seems somewhat
-random, but it depends on a strange way on the brightness of what is
+random, but it depends in a strange way on the brightness of what is
 already on the screen.  I worked out how to turn it off:
 
 * In the BIOS (F2 at startup) go to Video then turn EcoPower off.
