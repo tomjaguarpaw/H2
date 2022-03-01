@@ -197,7 +197,11 @@ loopL f s = case f s of
   Nothing -> []
   Just (x, nextS) -> x : loopL f nextS
 ```
-
 cons[^1]
+
+# See also
+
+* <https://jfmengels.net/modulo-cons/>
+
 
 [^1]: blah
