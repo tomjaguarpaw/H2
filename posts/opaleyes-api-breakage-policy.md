@@ -333,6 +333,11 @@ your library?  Feel free to [contact
 me](http://web.jaguarpaw.co.uk/~tom/contact/).
 
 
+## References
+
+* This article was partly inspired by Chris Done's [Immutable
+  Packaging Policy](https://chrisdone.com/posts/ipp/).
+
 
 <!-- --- -->
 
