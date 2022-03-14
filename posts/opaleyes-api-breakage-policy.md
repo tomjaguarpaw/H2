@@ -182,9 +182,8 @@ do so.  Suppose the latest major version is `N`, then
    `betterFunction` instead, and `myFunction` will be deprecated in
    version `N+1`
 
-2. In version `N+1` I would deprecate `betterFunction` and change the
-   note on `myFunction` to say that it will be *removed* in version
-   `N+2`.
+2. In version `N+1` I would deprecate `myFunction` and change the
+   note to say that it will be *removed* in version `N+2`.
 
 3. In version `N+2` I would remove `myFunction`.
 
