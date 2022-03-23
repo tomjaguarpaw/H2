@@ -94,6 +94,14 @@ recovered by closing the lid (i.e. putting the machine to sleep) and
 then opening it again.  Sometimes it hangs and closing and opening the
 lid doesn't work; in those cases I have to reboot.
 
+#### X11 external screen disconnection bug
+
+If I am in dual head mode (i.e. X is using the internal screen and an
+external screen) and I unplug the external screen then the driver
+seems not to notify X.  X still believes two displays are connected.
+Subsequently it becomes impossible to switch to internal-only mode
+until I plug the external screen back in.
+
 ### Suspend
 
 Only `s2idle`/`freeze` (which are both names for S0/suspend to idle)
@@ -126,6 +134,18 @@ sudo sh -c 'echo deep > /sys/power/mem_sleep && echo mem  > /sys/power/state'
 
 You *must not* try to wake the machine by pressing the power button;
 that will put it into shutdown.  Instead close and reopen the lid.
+
+##### S3 sleep touchpad CPU bug
+
+[There is a bug](https://bugzilla.redhat.com/show_bug.cgi?id=1847627)
+that causes high CPU usage when returning from S3 sleep until the
+touchpad is touched.  I had noticed that my fan kicked in around an
+hour after waking but I didn't understand why until I noticed my load
+average was persistently above 1.  I then spotted a mysterious process
+called `irq/51-CUST0001` in `top`. Searching for references to it led
+me to the above-mentioned bug report.
+
+I suppose the workaround is to just touch the touchpad!
 
 #### Suspend to idle (S0, `freeze`)
 
