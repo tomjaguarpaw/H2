@@ -57,7 +57,7 @@ equally well to an implementation in Python.
 I've shown the stages of program evolution as diffs.  Sometimes
 they're easy to read and sometimes they're difficult.  If anyone knows
 how to get diffs to render nicely in Pandoc (perhaps like GitHub
-renders them) then please please [contact
+renders them) then please [contact
 me](http://web.jaguarpaw.co.uk/~tom/contact/).
 
 ### Original implementation
@@ -507,8 +507,8 @@ of a list, runs recursively on the tail, does something to the head,
 and then puts it back on the tail.  This is a "map" operation.
 Specifically in this case we are mapping in a monad so we use `mapM`.
 In modern Haskell you'd use `traverse`, but I'm going to stick to
-`mapM` because `traverse` does not read so well.  (`traverse` really
-ought to be called `mapA` but [people don't like the idea of that
+`mapM` because `traverse` does not read so well.  (In my opinion `traverse` really
+ought to be called `mapA` but [others don't like the idea of that
 change](https://www.reddit.com/r/haskell/comments/68w09h/proposal_to_add_mapa_as_synonym_for_traverse/).)
 
 In this change we just make the function we are mapping take explicit
