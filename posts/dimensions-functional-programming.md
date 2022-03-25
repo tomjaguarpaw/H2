@@ -5,7 +5,7 @@
 * expression-oriented
 * purity/referential transparency/lack of order effects (free of time)
   * value semantics/no object identity (free of place)
-* anonymous functions
+* anonymous functions (TODO: or perhaps rather "higher order functions")
 * closures/capturing local environment
 * sum types and pattern matching
 
