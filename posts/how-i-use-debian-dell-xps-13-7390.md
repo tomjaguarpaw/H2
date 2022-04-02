@@ -180,12 +180,18 @@ I haven't tested Bluetooth thoroughly but it seems to work.  Some useful notes f
 
 * <https://wiki.debian.org/BluetoothUser#Pairing_using_CLI>
    * use `bluetoothctl`
+   * The first time, I was only able to pair and connect by using the
+     interactive mode.  Subsequently, the non-interactive mode worked.
    * `apt-get install pulseaudio-module-bluetooth`
    * `pactl load-module module-bluetooth-discover`
    * for mic and headphones at same time
        * pactl list cards short | grep bluez
        * pactl set-card-profile bluez_card.F0_1D_BC_FA_98_CF headset_head_unit
        * (See <https://www.igelcommunity.com/post/automatically-connect-bluetooth-headsets-and-enable-hsp-mode-for-bidirectional-audio-on-igel-os>)
+       * `pactl set-card-profile bluez_card.F0_1D_BC_FA_98_CF a2dp_sink`
+         (to set back to "High Fidelity Playback"
+       * `pactl set-card-profile bluez_card.F0_1D_BC_FA_98_CF <tab>`
+         shows all possibilities
    * does work with the microphone of Surface headphones but
      quality seems not great
 
