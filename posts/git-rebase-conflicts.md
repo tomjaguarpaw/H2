@@ -680,3 +680,8 @@ helpful when writing this one.
 
 * [A Stackoverflow answer](https://stackoverflow.com/a/7589612) with
  compatible information
+
+* [An earlier
+  article](https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/)
+  that I didn't know about when writing this one and is perhaps even
+  better!
