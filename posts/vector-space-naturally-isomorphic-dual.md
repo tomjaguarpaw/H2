@@ -79,7 +79,7 @@ its double dual" and secondly to ask for a less fishy definition of
 "natural" that can be used to show whether or not there is a natural
 mapping from a vector space to its dual (presumably there is not).
 
-[Notational note: when talking about the technical and specific
+[Terminological note: when talking about the technical and specific
 notions of *natural transformation* and *natural isomorphism* from
 category theory I will use italics; when talking about the informal
 and intuitive notion of "naturalness" I will use normal font.]
@@ -257,7 +257,7 @@ in another natural element, so if we hypothesise that $\mathrm{id} \in
 $\mathrm{Hom}(B^{*} \otimes B, \mathbb{R})$ is natural.  That image is
 contraction, thus contraction is natural!  We can replace our axiom
 about naturality of contraction with a simpler axioms about the
-naturality of $\mathbb{id}$ and the naturality of bijections arising
+naturality of $\mathrm{id}$ and the naturality of bijections arising
 from adjunctions.
 
 Presumably a similar line of reasoning can conclude that
