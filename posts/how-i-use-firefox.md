@@ -44,6 +44,11 @@
 * [`browser.search.context.loadInBackground =
   true`](https://support.mozilla.org/en-US/questions/929983#answer-34412)
 
+## Config
+
+* Set `full-screen-api.ignore-widgets` to `false` (which is probably
+  the default) otherwise `xmonad` fullscreen doesn't cover xmobar.
+
 ## Issues
 
 There is a very annoying bug whereby the volume of a video, set with
