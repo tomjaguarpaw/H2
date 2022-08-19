@@ -49,7 +49,7 @@ Work in progress
 
   <https://sriramsami.com/haskell-optimization/>
 
-## Taxonamy
+## Taxonomy
 
 * Edward Yang's [Space Leak Zoo](http://blog.ezyang.com/2011/05/space-leak-zoo/)
 
