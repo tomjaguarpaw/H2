@@ -115,6 +115,8 @@ that add up to a macroscopic increase in compiled program speed.
 
 * <https://stackoverflow.com/questions/32345095/what-is-the-correct-way-to-perform-constant-space-nested-loops-in-haskell/32359655#32359655>
 
+* <https://www.reddit.com/r/haskell/comments/wz5gcq/why_is_there_a_leak/.compact>
+
 ## What to do
 
 * [Sebastian Graaf
