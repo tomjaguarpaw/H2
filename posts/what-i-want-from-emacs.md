@@ -14,3 +14,6 @@
 
     * Helm: tying `filename` matches `FileName`.  Typing
       `dir/filename` should match `Dir/filename`.
+
+* When I'm visiting a buffer whose file has been `git mv`'d, offer to
+  move the buffer to it.
