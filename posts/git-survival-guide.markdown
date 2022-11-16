@@ -152,7 +152,11 @@
 * <a name="no-staging-area"></a>
   I never use the staging area.  It is a piece of mutable state and
   I'd rather remove it from my mental model.  You do not need to touch
-  the staging area if you use `git commit --patch`.
+  the staging area if you use `git commit --patch`.  (Apparently
+  [empirical research](https://news.ycombinator.com/item?id=33614904)
+  has validated the hypothesis that the staging area is a major pain
+  point for users in practice.)
+
 
 * I never use `.gitignore`.  You don't need it if you use `git commit
   --patch`.
