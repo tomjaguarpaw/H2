@@ -44,7 +44,8 @@ Colbourn](https://twitter.com/gcolbourn/status/1648267236019167232),
 > models to be in two years’ time.
 
 -- [Matt
-Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intelligence-kill-humans-sunak-b2352099.html)
+Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intelligence-kill-humans-sunak-b2352099.html),
+2023-06-06
 
 
 ## AI notes
