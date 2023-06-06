@@ -49,6 +49,15 @@
 * Set `full-screen-api.ignore-widgets` to `false` (which is probably
   the default) otherwise `xmonad` fullscreen doesn't cover xmobar.
 
+* Disable JIT compilation
+
+  ```
+  javascript.options.baselinejit
+  javascript.options.wasm_baselinejit
+  javascript.options.wasm_optimizingjit
+  javascript.options.ion
+  ```
+
 ## Issues
 
 There is a very annoying bug whereby the volume of a video, set with
