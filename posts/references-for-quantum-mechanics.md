@@ -31,6 +31,8 @@
   again
   &ndash; Aravind](http://users.wpi.edu/~paravind/Publications/MSQUARE5.pdf)
 
+* [Tim Maudlin on Locality, Hidden Variables, and Quantum Foundations](https://www.preposterousuniverse.com/podcast/2023/06/26/241-tim-maudlin-on-locality-hidden-variables-and-quantum-foundations/)
+
 ## Bell
 
 * [(Tricky) Words of JS
