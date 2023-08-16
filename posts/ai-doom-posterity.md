@@ -47,6 +47,13 @@ Colbourn](https://twitter.com/gcolbourn/status/1648267236019167232),
 Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intelligence-kill-humans-sunak-b2352099.html),
 2023-06-06
 
+> The top scientists at the biggest AI firms believe that they can
+> make artificial intelligence a billion times more powerful than
+> today’s most advanced models, creating “something like a god” within
+> five years
+
+-- [Daniel
+Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 
 ## AI notes
 
