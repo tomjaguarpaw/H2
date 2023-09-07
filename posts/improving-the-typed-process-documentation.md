@@ -187,6 +187,9 @@ documentation of any software package and some (like "explained
   between each argument (see [the commit in
   question](https://github.com/fpco/typed-process/commit/9eceb7bcc7c690c1933c9216f33c74913e613d1e#diff-eb95c5fd1cdf7d1916480924a11a3cfe7f450570d2fc1dacd3d4b5d183de7031)).
 
+  EDIT: Sadly this trick [no longer works as of GHC
+  9.0](https://gitlab.haskell.org/ghc/ghc/-/issues/23935).
+
 * Moved the commonly-used functions higher than the less-used
   functions
 
