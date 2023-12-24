@@ -272,7 +272,7 @@ naturality properties of monoidal categories.
   provided a complete axiomatisation of naturality. Is there a setting
   in which we can directly state what it means for those operations to
   be natural, rather than having to shift them into a covariant form
-  in which we can apply the notion of *natural transformation*.
+  in which we can apply the notion of *natural transformation*?
 
 * Can we explain why category theory never gives false negative
   answers to questions of naturalness in the contexts that it can
