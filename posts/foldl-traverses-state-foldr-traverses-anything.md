@@ -468,7 +468,7 @@ foldMFromForStateT for_ f z bs = flip evalStateT z $ do
     put =<< lift (f a b)
   get
 
-forStateTFromFoldlM ::
+forStateTFromFoldM ::
   ( forall a b m.
     Monad m =>
     (a -> b -> m a) ->
@@ -481,7 +481,7 @@ forStateTFromFoldlM ::
   [b] ->
   (b -> StateT a m ()) ->
   StateT a m ()
-forStateTFromFoldlM foldl bs f = do
+forStateTFromFoldM foldM bs f = do
   z <- get
   put =<< lift (foldM g z bs)
   where
