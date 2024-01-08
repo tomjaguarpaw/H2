@@ -416,11 +416,13 @@ type we ignore", because when you have an applicative whose result
 type you ignore, that's equivalent to having a monoid.
 
 There is also a *specific* `Applicative` that corresponds directly to
-any given `Monoid` `m`, that is, `Const (Endo m)`; that's why we used
-`Const` and `Endo` to define `foldrFromFor`.  Instead of "`foldr`
-traverses with anything" we could have said "`foldr` traverses with
-`Const (Endo m)`" (but that's much less catchy).  However, it is worth
-observing that the following characterizations are also valid:
+any given `Monoid` `m`, that is, `Const m`, and my earlier blog post
+showed that there is a specific `Moniod` that `foldr` is "made of":
+`Endo a`; that's why we ended up using `Const` and `Endo` to define
+`foldrFromFor`.  Instead of "`foldr` traverses with anything" we could
+have said "`foldr` traverses with `Const (Endo _)`" (but that's much
+less catchy).  However, it is worth observing that the following
+characterizations are also valid:
 
 * "`foldl` `foldMap`s with `Dual (Endo _)`"
 * "`foldr` `foldMap`s with any `Monoid`"
