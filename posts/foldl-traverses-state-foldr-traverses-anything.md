@@ -284,7 +284,9 @@ that `foldl'` is equivalent to `for_` restricted to (a strict use of)
 `State`, and `foldr` is equivalent to general `for_`, so `foldl'` is a
 special case of `foldr`. According to the [Principle of Least
 Power](https://wiki.c2.com/?PrincipleOfLeastPower) you should use
-`foldl'` in preference to `foldr` when you can.
+`foldl'` in preference to `foldr` when you can, this is, when the
+operation you want to perform is to traverse the list with a state
+parameter.
 
 ### Maybe just use `for_`
 
@@ -444,6 +446,34 @@ In any case, the slogan "`foldl` traverses with `State`, `foldr`
 traverses with anything" seems the most catchy and the easiest to use
 as a guide to practice.
 
+### Other references
+
+Alexis King has [a post from 2019 explaining the difference between
+`foldl` and
+`foldr`](https://github.com/hasura/graphql-engine/pull/2933#discussion_r328821960).
+She agrees that one should never use `foldl`.  Regarding the
+distinction between `foldl'` and `foldr` she writes
+
+> When the accumulation function is strict, use foldl' to consume the
+> list in constant space, since the whole list is going to have to be
+> traversed, anyway.  When the accumulation function is lazy in its
+> second argument, use foldr.
+
+Those rules of thumb are hard to apply because they presuppose that
+you already have an (“accumulation”) function (which is also a
+misnomer: in the case of foldr it doesn’t accumulate). That is, it’s a
+rule that you can use if you start with a function, to determine which
+fold to use with that function. By contrast, this article presents a
+rule that you can use if you start with a problem, to determine which
+fold can solve your problem. If your problem is “traverse with (only)
+a state”-shaped then the answer is `foldl'`; if the problem is
+“traverse with anything else”-shaped then the answer is `foldr `(or in
+either case you could just use `for_`).
+
+Yao Li et al. address the choice of folds in [Reasoning about the
+Garden of Forking Paths](https://dl.acm.org/doi/pdf/10.1145/3473585)
+from the point of view of laziness and demand analysis.
+
 ### `foldM`
 
 There is corresponding characterization of `foldM`: "`foldM` traverses
@@ -489,6 +519,24 @@ forStateTFromFoldM foldM bs f = do
   where
     g a b = execStateT (f b) a
 ```
+
+### Why is `(!?)` written that way?
+
+It would be even clearer to write `(!?)` as below.  Why not just do
+that instead, instead of considering `foldr` and `for_`?  Because when
+written in terms of `foldr` GHC can apply [short cut
+fusion](https://wiki.haskell.org/Correctness_of_short_cut_fusion#Short_cut_fusion),
+a rewrite rule that leads to an optimization.
+
+```.hs
+0 !? (x:_) = Just x
+_ !? [] = Nothing
+n !? (_:xs) = (n-1) !? xs
+```
+
+Thanks to [tobz619 for raising this
+question](https://discourse.haskell.org/t/foldl-traverses-with-state-foldr-traverses-with-anything/8491/17)
+and suggesting the alternative implementation.
 
 ### "It's always `traverse`"
 
