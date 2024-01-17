@@ -55,6 +55,17 @@ Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intellige
 -- [Daniel
 Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 
+## Non-doom
+
+> AGI will absolutely be achieved in AT MOST 3 years. Probably less. I
+> guarantee. And it will be able to write any imaginable software
+> faster than the fastest human dev team in the world could, for
+> pennies.
+
+-- [Victor
+Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
+2024-01-17
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
