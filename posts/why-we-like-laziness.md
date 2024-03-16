@@ -9,3 +9,5 @@ Rough notes:
 * <https://www.reddit.com/r/haskell/comments/l98v73/comment/glgun65/>
 
 * <https://www.reddit.com/r/haskell/comments/5xge0v/comment/deia53t/?context=3>
+
+* <https://old.reddit.com/r/haskell/comments/19b0q7d/what_are_the_benefits_of_lazy_evaluation/>
