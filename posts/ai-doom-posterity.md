@@ -66,6 +66,11 @@ Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
 2024-01-17
 
+> There is a 4%-20% chance of "straight up catastrophe" during 2024.
+
+-- A conclusion from a survey by [Edouard
+Harris](https://twitter.com/NickEMoran/status/1767247012825571776)
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
