@@ -27,16 +27,6 @@
 
   <https://github.com/haskell-streaming/streaming/issues/110#issuecomment-1518988421>
 
-* Scrap your fold combinators
-
-  Confused about fold combinators?  Then just use `for_` and save
-  yourself a headache.
-
-  `foldl`? Just use `for_`. `foldl'`? Just use `for_`. `foldM`?  Just
-  use `for_`. `mapAccumL`?  Just use `for_`. `mapAccumLM`?  Just use
-  `for_`.  `concatMap`?  Just use `for_`.  `mapMaybe`?  Just use
-  `for_`. `loop`?  Just use `for_`.
-
 * Internal versus external streams in Bluefin
 
   Looking at the iterator dichotomy of "push/internal" vs
