@@ -77,7 +77,7 @@ concatMap :: (a -> [b]) -> [a] -> [b]
 concatMap f as =
   toList $
     for_ as $ \a ->
-      for (f a) $ \b ->
+      for_ (f a) $ \b ->
         yield b
 
 concatMapM ::
