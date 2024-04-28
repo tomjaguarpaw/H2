@@ -54,6 +54,7 @@ Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intellige
 
 -- [Daniel
 Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
+2023-08-16
 
 ## Non-doom
 
