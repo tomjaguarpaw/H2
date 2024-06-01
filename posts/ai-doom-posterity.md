@@ -32,12 +32,6 @@ Tegmark](https://twitter.com/liron/status/1648185583938969600),
 Colbourn](https://twitter.com/gcolbourn/status/1648267236019167232),
 2023-04-18
 
-> I'm willing to bet we'll reach 30% unemployment in five years.
-
---
-[TheDag](https://www.themotte.org/post/440/culture-war-roundup-for-the-week/87511?context=8#context),
-2023-04-15
-
 > If we go back to things like the bio weapons or cyber [attacks], you
 > can have really very dangerous threats to humans that could kill
 > many humans – not all humans – simply from where we would expect
@@ -62,6 +56,12 @@ Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 Harris](https://twitter.com/NickEMoran/status/1767247012825571776)
 
 ## Non-doom
+
+> I'm willing to bet we'll reach 30% unemployment in five years.
+
+--
+[TheDag](https://www.themotte.org/post/440/culture-war-roundup-for-the-week/87511?context=8#context),
+2023-04-15
 
 > AGI will absolutely be achieved in AT MOST 3 years. Probably less. I
 > guarantee. And it will be able to write any imaginable software
