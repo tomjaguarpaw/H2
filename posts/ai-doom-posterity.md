@@ -72,6 +72,13 @@ Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
 -- A conclusion from a survey by [Edouard
 Harris](https://twitter.com/NickEMoran/status/1767247012825571776)
 
+> These next three years might be the last few years that I
+> work. ... I stand at the edge of a technological development that
+> seems likely, should it arrive, to end employment as I know it.
+
+-- [Avital
+Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/)
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
