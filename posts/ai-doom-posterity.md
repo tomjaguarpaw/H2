@@ -56,6 +56,11 @@ Clifford](https://www.independent.co.uk/news/uk/politics/ai-artificial-intellige
 Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 2023-08-16
 
+> There is a 4%-20% chance of "straight up catastrophe" during 2024.
+
+-- A conclusion from a survey by [Edouard
+Harris](https://twitter.com/NickEMoran/status/1767247012825571776)
+
 ## Non-doom
 
 > AGI will absolutely be achieved in AT MOST 3 years. Probably less. I
@@ -66,11 +71,6 @@ Colson](https://twitter.com/DanielColson6/status/1691598172513296710)
 -- [Victor
 Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
 2024-01-17
-
-> There is a 4%-20% chance of "straight up catastrophe" during 2024.
-
--- A conclusion from a survey by [Edouard
-Harris](https://twitter.com/NickEMoran/status/1767247012825571776)
 
 > These next three years might be the last few years that I
 > work. ... I stand at the edge of a technological development that
