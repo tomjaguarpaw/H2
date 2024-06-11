@@ -5,7 +5,7 @@
 [Dante](https://github.com/jyp/dante) is an "Emacs mode for
 Interactive Haskell" (that is, an IDE) with a high power-to-weight
 ratio, being easy to configure, reliable and featureful.  I will take
-you on a brief tour of how I use Dante, starting with installation and
+you on a brief tour of how I use dante, starting with installation and
 configuration, demonstrating the features, and explaining how to
 resolve some typical problems.
 
@@ -152,4 +152,4 @@ environment.  Thus to install dante I do the following.
 * I wish it were easier to understand the diagnostics from
   `dante-diagnose`.
 
-* dante doesn't seem to cope with hs-boot files
+* Dante doesn't seem to cope with hs-boot files
