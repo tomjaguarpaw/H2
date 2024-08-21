@@ -79,6 +79,11 @@ Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
 -- [Avital
 Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/)
 
+> Developers, you are f&mdash; as a profession. Completely and utterly
+> f&mdash;.
+
+-- [Erik Meijer](https://x.com/headinthebox/status/1825898022535917697)
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
