@@ -77,12 +77,14 @@ Taelin](https://twitter.com/VictorTaelin/status/1747674769342738587),
 > seems likely, should it arrive, to end employment as I know it.
 
 -- [Avital
-Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/)
+Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/),
+2024-05-17
 
 > Developers, you are f&mdash; as a profession. Completely and utterly
 > f&mdash;.
 
--- [Erik Meijer](https://x.com/headinthebox/status/1825898022535917697)
+-- [Erik Meijer](https://x.com/headinthebox/status/1825898022535917697),
+2024-08-21
 
 ## AI notes
 
