@@ -10,6 +10,6 @@ executable site
   build-depends:       base,
                        hakyll == 4.16.2.0,
                        filepath == 1.4.2.2,
-                       pandoc == 3.1.11
+                       pandoc == 3.1.13
   default-language:    Haskell2010
   ghc-options:         -threaded
