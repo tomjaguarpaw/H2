@@ -48,6 +48,15 @@
   Tabs](http://pement.org/emacs_tabs.htm#one_thing).  I really want to
   apply this to particular files only, but I'm not sure how.
 
+* Turn of LSP "signature" popups
+
+  ```
+  (setq lsp-signature-auto-activate nil)
+  (setq lsp-signature-render-documentation nil)
+  ```
+
+  <https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/>
+
 ## Things I want to know
 
 * How to do the equivalent of mouse middle button paste from the
