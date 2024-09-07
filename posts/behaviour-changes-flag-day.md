@@ -119,6 +119,9 @@ I am not completely certain that this _is_ the cause of the issue
 because I can't test the change to `hashable` in isolation!  But I am
 fairly confident.
 
+## Links
 
+* [Opaleye's breakage
+  policy](https://h2.jaguarpaw.co.uk/posts/opaleyes-api-breakage-policy/)
 
 [^1]: Language Processing Unit
