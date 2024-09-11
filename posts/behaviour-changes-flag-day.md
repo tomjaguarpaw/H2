@@ -17,12 +17,10 @@ upgraded GHC and our Haskell packages at exactly the same time by
 upgrading to a later version of `nixpkgs`, specifically all in the
 same commit to our source code repository.  I'm not familiar with Nix
 or `nixpkgs` so I can't explain exactly why we followed the approach
-of upgrading GHC and all packages at the same time, whether it was
-literally forced on us by how Nix and `nixpkgs` work, or whether
-upgrading everything at the same time was simply the most
-straightforward of a variety of different options.  Regardless, that
-means we experienced a "flag day".  Paraphrasing [Wikipedia's
-definition and
+of upgrading GHC and all packages at the same time but it was deemed
+to be the most straightforward of a variety of different options.
+Regardless, that means we experienced a "flag day".  Paraphrasing
+[Wikipedia's definition and
 elaboration](https://en.wikipedia.org/wiki/Flag_day_(computing)):
 
 > A flag day is a change which requires a complete conversion of a
