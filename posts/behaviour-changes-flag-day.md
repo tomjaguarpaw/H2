@@ -11,7 +11,6 @@ fix.  After that article was written I discovered that such a problem,
 albeit a benign one, had occurred.  The present article explains the
 situation.
 
-
 We use [Nix](https://en.wikipedia.org/wiki/Nix_(package_manager))'s
 `nixpkgs` to provide GHC and Haskell packages.  Consequently, we
 upgraded GHC and our Haskell packages at exactly the same time by
@@ -77,7 +76,6 @@ perhaps a way of getting the best of both worlds: a predetermined
 package snapshot that contain _two_ versions of each package, that can
 be upgraded independently of each other? I would be interested to
 know.
-
 
 ## Appendix: what was the cause?
 
