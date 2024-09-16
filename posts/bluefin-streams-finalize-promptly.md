@@ -409,7 +409,7 @@ Releasing resource
 
 ### Bluefin implementation
 
-How will Bluefin fair?  We make the same adjustments to the Bluefin
+How will Bluefin fare?  We make the same adjustments to the Bluefin
 implementation as we made to the pipes and conduit implementations,
 using Bluefin's general-purpose `try` to catch the exception thrown
 when `i >= 3`.
