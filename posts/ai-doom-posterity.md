@@ -86,6 +86,11 @@ Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/),
 -- [Erik Meijer](https://x.com/headinthebox/status/1825898022535917697),
 2024-08-21
 
+> It is possible that we will have superintelligence in a few thousand
+> days
+
+-- [Sam Altman](https://ia.samaltman.com/), 2024-09-23
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
