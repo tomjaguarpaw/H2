@@ -10,7 +10,7 @@ operations they don't finalize promptly in the presence of exceptions.
 has two benefits: it can bracket its streams with _general-purpose_
 operations, and those brackets finalize promptly.
 
-What does "finalize promptly" mean?  And why is that a problem to not
+What does "finalize promptly" mean?  And why is it a problem to not
 finalize promptly?  Read on to find out.
 
 ## Prompt finalization
