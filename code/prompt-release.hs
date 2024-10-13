@@ -195,8 +195,8 @@ bluefin1 = runEff $ \io -> do
       r <- yieldCoroutine c ()
       effIO io (print r)
 
-bluefin2 :: IO ()
-bluefin2 = runEff $ \io -> do
+bluefin3 :: IO ()
+bluefin3 = runEff $ \io -> do
   connectCoroutines (consume io) (produce io)
   connectCoroutines (consume io) (produce io)
   where
@@ -207,14 +207,11 @@ bluefin2 = runEff $ \io -> do
       Stream Int e2 ->
       Eff es ()
     produce io () y = do
-      -- General-purpose Bluefin try
-      void $ B.try $ \e -> do
         -- General-purpose Bluefin bracket
         B.bracket
           (effIO io (putStrLn "Acquiring resource"))
           (\_ -> effIO io (putStrLn "Releasing resource"))
           ( \_ -> for_ [1 :: Int .. 3] $ \i -> do
-              when (i >= 3) (B.throw e ())
               B.yield y i
           )
 
@@ -224,5 +221,8 @@ bluefin2 = runEff $ \io -> do
       Coroutine () Int e2 ->
       Eff es ()
     consume io c = forever $ do
-      r <- yieldCoroutine c ()
-      effIO io (print r)
+      -- General-purpose Bluefin try
+      void $ B.try $ \e -> do
+        r <- yieldCoroutine c ()
+        when (r >= 3) (B.throw e ())
+        effIO io (print r)
