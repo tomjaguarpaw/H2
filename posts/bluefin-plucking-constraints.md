@@ -87,7 +87,7 @@ confusion.
 operMTL ::
   (MonadError String m', MonadState Int m') => m' ()
 handleLengthMTL ::
-  MonadState Int m => ExceptT String m () => m ()
+  MonadState Int m => ExceptT String m () -> m ()
 ```
 
 Then for `handleLengthMTL operMTL` to type check we need `m'` to be
