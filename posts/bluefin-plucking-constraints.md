@@ -96,11 +96,10 @@ Then for `handleLengthMTL operMTL` to type check we need `m'` to be
 ```.hs
 handleLengthMTL operMTL ::
   ( MonadState Int m,
-    MonadState Int (ExceptT String m'),
-    MonadError String (ExceptT String m')
+    MonadState Int (ExceptT String m),
+    MonadError String (ExceptT String m)
   ) =>
-  ExceptT String m' () ->
-  m' ()
+  m ()
 ```
 
 That's exactly what we anticipate, except for the constraints.  We
