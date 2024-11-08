@@ -226,7 +226,7 @@ handledBf =
    )
 ```
 
-Notice that I have not only annotated `handleBf` with a type, but I
+Notice that I have not only annotated `handledBf` with a type, but I
 have also annotated `operBf`. That's because the constraints that we
 need to resolve contain `e2`, a type variable bound by the type of
 `operBf`.  An interesting development!  Nothing like this was seen in
