@@ -197,7 +197,7 @@ When we use it to handle `operBf` we get
 
 ```.hs
 handledOper :: (e1 :> es) => State Int e1 -> Eff es ()
-handledOper = handleLengthBf (operBf s) s
+handledOper s = handleLengthBf (operBf s) s
 ```
 
 Let's see how this one works.  Again, I'm going to rename a type
@@ -216,7 +216,7 @@ Subsequently, for `handleLengthBf (operBf s) s` to type check we need
 
 ```.hs
 handledBf :: (e1 :> es) => State Int e1 -> Eff es ()
-handledBf =
+handledBf s =
   handleLengthbf
     (operBf s ::
       forall e2.
