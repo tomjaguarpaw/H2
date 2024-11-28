@@ -9,16 +9,17 @@ place data (called "constants") at memory addresses on the chip.
 
 
 Let's have a look at how we model this in Haskell.  For the purposes
-of this article, let's say that the memory addresses (`Address`) are
-`Int`s and the constant values placed at addresses (`Data`) are lists
-of `Word8` of length 8 (i.e. 8 bytes).  For a real-world program we'd
-probably use newtypes or data definitions here, but to keep things
-simple in this article we'll just use type synonyms.
+of this article, let's say that a memory address (`Address`) as an
+`Int`, and a constant value placed at an address (`Data`) is a list of
+`Word8` of length 8 (i.e. a list of 8 bytes).  For a real-world
+program we'd probably use newtypes or data definitions here, but to
+keep things simple in this article we'll just use type synonyms.
 
 ```.hs
 type Address = Int
 
--- Should be a list of length 8
+-- Should be length 8.
+-- We'll check that elsewhere.
 type Data = [Word8]
 ```
 
@@ -215,6 +216,8 @@ assemble (MkAssembly k) ex = do
 
         yield yconstant (addr, data_)
 
+        -- If the constant was the wrong length
+        -- yield some error message lines
         when (l /= 8) $ do
           traverse_
             (yield yerror)
@@ -270,7 +273,7 @@ assemble ::
   Exception String e ->
   Eff es AssembledProgram
 assemble (MkAssembly k) ex = do
-  -- This part is more or less the same as before
+  -- This part very similar to before
 
   (constants, (errors, ())) <- yieldToList $ \yconstant ->
     yieldToList $ \yerror ->
@@ -281,6 +284,8 @@ assemble (MkAssembly k) ex = do
         -- before yielding it.
         yield yconstant (addr, pure (cs, data_))
 
+        -- If the constant was the wrong length
+        -- yield some error message lines
         when (l /= 8) $ do
           traverse_
             (yield yerror)
@@ -303,7 +308,6 @@ assemble (MkAssembly k) ex = do
   -- We gather all the values for a given key (address)
   -- into a non-empty list.  If such a list has more than
   -- one element, that indicates an error.
-
   let m = Map.fromListWith (<>) constants
 
   -- For each address with a constant, check if there is
