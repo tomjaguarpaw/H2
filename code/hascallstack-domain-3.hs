@@ -7,7 +7,7 @@ import Bluefin.Eff
 import Bluefin.Exception
 import Bluefin.IO
 import Bluefin.Stream
-import Control.Monad
+import Control.Monad (when)
 import Data.Foldable
 import Data.Map (Map)
 import Data.Map qualified as Map
@@ -63,24 +63,30 @@ assemble (MkAssembly k) ex = do
     k (mapHandle ct)
 
   (errors, ()) <- yieldToList $ \y ->
-   for_ cts $ \(MkConstant cs addr data_) -> do
-    let l = length data_
-    when (l /= 8) $ do
-      yield y $
-        unlines $
-          [ "Wrong size constant",
-            "Expected: 8",
-            "Actual: " <> show l,
-            "In:"
-          ]
-            <> showCallStack cs
+    for_ cts $ \(MkConstant cs _ data_) -> do
+      let l = length data_
+      when (l /= 8) $ do
+        yield y $
+          unlines $
+            [ "Wrong size constant",
+              "Expected: 8",
+              "Actual: " <> show l,
+              "In:"
+            ]
+              <> showCallStack cs
 
   case errors of
     [] -> pure ()
     _ -> throw ex (unlines errors)
 
   let m =
-        Map.fromList (map (\(MkConstant cs addr data_) -> (addr, data_)) cts)
+        Map.fromList
+          ( map
+              ( \(MkConstant _ addr data_) ->
+                  (addr, data_)
+              )
+              cts
+          )
 
   pure (MkAssembledProgram m)
 

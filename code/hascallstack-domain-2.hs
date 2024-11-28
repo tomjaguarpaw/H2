@@ -8,14 +8,11 @@ import Bluefin.Exception
 import Bluefin.IO
 import Bluefin.Stream
 import Control.Exception hiding (handle)
-import Control.Monad
+import Control.Monad (when)
 import Data.Map (Map)
 import Data.Map qualified as Map
 import Data.Word
 import GHC.Stack
-
-data CodeBlock
-  deriving (Show)
 
 type Address = Int
 
@@ -24,29 +21,29 @@ type Data = [Word8]
 data Constant = MkConstant Address Data
 
 data Assembly' a
-  = MkAssembly (forall es. Stream CodeBlock es -> Stream Constant es -> Eff es a)
+  = MkAssembly (forall es. Stream Constant es -> Eff es a)
 
 instance Functor Assembly' where
-  fmap f (MkAssembly g) = MkAssembly (\s1 s2 -> fmap f (g s1 s2))
+  fmap f (MkAssembly g) = MkAssembly (\s1 -> fmap f (g s1))
 
 instance Applicative Assembly' where
-  pure x = MkAssembly (\_ _ -> pure x)
+  pure x = MkAssembly (\_ -> pure x)
   MkAssembly f <*> MkAssembly x =
-    MkAssembly (\s1 s2 -> f s1 s2 <*> x s1 s2)
+    MkAssembly (\s1 -> f s1 <*> x s1)
 
 instance Monad Assembly' where
   return = pure
   MkAssembly m >>= f =
     MkAssembly
-      ( \s1 s2 -> do
-          a <- m s1 s2
-          case f a of MkAssembly f' -> f' s1 s2
+      ( \s1 -> do
+          a <- m s1
+          case f a of MkAssembly f' -> f' s1
       )
 
 type Assembly = Assembly' ()
 
 constant :: (HasCallStack) => Address -> Data -> Assembly
-constant addr data_ = MkAssembly $ \_ c -> do
+constant addr data_ = MkAssembly $ \c -> do
   let l = length data_
   when (l /= 8) $ do
     let cs = callStack
@@ -62,16 +59,15 @@ constant addr data_ = MkAssembly $ \_ c -> do
   yield c (MkConstant addr data_)
 
 data AssembledProgram
-  = MkAssembledProgram [CodeBlock] (Map Address Data)
+  = MkAssembledProgram (Map Address Data)
   deriving (Show)
 
 assemble ::
   Assembly ->
   Eff es AssembledProgram
 assemble (MkAssembly k) = do
-  (cbs, (cts, ())) <- yieldToList $ \cb -> do
-    yieldToList $ \ct -> do
-      k (mapHandle cb) (mapHandle ct)
+  (cts, ()) <- yieldToList $ \ct -> do
+    k (mapHandle ct)
 
   let m =
         Map.fromList
@@ -82,7 +78,7 @@ assemble (MkAssembly k) = do
               cts
           )
 
-  pure (MkAssembledProgram cbs m)
+  pure (MkAssembledProgram m)
 
 showAssemble :: Assembly -> IO ()
 showAssemble a = runEff $ \io -> do

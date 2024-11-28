@@ -68,6 +68,7 @@ showAssemble a = runEff $ \io -> do
   ap <- assemble a
   effIO io (print ap)
 
+example :: Assembly
 example = do
   constant 0x0000 [0x00 .. 0x07]
   constant 0x0001 [0x10 .. 0x17]
@@ -78,6 +79,7 @@ badExampleLength = do
   constant 0x0001 [0x10 .. 0x17]
   constant 0x0002 [0x00 .. 0x0f]
 
+badExampleDuplication :: Assembly
 badExampleDuplication = do
   constant 0x0000 [0x00 .. 0x07]
   constant 0x0000 [0x10 .. 0x17]
