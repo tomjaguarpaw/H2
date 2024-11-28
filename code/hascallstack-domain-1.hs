@@ -64,8 +64,8 @@ assemble (MkAssembly k) = do
 
 showAssemble :: Assembly -> IO ()
 showAssemble a = runEff $ \io -> do
-    ap <- assemble a
-    effIO io (print ap)
+  ap <- assemble a
+  effIO io (print ap)
 
 example = do
   constant 0x0000 [0x00 .. 0x07]
