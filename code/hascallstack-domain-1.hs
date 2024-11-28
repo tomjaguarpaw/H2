@@ -12,22 +12,23 @@ import Data.Word
 
 type Address = Int
 
+-- Should be a list of length 8
 type Data = [Word8]
 
 data Constant = MkConstant Address Data
 
-data Assembly' a
+data Assembly a
   = MkAssembly (forall es. Stream Constant es -> Eff es a)
 
-instance Functor Assembly' where
+instance Functor Assembly where
   fmap f (MkAssembly g) = MkAssembly (\s1 -> fmap f (g s1))
 
-instance Applicative Assembly' where
+instance Applicative Assembly where
   pure x = MkAssembly (\_ -> pure x)
   MkAssembly f <*> MkAssembly x =
     MkAssembly (\s1 -> f s1 <*> x s1)
 
-instance Monad Assembly' where
+instance Monad Assembly where
   return = pure
   MkAssembly m >>= f =
     MkAssembly
@@ -36,50 +37,44 @@ instance Monad Assembly' where
           case f a of MkAssembly f' -> f' s1
       )
 
-type Assembly = Assembly' ()
-
-constant :: Address -> Data -> Assembly
+constant :: Address -> Data -> Assembly ()
 constant addr data_ = MkAssembly $ \c -> do
   yield c (MkConstant addr data_)
 
-data AssembledProgram = MkAssembledProgram (Map Address Data)
+data AssembledProgram
+  = MkAssembledProgram (Map Address Data)
   deriving (Show)
 
 assemble ::
-  Assembly ->
+  Assembly () ->
   Eff es AssembledProgram
 assemble (MkAssembly k) = do
-  (cts, ()) <- yieldToList $ \ct -> do
-    k (mapHandle ct)
+  (cts, ()) <- yieldToList $ \ct ->
+    forEach (useImpl . k) $ \(MkConstant addr data_) ->
+      yield ct (addr, data_)
 
-  let m =
-        Map.fromList
-          ( map
-              ( \(MkConstant addr data_) ->
-                  (addr, data_)
-              )
-              cts
-          )
+  let m = Map.fromList cts
 
   pure (MkAssembledProgram m)
 
-showAssemble :: Assembly -> IO ()
+showAssemble :: Assembly () -> IO ()
 showAssemble a = runEff $ \io -> do
   ap <- assemble a
   effIO io (print ap)
 
-example :: Assembly
+example :: Assembly ()
 example = do
   constant 0x0000 [0x00 .. 0x07]
   constant 0x0001 [0x10 .. 0x17]
 
-badExampleLength :: Assembly
+badExampleLength :: Assembly ()
 badExampleLength = do
-  constant 0x0000 [0x00 .. 0xff]
+  constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
-  constant 0x0002 [0x00 .. 0x0f]
+  constant 0x0002 [0x00 .. 0x04]
 
-badExampleDuplication :: Assembly
+badExampleDuplication :: Assembly ()
 badExampleDuplication = do
   constant 0x0000 [0x00 .. 0x07]
+  constant 0x0001 [0x10 .. 0x17]
   constant 0x0000 [0x10 .. 0x17]

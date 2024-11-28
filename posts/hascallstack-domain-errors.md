@@ -1,0 +1,2 @@
+# Domain errors with `HasCallStack`
+
