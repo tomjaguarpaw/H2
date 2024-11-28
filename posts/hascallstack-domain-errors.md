@@ -11,9 +11,9 @@ place data (called "constants") at memory addresses on the chip.
 Let's have a look at how we model this in Haskell.  For the purposes
 of this article, let's say that the memory addresses (`Address`) are
 `Int`s and the constant values placed at addresses (`Data`) are lists
-of `Word8` of length eight (i.e. eight bytes).  For a real-world
-program we'd probably use newtypes or data definitions here, but to
-keep things simple in this article we'll just use type synonyms.
+of `Word8` of length 8 (i.e. 8 bytes).  For a real-world program we'd
+probably use newtypes or data definitions here, but to keep things
+simple in this article we'll just use type synonyms.
 
 ```.hs
 type Address = Int
@@ -99,10 +99,11 @@ provide is incorrect, then the error just passes silently.
 ```.hs
 badExampleLength :: Assembly ()
 badExampleLength = do
-  -- Oh dear, this one is too short
+  -- Oh dear, this one is too short.
+  -- It's only length 4 but should be 8.
   constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
-  -- And this one is too short too
+  -- And this one is too short too.
   constant 0x0002 [0x00 .. 0x04]
 ```
 
@@ -119,7 +120,8 @@ badExampleDuplication :: Assembly ()
 badExampleDuplication = do
   constant 0x0000 [0x00 .. 0x07]
   constant 0x0001 [0x10 .. 0x17]
-  -- Oh dear, this is at the same address as another constant
+  -- Oh dear, this is at the same
+  -- address as another constant
   constant 0x0000 [0x10 .. 0x17]
 ```
 
