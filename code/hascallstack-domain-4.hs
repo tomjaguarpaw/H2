@@ -1,6 +1,6 @@
 {-# LANGUAGE GHC2021 #-}
 
-module HD3 where
+module HD4 where
 
 import Bluefin.Compound
 import Bluefin.Eff
@@ -8,7 +8,8 @@ import Bluefin.Exception
 import Bluefin.IO
 import Bluefin.Stream
 import Control.Monad
-import Data.Foldable
+import Data.Foldable hiding (toList)
+import Data.List.NonEmpty hiding (length, map)
 import Data.Map (Map)
 import Data.Map qualified as Map
 import Data.Word
@@ -62,11 +63,10 @@ assemble (MkAssembly k) ex = do
   (cts, ()) <- yieldToList $ \ct -> do
     k (mapHandle ct)
 
-  (errors, ()) <- yieldToList $ \y ->
-   for_ cts $ \(MkConstant cs addr data_) -> do
+  for_ cts $ \(MkConstant cs addr data_) -> do
     let l = length data_
     when (l /= 8) $ do
-      yield y $
+      throw ex $
         unlines $
           [ "Wrong size constant",
             "Expected: 8",
@@ -75,14 +75,29 @@ assemble (MkAssembly k) ex = do
           ]
             <> showCallStack cs
 
-  case errors of
-    [] -> pure ()
-    _ -> throw ex (unlines errors)
-
   let m =
-        Map.fromList (map (\(MkConstant cs addr data_) -> (addr, data_)) cts)
+        Map.fromListWith
+          (<>)
+          ( map
+              ( \(MkConstant cs addr data_) ->
+                  (addr, pure (cs, data_))
+              )
+              cts
+          )
 
-  pure (MkAssembledProgram m)
+  m' <- flip Map.traverseWithKey m $ \addr csData -> do
+    case csData of
+      (cs, data_) Data.List.NonEmpty.:| [] -> pure data_
+      duplicated -> do
+        throw ex $
+          unlines $
+            [ "Duplicate constants at address " <> show addr
+            ]
+              <> concatMap
+                (\(cs, _) -> showCallStack cs)
+                (toList duplicated)
+
+  pure (MkAssembledProgram m')
 
 showAssemble :: Assembly -> IO ()
 showAssemble a = runEff $ \io -> do
@@ -99,7 +114,6 @@ badExampleLength :: Assembly
 badExampleLength = do
   constant 0x0000 [0x00 .. 0xff]
   constant 0x0001 [0x10 .. 0x17]
-  constant 0x0002 [0x00 .. 0x0f]
 
 badExampleDuplication :: Assembly
 badExampleDuplication = do

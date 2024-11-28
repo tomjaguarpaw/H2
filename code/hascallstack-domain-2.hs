@@ -74,21 +74,43 @@ assemble (MkAssembly k) = do
       k (mapHandle cb) (mapHandle ct)
 
   let m =
-        Map.fromList (map (\(MkConstant addr data_) -> (addr, data_)) cts)
+        Map.fromList
+          ( map
+              ( \(MkConstant addr data_) ->
+                  (addr, data_)
+              )
+              cts
+          )
 
   pure (MkAssembledProgram cbs m)
 
 showAssemble :: Assembly -> IO ()
 showAssemble a = runEff $ \io -> do
-  handle (effIO io . putStrLn . (\(ErrorCall s) -> s)) $ \ex -> do
-    rethrowIO io ex $ do
-      ap <- assemble a
-      effIO io (print ap)
+  handle
+    (effIO io . putStrLn . (\(ErrorCall s) -> s))
+    ( \ex -> do
+        rethrowIO io ex $ do
+          ap <- assemble a
+          effIO io (print ap)
+    )
 
+example :: Assembly
 example = do
   constant 0x0000 [0x00 .. 0xff]
   constant 0x0001 [0x10 .. 0x17]
 
+badExampleLength :: Assembly
+badExampleLength = do
+  constant 0x0000 [0x00 .. 0xff]
+  constant 0x0001 [0x10 .. 0x17]
+  constant 0x0002 [0x00 .. 0x0f]
+
+badExampleDuplication :: Assembly
+badExampleDuplication = do
+  constant 0x0000 [0x00 .. 0x07]
+  constant 0x0000 [0x10 .. 0x17]
+
+showCallStack :: CallStack -> [String]
 showCallStack cs =
   flip map (getCallStack cs) $ \(fn, srcloc) ->
     unwords
