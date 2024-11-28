@@ -98,10 +98,10 @@ example = do
 badExampleLength :: Assembly ()
 badExampleLength = do
   -- Oh dear, this one is too long
-  constant 0x0000 [0x00 .. 0xff]
+  constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
   -- And this one is too long too
-  constant 0x0002 [0x00 .. 0x0f]
+  constant 0x0002 [0x00 .. 0x04]
 
 badExampleDuplication :: Assembly ()
 badExampleDuplication = do

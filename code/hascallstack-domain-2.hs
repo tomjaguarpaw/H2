@@ -89,9 +89,9 @@ example = do
 
 badExampleLength :: Assembly ()
 badExampleLength = do
-  constant 0x0000 [0x00 .. 0xff]
+  constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
-  constant 0x0002 [0x00 .. 0x0f]
+  constant 0x0002 [0x00 .. 0x04]
 
 badExampleDuplication :: Assembly ()
 badExampleDuplication = do

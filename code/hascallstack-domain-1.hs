@@ -21,7 +21,8 @@ data Assembly a
   = MkAssembly (forall es. Stream Constant es -> Eff es a)
 
 instance Functor Assembly where
-  fmap f (MkAssembly g) = MkAssembly (\s1 -> fmap f (g s1))
+  fmap f (MkAssembly g) =
+    MkAssembly (\s1 -> fmap f (g s1))
 
 instance Applicative Assembly where
   pure x = MkAssembly (\_ -> pure x)
@@ -49,11 +50,11 @@ assemble ::
   Assembly () ->
   Eff es AssembledProgram
 assemble (MkAssembly k) = do
-  (cts, ()) <- yieldToList $ \ct ->
+  (constants, ()) <- yieldToList $ \ct ->
     forEach (useImpl . k) $ \(MkConstant addr data_) ->
       yield ct (addr, data_)
 
-  let m = Map.fromList cts
+  let m = Map.fromList constants
 
   pure (MkAssembledProgram m)
 
@@ -64,17 +65,22 @@ showAssemble a = runEff $ \io -> do
 
 example :: Assembly ()
 example = do
+  -- Place bytes 0x00 to 0x07 at address 0x0000
   constant 0x0000 [0x00 .. 0x07]
+  -- Place bytes 0x10 to 0x17 at address 0x0001
   constant 0x0001 [0x10 .. 0x17]
 
 badExampleLength :: Assembly ()
 badExampleLength = do
+  -- Oh dear, this one is too short
   constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
+  -- And this one is too short too
   constant 0x0002 [0x00 .. 0x04]
 
 badExampleDuplication :: Assembly ()
 badExampleDuplication = do
   constant 0x0000 [0x00 .. 0x07]
   constant 0x0001 [0x10 .. 0x17]
+  -- Oh dear, this is at the same address as another constant
   constant 0x0000 [0x10 .. 0x17]
