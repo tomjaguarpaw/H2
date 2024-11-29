@@ -1,19 +1,22 @@
 # Domain errors with `HasCallStack`
 
-At [Groq](https://groq.com/) one of the things we use Haskell for is
+At [Groq](https://groq.com/), one of the things we use Haskell for is
 to provide an embedded domain specific assembly language for our novel
 chip, the "LPU".
 
-Amongst other things, the assembly language provides the ability to
-place data (called "constants") at memory addresses on the chip.
+The assembly language allows us to specify a sequence of instructions
+to run on each processor on the chip, and to specify data values
+(called "constants") that are loaded alongside the program to
+particular memory addresses in the chip's memory.
 
-
-Let's have a look at how we model this in Haskell.  For the purposes
-of this article, let's say that a memory address (`Address`) as an
-`Int`, and a constant value placed at an address (`Data`) is a list of
-`Word8` of length 8 (i.e. a list of 8 bytes).  For a real-world
-program we'd probably use newtypes or data definitions here, but to
-keep things simple in this article we'll just use type synonyms.
+Let's have a look at how we can implement part of this in Haskell,
+restricting ourselves, for simplicity, to specifying the constant
+values and addresses.  For the purposes of this article, we'll say
+that a memory address (`Address`) is an `Int`, and a constant value
+placed at an address (`Data`) is a list of `Word8` of length 8 (i.e. a
+list of 8 bytes).  For a real-world program we would probably use
+newtype or data definitions, but to keep things simple in this article
+we'll just use type synonyms.
 
 ```.hs
 type Address = Int
@@ -21,6 +24,10 @@ type Address = Int
 -- Should be length 8.
 -- We'll check that elsewhere.
 type Data = [Word8]
+
+-- A "constant" is some data residing at
+-- a particular address
+data Constant = MkConstant Address Data
 ```
 
 We want to be able to define constants using a convenient syntax, for
@@ -36,21 +43,20 @@ example = do
 ```
 
 Let's see how we can arrange that.  Firstly, we'll need an `Assembly`
-monad.  Here I'm using Bluefin for the implementation.  This is
-roughly equivalent to a `Writer [Constant]` monad.  In a real
-assembler we'd be able to define other elements than just `Constant`s,
-but let's keep it simple for now.
+monad.  Here I'm using Bluefin for the implementation.  The
+implementation is roughly equivalent to a `Writer [Constant]` monad
+(from the `transformers` library) or a `Stream (Of Constant)` monad
+(from the `streaming` library). (For the monad instance, see the
+[appendix](#appendix).)
 
 ```.hs
 data Assembly a
   = MkAssembly (forall es. Stream Constant es -> Eff es a)
 ```
 
-For the monad instance, see the appendix below.
-
 Then what should the function `constant` do?  It should yield the
-arguments we give it into the stream, so we can later run the stream
-and pick them up.
+arguments we give it into the stream, so that when we run the stream
+we pick them up.
 
 ```.hs
 constant :: Address -> Data -> Assembly ()
@@ -58,8 +64,8 @@ constant addr data_ = MkAssembly $ \c -> do
   yield c (MkConstant addr data_)
 ```
 
-Let's say the assembly stage collects the constants together and puts
-them in a `Map` keyed by `Address`:
+For the assembly stage, let's collect the constants together and put
+them in a `Map` (from the `containers` library) keyed by `Address`:
 
 ```.hs
 data AssembledProgram
@@ -79,7 +85,7 @@ assemble (MkAssembly k) = do
   pure (MkAssembledProgram m)
 ```
 
-Then we can write a function to run `assemble` and print the output.
+And to see the output of `assemble` we write `showAssemble`:
 
 ```.hs
 showAssemble :: Assembly () -> IO ()
@@ -93,14 +99,17 @@ showAssemble a = runEff $ \io -> do
 MkAssembledProgram (fromList [(0,[0,1,2,3,4,5,6,7]),(1,[16,17,18,19,20,21,22,23])])
 ```
 
-That did what we hoped for, but the situation is less good on
-badly-behaved examples.  For example, if the number of bytes we
-provide is incorrect, then the error just passes silently.
+That was what we hoped for! Our original `example` above had two
+constants, on addresses `0x0000` and `0x0001`, exactly as the result
+shows.  Unfortunately the situation is less good on badly-behaved
+examples: for example, if the number of bytes we provide is incorrect,
+then the error just passes silently.  We get invalid-length lists in
+the output:
 
 ```.hs
 badExampleLength :: Assembly ()
 badExampleLength = do
-  -- Oh dear, this one is too short.
+  -- Oh dear, this list is too short.
   -- It's only length 4 but should be 8.
   constant 0x0000 [0x00 .. 0x04]
   constant 0x0001 [0x10 .. 0x17]
@@ -114,7 +123,7 @@ MkAssembledProgram (fromList [(0,[0,1,2,3,4]),(1,[16,17,18,19,20,21,22,23]),(2,[
 ```
 
 Or if we specify two constants at the same address then one of them is
-silently dropped.
+silently dropped:
 
 ```.hs
 badExampleDuplication :: Assembly ()
@@ -136,7 +145,7 @@ MkAssembledProgram (fromList [(0,[16,17,18,19,20,21,22,23]),(1,[16,17,18,19,20,2
 Let's tackle the incorrect size issue first.  We can amend `constant`
 to throw an exception when the list provided has the wrong length.
 Using `HasCallStack` we can helpfully include the location of the call
-to `constant` with the erroneous argument.
+to `constant` which had an erroneous argument.
 
 ```.hs
 constant :: (HasCallStack) => Address -> Data -> Assembly ()
@@ -180,13 +189,14 @@ In:
 constant at 92:3
 ```
 
-That works!  But it has two problems.  Firsty, we can only catch the
+That works!  We see the line and column number of one of the mis-sized
+constants.  But it has two problems.  Firsty, we can only catch the
 `ErrorCall` thrown by `error` where we have access to `IO`.  Ideally
 we'd like to catch it in `showAssemble`, but we don't want that
 function to use `IO`.  Secondly, there were two constants with
-incorrect sizes, and when we threw the exception from `constant` it
-stopped processing then and there, so we didn't get to pick up the
-other one.  What can we do?
+incorrect sizes, and when we ran `error` in `constant` it stopped
+processing then and there, so we didn't get to pick up the other one.
+What can we do?
 
 ## Annotate the AST with the `CallStack`
 
@@ -199,8 +209,9 @@ constant addr data_ = MkAssembly $ \c -> do
   yield c (MkConstant callStack addr data_)
 ```
 
-Then we can check for mis-sized constants in `Assemble` and throw a
-Bluefin exception, which can be caught without depending on `IO`.
+Then we can move the check for mis-sized constants into `assemble`.
+If we find any we throw an exception which mentions the source
+locations of the definitions of *all* of them, not just one of them.
 
 ```.hs
 assemble ::
@@ -235,6 +246,7 @@ assemble (MkAssembly k) ex = do
     [] -> pure ()
     _ -> throw ex (unlines errors)
 
+  -- If not, gather them into a map
   let m = Map.fromList constants
 
   pure (MkAssembledProgram m)
@@ -265,6 +277,10 @@ That works!  We can see information about both of the mis-sized
 constants.
 
 ## Duplicates
+
+But we still need to do something about the two constant entries for
+the same address.
+
 
 ```.hs
 assemble ::
@@ -308,16 +324,17 @@ assemble (MkAssembly k) ex = do
   -- We gather all the values for a given key (address)
   -- into a non-empty list.  If such a list has more than
   -- one element, that indicates an error.
-  let m = Map.fromListWith (<>) constants
+  let m :: Map Address (NonEmpty (CallStack, Data))
+      m = Map.fromListWith (<>) constants
 
   -- For each address with a constant, check if there is
   -- only one, or more than one, constant specified for
   -- that address.
   m' <- flip Map.traverseWithKey m $ \addr csData -> do
     case csData of
-      -- Only one constant at this address
+      -- Only one constant at this address. That's fine.
       (_, data_) Data.List.NonEmpty.:| [] -> pure data_
-      -- Multiple constants at this address, so report the
+      -- Multiple constants at this address. Report the
       -- error
       _ -> do
         throw ex $

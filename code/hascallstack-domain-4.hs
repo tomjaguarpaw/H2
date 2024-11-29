@@ -82,7 +82,8 @@ assemble (MkAssembly k) ex = do
     [] -> pure ()
     _ -> throw ex (unlines errors)
 
-  let m = Map.fromListWith (<>) constants
+  let m :: Map Address (NonEmpty (CallStack, Data))
+      m = Map.fromListWith (<>) constants
 
   m' <- flip Map.traverseWithKey m $ \addr csData -> do
     case csData of
