@@ -36,7 +36,7 @@ myExceptionExample = do
 ```
 
 ```
-ghci> myExceptionExamplea
+ghci> myExceptionExample
 Hello
 Thrown from:
 CallStack (from HasCallStack):
