@@ -432,6 +432,10 @@ data.
   shows many other uses to which you can put `HasCallStack`, including
   tracing messages.
 
+* [User `dpwiz` explains the same
+  idea](https://github.com/NorfairKing/haskell-dangerous-functions/issues/17#issuecomment-975568937)
+  at GitHub
+
 ## Appendix
 
 ```.hs
