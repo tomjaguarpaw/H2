@@ -91,6 +91,13 @@ Balwit](https://www.palladiummag.com/2024/05/17/my-last-five-years-of-work/),
 
 -- [Sam Altman](https://ia.samaltman.com/), 2024-09-23
 
+> We're quite likely to get [a country of geniuses in a data center]
+> in the next two or three years.
+
+-- [Dario
+Amodei](https://www.yahoo.com/tech/anthropic-ceo-says-agi-marketing-101302256.html),
+2025-01-22
+
 ## AI notes
 
 * Yudkowsky can't make predictions about what the trajectory to AI
