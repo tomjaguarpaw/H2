@@ -1,5 +1,7 @@
 # Scrap your fold combinators
 
+-- by Tom Ellis, February 2025
+
 In my article "[`foldl` traverses with `State`, `foldr` traverses with
 anything](../foldl-traverses-state-foldr-traverses-anything/)", I
 showed that every use of `foldr` on a list is equivalent to using
