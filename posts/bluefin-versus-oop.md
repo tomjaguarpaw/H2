@@ -484,5 +484,5 @@ operationFrom f = f . mapHandle
 
 * Ömer, for writing the original article
 
-* Enes Bayram, for [suggesting the approach of this article on Haskell
+* Enis Bayramoğlu, for [suggesting the approach of this article on Haskell
   Reddit](https://old.reddit.com/r/haskell/comments/1fzy3fa/oop_is_not_that_bad_actually/lr55hko/)
