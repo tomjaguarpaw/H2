@@ -323,7 +323,7 @@ that our approach is unworkable:
 I don't understand why.  The approach taken in this article seems
 perfectly workable to me, even very natural, and doesn't require any
 refactoring of existing code.  It uses explicit function application
-instead of explicit subtyping.
+instead of implicit subtyping.
 
 The one element that one might think OOP languages do better is
 avoiding the explicit function application.  But we don't need
