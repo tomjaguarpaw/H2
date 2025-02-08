@@ -2,6 +2,28 @@
 
 -- by Tom Ellis, February 2025
 
+Typical programming languages have a "for loop" construct that allows
+iteration over a range of numbers or over the elements of a container.
+Haskell has standard library functions called `for` and `for_` that
+can be used for a similar purpose, and also has constructs `foldl`,
+`foldl'`, `foldr`, `foldM`, `mapAccumR`, `mapAccumL` that iterate over
+a container and produce a "single value" (as opposed to another
+container); they are called "folds" or "fold combinators".  Other
+folds exist beyond the standard library, including `loop`, `loopM` and
+`mapAccumLM`.  Additionally there are functions that iterate over a
+container but don't produce a "single result", instead producing
+another container. Examples include `concatMap` and `mapMaybe`.
+
+Wow, that's a lot of fold combinators (plus friends)! Is there
+anything we can do to simplify dealing with this menagerie?  Well, I
+have frequently been impressed by Haskell's ability to generalise
+seemingly disparate concepts, and in so doing simplify them. The case
+of fold combinators is no exception: they can all be rewritten in
+terms of `for_`!
+
+
+
+
 In my article "[`foldl` traverses with `State`, `foldr` traverses with
 anything](../foldl-traverses-state-foldr-traverses-anything/)", I
 showed that every use of `foldr` on a list is equivalent to using
@@ -10,7 +32,7 @@ showed that every use of `foldr` on a list is equivalent to using
 "recursion combinators" that 
 
 That implies that the fold combinators we know and love can be
-replaced with uses of `for_`
+replaced with uses of `for_`.
 
 The pure versions of the combinators are too convenient to avoid, but
 it becomes increasingly difficult to justify combinators once they
