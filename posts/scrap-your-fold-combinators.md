@@ -21,18 +21,12 @@ seemingly disparate concepts, and in so doing simplify them. The case
 of fold combinators is no exception: they can all be rewritten in
 terms of `for_`!
 
-
-
-
-In my article "[`foldl` traverses with `State`, `foldr` traverses with
-anything](../foldl-traverses-state-foldr-traverses-anything/)", I
-showed that every use of `foldr` on a list is equivalent to using
-`traverse_` (or `for_`) on the list, with a particular choice of
-`Applicative`.  Haskell libraries contain a wide variety of list
-"recursion combinators" that 
-
-That implies that the fold combinators we know and love can be
-replaced with uses of `for_`.
+The reason for this is that folds over every container (or rather,
+every instance of `Foldable`) can be written in terms of `Foldable`'s
+`foldr` method but, equally, every use of `foldr` can be rewritten to
+in terms of `for_` (as explained in my article "[`foldl` traverses
+with `State`, `foldr` traverses with
+anything](../foldl-traverses-state-foldr-traverses-anything/)").
 
 The pure versions of the combinators are too convenient to avoid, but
 it becomes increasingly difficult to justify combinators once they
@@ -90,7 +84,38 @@ mapAccumL f s0 as =
 
 ### `mapAccumR`
 
-Too mind-bending.  I really don't understand what this is.
+`mapAccumR` is rather mind bending. [Its
+documentation](https://www.stackage.org/haddock/lts-23.7/base-4.19.2.0/Data-Traversable.html#v:mapAccumR)
+says
+
+> The `mapAccumR` function ... applies a function to each element of a
+> structure, passing an accumulating parameter from right to left
+
+("Right" and "left" here really mean "end" and "start", but because we
+write English from left to right the we ended up calling the last
+element of a list the "rightmost" one and the first the "leftmost"
+one.)  In any case, `mapAccumR` traverses a list from the end to the
+beginning.  For example:
+
+```.hs
+mapAccumRExample :: (String, [String])
+mapAccumRExample =
+  mapAccumR
+    (\s i -> let s' = s ++ "->" ++ show i in (s', s'))
+    "start"
+    [1 .. 4]
+```
+
+```
+ghci> mapAccumRExample
+("start->4->3->2->1",["start->4->3->2->1","start->4->3->2","start->4->3","start->4"])
+```
+
+This means that `mapAccumR` is equivalent to `reverse`ing a list,
+applying `mapAccumL`, and then `reverse`ing the resulting list. I
+don't particularly see the point, so I'm going to skip this
+combinator.
+
 
 ### `mapAccumLM`
 

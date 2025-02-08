@@ -9,7 +9,7 @@ import Data.Foldable hiding (toList)
 import Data.Functor.Identity (Identity, runIdentity)
 import Data.Traversable
 import Data.Tuple
-import Streaming.Prelude hiding (for, toList)
+import Streaming.Prelude hiding (for, toList, show)
 import qualified Streaming.Prelude
 import qualified Streaming
 
@@ -39,6 +39,15 @@ mapAccumL f s0 as =
       let (s', b) = f s a
       put s'
       pure b
+
+-- ghci> mapAccumRExample
+-- ("start->4->3->2->1",["start->4->3->2->1","start->4->3->2","start->4->3","start->4"])
+mapAccumRExample :: (String, [String])
+mapAccumRExample =
+  mapAccumR
+    (\s i -> let s' = s ++ "->" ++ show i in (s', s'))
+    "start"
+    [1 .. 4]
 
 mapAccumLM ::
   (Monad m) =>
