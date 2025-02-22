@@ -48,7 +48,14 @@
   sudo cryptsetup --header $HEADER_BACKUP_FILE luksOpen $DEVICE $MAPPING_NAME
   ```
 
+* Adding a password to a LUKS device
+
+  ```
+  sudo cryptsetup luksAddKey $DEVICE
+  ```
+
 ## References
 
 * <https://security.stackexchange.com/questions/140948/mapping-of-encrypted-to-decrypted-blocks-in-lucks>
 * <https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions#6-backup-and-data-recovery>
+* <https://askubuntu.com/questions/1319688/luks-how-can-i-add-more-password-slots-or-remove-change-a-password>
