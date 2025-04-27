@@ -266,7 +266,45 @@ Ditto `s'` evaluation.)
 
 ### `concatMap`
 
+`concatMap` iterates over a list and produces, for each element,
+another list of elements.  All elements produced in this way are
+concatenated into a result list.  This process is equivalent to two
+nested `for_` loops, and in order to express it as such we need
+something we haven't seen yet in this article: a streaming
+abstraction.  Here is an implementation using the `streaming` library:
+
+```.hs
+concatMap :: (a -> [b]) -> [a] -> [b]
+concatMap f as =
+  toList $
+    for_ as $ \a ->
+      for_ (f a) $ \b ->
+        yield b
+```
+
+I usually prefer to read the nested `for_` loops than a `concatMap`
+and I also usually find it easier to *write* the nested `for_` loops
+rather than wonder how to express my intent as a `concatMap`.  I would
+always prefer to replace *nested* `concatMaps` with nested `for_`s.
+In many cases, once you have adopted the streaming abstraction, you
+won't actually want to use `toList`.  You can continue using the
+streaming abstraction in the surrounding code.
+
 ### `mapMaybe`
+
+`mapMaybe` serves a similar purpose to `concatMap`. Its replacement in
+terms of `for_` is identical, because `for_` is polymorphic.  In the
+`concatMap` replacement `for_ (f a)` was over a list and in the
+`mapMaybe` replacement `for_ (f a)` is over a `Maybe`.
+
+```.hs
+mapMaybe :: (a -> Maybe b) -> [a] -> [b]
+mapMaybe f as =
+  toList $
+    for_ as $ \a -> do
+      for_ (f a) $ \b ->
+        yield b
+```
 
 ### `mapMaybeM`
 
