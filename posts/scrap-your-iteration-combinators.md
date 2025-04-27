@@ -113,8 +113,8 @@ foldM f s0 as =
     get
 ```
 
-(like `foldl`, `foldM` is not strict, so to avoid a space leak one
-might want to evaluate `s'` before `put`ting it, or use `put'`)
+(Like `foldl`, `foldM` is not strict, so to avoid a space leak one
+might want to evaluate `s'` before `put`ting it.)
 
 ### `mapAccumL`
 
