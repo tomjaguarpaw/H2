@@ -96,6 +96,7 @@ concatMapM f as =
     Streaming.Prelude.for (f a) $ \b ->
       yield b
 
+-- Surely streaming has this?
 toList :: Stream (Of a) Identity r -> [a]
 toList s = case runIdentity (uncons s) of
   Nothing -> []

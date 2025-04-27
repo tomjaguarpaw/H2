@@ -10,7 +10,7 @@ underbar), `for` (without an underbar) and `forever` that work very
 generally to achieve a similar purpose.  Besides those general
 constructs, it has a variety of specific constructs used for looping
 and iteration that could be called "iteration combinators".  This
-article explain how specific iteration combinators can be replaced by
+article explains how specific iteration combinators can be replaced by
 the general ones, and suggests conditions under which you might choose
 to do so.
 
@@ -18,14 +18,14 @@ to do so.
 
 Haskell's `foldl`, `foldl'`, `foldr` and `foldM` iterate over a
 container and produce a "single value" (as opposed to another
-container); they are called "folds" or "fold combinators".
-Additionally, in the standard library and beyond there are functions
-that iterate over a container but don't produce a "single result",
-instead producing another container, and functions that iterate but
-not over a container at all.  Examples of the former include
-`mapAccumR`, `mapAccumL`, `mapAccumLM`, `concatMap` and `mapMaybe`.
-Examples of the latter include `loop` and `loopM`.  In general, we
-could call these folds plus friends "iteration combinators".
+container); they are called "folds" or "fold combinators".  In the
+standard library and beyond there are other functions that iterate
+over a container but don't produce a "single result", instead
+producing another container, and functions that iterate but not over a
+container at all.  Examples of the former include `mapAccumR`,
+`mapAccumL`, `mapAccumLM`, `concatMap` and `mapMaybe`.  Examples of
+the latter include `loop` and `loopM`.  In general, we could call
+these folds plus friends "iteration combinators".
 
 
 Wow, that's a lot of iteration combinators! Is there anything we can
@@ -34,7 +34,7 @@ been impressed by Haskell's ability to generalise seemingly disparate
 concepts, and in so doing simplify them. The case of fold combinators
 is no exception: they can all be rewritten in terms of `for_`; that
 is, `for_` generalises every fold combinator!  The reason is that
-folds over any container (or more accurately, every instance of
+folds over any container (or more accurately, any instance of
 `Foldable`) can be written in terms of `Foldable`'s `foldr` method
 but, equally, every use of `foldr` can be written in terms of `for_`
 (as explained in my article "[`foldl` traverses with `State`, `foldr`
@@ -46,9 +46,9 @@ Furthermore, the other iteration combinators can be generalised by
 concepts is generally preferable, so should we use `for_`, `for` and
 `forever` in preference to specific iteration combinators?  In most
 cases I would say yes.  `foldl'` is probably too simple to be worth
-changing, but in the other cases it becomes difficult to justify
-specific combinators once the "loop bodies" become more complicated,
-and especially once they become monadic (the monadic ones are the ones
+replacing, but in the other cases it becomes difficult to justify
+specific combinators once the "loop bodies" become complicated, and
+especially once they become "monadic" (the "monadic" ones are the ones
 named `...M`).
 
 Let's see how to "do equally as much with less", using `for_` to
@@ -60,7 +60,7 @@ the other iteration combinators.
 
 `foldl` loops over a `Foldable` container, updating a "state
 parameter" at each iteration.  It risks leaking space because it
-doesn't evaluate the state parameter at each iteration; instead it
+doesn't evaluate the state parameter at each iteration; rather it
 creates a new thunk.  Use `foldl'` instead to avoid the risk of space
 leaks.
 
@@ -88,7 +88,7 @@ foldl' f s0 as =
 (Exactly the same code actually works for any `Foldable`, not just
 `[a]`, but I'll stick to lists in type signatures for simplicity.
 Instead of `evalState` and a final `get` we could just use
-`evalState`, but I prefer to *always* use `evalState` for running
+`execState`, but I prefer to *always* use `evalState` for running
 `State` monads, so I can forget about the existence of `runState` and
 `execState`.)
 
@@ -100,7 +100,7 @@ can be replaced with `for_` using exactly the same code as we used for
 `foldl'`, except in the `StateT` monad instead of just `State`.  We
 use `foldM` instead of `foldl'` when the "loop body" `f` has some
 monadic effect `m`. In such cases the loop body is often complex
-enough that it is worth replacing `foldl'` with `for_`.
+enough that it is worth replacing `foldM` with `for_`.
 
 ```.hs
 foldM :: Monad m => (s -> a -> m s) -> s -> [a] -> m s
@@ -113,8 +113,8 @@ foldM f s0 as =
     get
 ```
 
-(`foldM` is not actually strict, so to avoid a space leak one might
-want to evaluate `s'` before `put`ting it.)
+(like `foldl`, `foldM` is not strict, so to avoid a space leak one
+might want to evaluate `s'` before `put`ting it, or use `put'`)
 
 ### `mapAccumL`
 
@@ -123,9 +123,9 @@ updates a "state parameter" at each iteration through elements of a
 list, like `foldl` and `foldl'`. Additionally, it returns a list of
 the same length as the input list, where each output element can
 depend on the input element and the current state.  Thus we can
-replace it with `for` and a `State` monad. I think the latter version
-is *always* preferable to `mapAccumL`.  I get baffled by `mapAccumL`
-when I see it in code but the version in terms of `for` is clear and
+replace it with `for` and a `State` monad. I think the replacement is
+*always* preferable to `mapAccumL`.  I am baffled by `mapAccumL` every
+time I see it used but the version in terms of `for` is clear and
 direct.
 
 ```.hs
@@ -157,7 +157,7 @@ says
 write English from left to right the we ended up calling the last
 element of a list the "rightmost" one and the first the "leftmost"
 one.)  In any case, `mapAccumR` traverses a list from the end to the
-beginning.  For example:
+start.  For example:
 
 ```.hs
 mapAccumRExample :: (String, [String])
@@ -242,7 +242,7 @@ runEarlyReturn = either id id
 is the same as `loop` except that the loop body can run in the monad
 `m`, so we adjust the transformation accordingly.  In cases where the
 loop bodies are complex it starts to look appealing to replace
-`loopM`.
+`loopM` in this way.
 
 ```.hs
 loopM ::
