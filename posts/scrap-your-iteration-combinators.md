@@ -11,9 +11,9 @@ Haskell has standard library functions called
 [`for`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Traversable.html#v:for)
 (without an underbar) and
 [`forever`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Control-Monad.html#v:forever)
-that work very generally to achieve a similar purpose.  Besides those
-general constructs, Haskell has a variety of specific constructs used
-for looping and iteration that could be called "iteration
+that work very generally to achieve a similar purpose.  Besides these
+general constructs, there are a variety of specific constructs used
+for looping and iteration. All together, we might call them "iteration
 combinators".  This article explains how specific iteration
 combinators can be replaced by the general ones, and suggests
 conditions under which you might choose to do so.
@@ -29,9 +29,9 @@ and
 iterate over a container and produce a "single value" (as opposed to
 another container); they are called "folds" or "fold combinators".  In
 the standard library and beyond there are other functions that iterate
-over a container but don't produce a "single result", instead
-producing another container, and functions that iterate but not over a
-container at all.  Examples of the former include ,
+over a container but don't produce a "single result" instead producing
+another container, and functions that iterate but not over a container
+at all.  Examples of the former include
 [`mapAccumL`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumL),
 [`mapAccumR`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumR)
 [`mapAccumLM`](https://hackage.haskell.org/package/ghc-9.12.1/docs/GHC-Utils-Monad.html#v:mapAccumLM),
@@ -49,7 +49,7 @@ combinators".
 Wow, that's a lot of iteration combinators! Is there anything we can
 do to simplify dealing with this menagerie?  Well, I have frequently
 been impressed by Haskell's ability to generalise seemingly disparate
-concepts, and in so doing simplify them. The case of fold combinators
+concepts and, in so doing, simplify them. The case of fold combinators
 is no exception: they can all be rewritten in terms of `for_`; that
 is, `for_` generalises every fold combinator!  The reason is that
 folds over any container (or more accurately, any instance of
@@ -69,7 +69,7 @@ cases I would say yes.  `foldl'` is probably too simple to be worth
 replacing, but in the other cases it becomes difficult to justify
 specific combinators once the "loop bodies" become complicated, and
 especially once the combinators become "monadic" (the "monadic" ones
-are the ones named `...M`).
+are the ones whose names end with `M`).
 
 Let's see how to do "the same with less", using `for_` to replace fold
 combinators, and `for` and `forever` to replace some of the other
@@ -88,7 +88,7 @@ leaks.
 
 Here's how to replace
 [`Data.List.foldl'`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Data-List.html#v:foldl-39-)
-with `for_`.  The idea is the that "state parameter" of `foldl'`
+with `for_`.  The idea is that the "state parameter" of `foldl'`
 becomes the "state parameter" of a
 [`State`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:State)
 monad operation. The code in terms of `for_` will generally be more
@@ -107,9 +107,8 @@ foldl' f s0 as =
     get
 ```
 
-(Exactly the same code actually works for any `Foldable`, not just
-`[a]`, but I'll stick to lists in type signatures for simplicity.
-Instead of
+(Exactly the same code works for any `Foldable`, not just `[a]`, but
+I'll stick to lists in type signatures for simplicity.  Instead of
 [`evalState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:evalState)
 and a final
 [`get`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:get)
@@ -126,8 +125,8 @@ and `execState`.)
 ### `foldM`
 
 [`Control.Monad.foldM`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Control-Monad.html#v:foldM)
-can be replaced with `for_` using same code that we used for `foldl'`,
-except in the
+can be replaced with `for_` using the same code that we used for
+`foldl'`, except in the
 [`StateT`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:StateT)
 monad instead of just `State`.  We use `foldM` instead of `foldl'`
 when the "loop body" `f` has some monadic effect `m`. In such cases
@@ -328,13 +327,17 @@ toList =
    . Streaming.Prelude.toList
 ```
 
-I usually prefer to read the nested `for_` loops than a `concatMap`
-and I also usually find it easier to *write* the nested `for_` loops
+I usually prefer to read the nested `for_` loops to a `concatMap` and
+I also usually find it easier to *write* the nested `for_` loops
 rather than wonder how to express my intent as a `concatMap`.  I would
 always prefer to replace *nested* `concatMaps` with nested `for_`s.
 In many cases, once you have adopted the streaming abstraction, you
 won't actually want to use `toList`.  You can continue using the
 streaming abstraction in the surrounding code.
+
+(An implementation using `pipes`, `conduit` or
+[`Bluefin.Stream`](https://hackage-content.haskell.org/package/bluefin-0.0.15.0/docs/Bluefin-Stream.html)
+would work equally well as `streaming`.)
 
 ### `mapMaybe`
 
@@ -371,6 +374,11 @@ mapMaybeM f as =
           yield b
 ```
 
+(In practice you'll likely want to avoid converting the `Stream` to a
+list and instead consume the stream directly in the surrounding code.
+This allows you to avoid materialising the whole list at once and
+instead process the result in constant space.)
+
 ## `lift`ing
 
 You'll notice that the monadic implementations are full of `lift`s.
@@ -397,7 +405,7 @@ Here is the original code. The "`foldM` body" is `extendSingle`, which
 inspects all the possible cases of one of its arguments to determine
 what to return.  Its other argument is `a`, the "`foldM` state". Its
 initial value is `ppa`.  Many of the branches "error out" by returning
-`Left`. The others return the "updated state".
+`Left`. The other branches return the "updated state".
 
 ```.hs
 extend ::
@@ -443,9 +451,9 @@ extend extSupported langSupported pkgPresent newactives ppa =
           Right x -> Right x
 ```
 
-As explain [above, in the `foldM` section](#foldM), we should proceed
-by introducing a `StateT` transformer around our inner monad `m`,
-which in this case is `Either Conflict`.  We have to insert some
+As explained [above, in the `foldM` section](#foldM), we should
+proceed by introducing a `StateT` transformer around our inner monad
+`m`, which in this case is `Either Conflict`.  We have to insert some
 `lift`s to lift the `Either` into the `StateT`. We'll improve that
 shortly, but for now, let's take stock:
 
@@ -543,7 +551,7 @@ case merge mergedDep (PkgDep dr dep ci) of
   Right x -> put (M.insert qpn x a)
 ```
 
-I don't know why it wasn't like this is the first place. It seems
+I don't know why it wasn't like this in the first place. It seems
 clearer than using `<$>`.  Next I'm going to eliminate the `lift`s by
 replacing `lift $ Left ...` with `throwError`.  I'm also going to
 inline `extendSingle` so the loop body really looks like a loop body.
@@ -591,6 +599,13 @@ succeeds then we insert a new key-value pair into the state.  Simple.
 
 (The `get` is a bit sad all down at the bottom on its own.  If you
 really don't like it you can use `execState` instead of `evalState`.)
+
+## Performance
+
+If using `transformers` or `mtl` then it is likely that the
+transformations described in this article will have no performance
+impact, because after inlining the original and replacement versions
+will optimise to the same compilation result.
 
 ## Conclusion
 

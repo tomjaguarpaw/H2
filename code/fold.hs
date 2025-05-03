@@ -96,10 +96,12 @@ concatMapM f as =
     Streaming.Prelude.for (f a) $ \b ->
       yield b
 
--- Surely streaming has this?
+-- Surely streaming has this?  It doesn't seem to have a _streaming_
+-- version.
 toList :: Stream (Of a) Identity r -> [a]
-toList =
-  Streaming.Prelude.fst' . runIdentity . Streaming.Prelude.toList
+toList s = case runIdentity (Streaming.Prelude.uncons s) of
+  Nothing -> []
+  Just (h, rest) -> h : toList rest
 
 iterate :: (s -> s) -> s -> [s]
 iterate f s0 =
