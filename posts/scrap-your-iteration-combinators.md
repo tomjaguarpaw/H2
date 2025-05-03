@@ -112,7 +112,7 @@ I'll stick to lists in type signatures for simplicity.  Instead of
 [`evalState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:evalState)
 and a final
 [`get`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:get)
-we could just use
+we could use
 [`execState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:execState),
 but I prefer to *always* use `evalState` for running `State` monads,
 so I can forget about the existence of
@@ -396,16 +396,17 @@ Here's [`extend`, a real world function from
 `cabal-install`](https://github.com/haskell/cabal/blob/12f6894cfb154b256342c57348cb754bb18d073d/cabal-install/Distribution/Solver/Modular/Validate.hs#L394-L417),
 which uses `foldM`, and we'll investigate how to change it to use
 `for_` of a `StateT`.  What does `extend` do?  I don't know! But
-that's OK: the procedure we're about to perform is a mechanical
+that's OK: the procedure we're about to see is a mechanical
 refactoring that preserves program behaviour.  In fact, I think it's
 easier to understand what `extend` does *by transforming it to `for_`
 form first!*  Let's see.
 
 Here is the original code. The "`foldM` body" is `extendSingle`, which
 inspects all the possible cases of one of its arguments to determine
-what to return.  Its other argument is `a`, the "`foldM` state". Its
-initial value is `ppa`.  Many of the branches "error out" by returning
-`Left`. The other branches return the "updated state".
+what to return.  Its other argument of `extendSingle` is `a`, the
+"`foldM` state". Its initial value is `ppa`.  Many of the branches
+"error out" by returning `Left`. The other branches return the
+"updated state".
 
 ```.hs
 extend ::
@@ -502,9 +503,9 @@ extend extSupported langSupported pkgPresent newactives ppa = do
           Right x -> put x
 ```
 
-So far so mechanical, and it looks it!  The code is less clear than
-before, not more.  But we can do better.  There are plenty of places
-we `get` the value `a`, only to `put` it straight back.  These cases
+So far so mechanical, and it looks it.  The code is less clear than
+before, not more.  But we can do better: there are plenty of places we
+`get` the value `a`, only to `put` it straight back.  These cases
 follow the pattern:
 
 ```.hs
@@ -516,7 +517,17 @@ do
      ...
 ```
 
-There's no point doing that.  Let's just use `unless`:
+That's the same as not getting or putting the state at all:
+
+```.hs
+do
+  if extSupported ext
+  then pure ()
+  else lift $ Left
+     ...
+```
+
+And that's the same as using `unless`:
 
 ```.hs
 extendSingle ::
@@ -551,10 +562,10 @@ case merge mergedDep (PkgDep dr dep ci) of
   Right x -> put (M.insert qpn x a)
 ```
 
-I don't know why it wasn't like this in the first place. It seems
-clearer than using `<$>`.  Next I'm going to eliminate the `lift`s by
-replacing `lift $ Left ...` with `throwError`.  I'm also going to
-inline `extendSingle` so the loop body really looks like a loop body.
+It seems clearer than using `<$>`.  Next I'm going to eliminate the
+`lift`s by switching to `mtl` and replacing `lift $ Left ...` with
+`throwError ...`.  I'm also going to inline `extendSingle` so the loop
+body really looks like a loop body.
 
 ```.hs
 import Control.Monad.State.Strict (evalStateT, get, put)
@@ -597,15 +608,21 @@ package we check whether it is supported, and if not then we
 condition, and if it fails then we `throwError`.  If the condition
 succeeds then we insert a new key-value pair into the state.  Simple.
 
-(The `get` is a bit sad all down at the bottom on its own.  If you
-really don't like it you can use `execState` instead of `evalState`.)
+(The `get` is a bit sad and awkward all down at the bottom on its own.
+If you really don't like it you can use `execState` instead of
+`evalState`.)
 
 ## Performance
 
 If using `transformers` or `mtl` then it is likely that the
 transformations described in this article will have no performance
 impact, because after inlining the original and replacement versions
-will optimise to the same compilation result.
+will optimise to the same compilation result.  If you use Bluefin then
+it's likely you'll experience some slow down relative to the original
+versions when the loop bodies are small and can be completely inlined.
+On the other hand it's possible that you will experience a performance
+boost for large loop bodies, especially if they span module boundaries
+and cannot be entirely inlined.
 
 ## Conclusion
 
