@@ -377,9 +377,10 @@ You'll notice that the monadic implementations are full of `lift`s.
 Depending on the context that might be fine (especially if using the
 `mtl` versions of operations, where sometimes the `lift`s can be
 inferred, rather than the `transformers` versions) but sometimes it
-might be very tedious.  In any case, as the maintainer of the Bluefin
-effect system I recommend using Bluefin instead of `mtl` or
-`transformers` for a `lift`-free experience.
+might be very tedious.  In any case, as the maintainer of the
+[Bluefin](https://hackage.haskell.org/package/bluefin) effect system I
+recommend using Bluefin instead of `mtl` or `transformers` for a
+`lift`-free experience.
 
 ## Real world example
 
@@ -543,9 +544,9 @@ case merge mergedDep (PkgDep dr dep ci) of
 ```
 
 I don't know why it wasn't like this is the first place. It seems
-clearer than using `<$>`.  Now I'm going to eliminate the `lift`s by
+clearer than using `<$>`.  Next I'm going to eliminate the `lift`s by
 replacing `lift $ Left ...` with `throwError`.  I'm also going to
-inline `extendSingle` so the loop body really looks like a loop body!
+inline `extendSingle` so the loop body really looks like a loop body.
 
 ```.hs
 import Control.Monad.State.Strict (evalStateT, get, put)
@@ -584,9 +585,17 @@ extend extSupported langSupported pkgPresent newactives ppa = do
 I find this code very clear!  We start with an initial state of `ppa`.
 For each of the `newactives`, if it is an extension, language or
 package we check whether it is supported, and if not then we
-`throwError`.  If it is a dependency then we check some condition, and
-if it fails then we `throwError`.  If the condition succeeds then we
-insert a new key-value pair into the state.  Simple.
+`throwError`.  If it is a dependency then we check a mergeability
+condition, and if it fails then we `throwError`.  If the condition
+succeeds then we insert a new key-value pair into the state.  Simple.
 
 (The `get` is a bit sad all down at the bottom on its own.  If you
 really don't like it you can use `execState` instead of `evalState`.)
+
+## Conclusion
+
+Instead of remembering how to use a plethora of increasingly
+complicated iteration combinators, we can instead remember how a small
+collection of monads or monad transformers work (especially monads for
+state, exceptions and streaming), and stick to the simple and obvious
+iteration combinators `for_`, `for` and `forever`.
