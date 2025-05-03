@@ -98,9 +98,8 @@ concatMapM f as =
 
 -- Surely streaming has this?
 toList :: Stream (Of a) Identity r -> [a]
-toList s = case runIdentity (uncons s) of
-  Nothing -> []
-  Just (h, rest) -> h : toList rest
+toList =
+  Streaming.Prelude.fst' . runIdentity . Streaming.Prelude.toList
 
 iterate :: (s -> s) -> s -> [s]
 iterate f s0 =

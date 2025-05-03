@@ -1,31 +1,49 @@
 # Scrap your iteration combinators
 
--- by Tom Ellis, April 2025
+-- by Tom Ellis, May 2025
 
 Typical programming languages have "for" and "while" loop constructs
 that allow iteration over a range of numbers, over the elements of a
 container, until a condition is satisfied, or simply indefinitely.
-Haskell has standard library functions called `for_` (with an
-underbar), `for` (without an underbar) and `forever` that work very
-generally to achieve a similar purpose.  Besides those general
-constructs, it has a variety of specific constructs used for looping
-and iteration that could be called "iteration combinators".  This
-article explains how specific iteration combinators can be replaced by
-the general ones, and suggests conditions under which you might choose
-to do so.
+Haskell has standard library functions called
+[`for_`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Foldable.html#v:for_)
+(with an underbar),
+[`for`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Traversable.html#v:for)
+(without an underbar) and
+[`forever`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Control-Monad.html#v:forever)
+that work very generally to achieve a similar purpose.  Besides those
+general constructs, Haskell has a variety of specific constructs used
+for looping and iteration that could be called "iteration
+combinators".  This article explains how specific iteration
+combinators can be replaced by the general ones, and suggests
+conditions under which you might choose to do so.
 
 ## Fold and iteration combinators
 
-Haskell's `foldl`, `foldl'`, `foldr` and `foldM` iterate over a
-container and produce a "single value" (as opposed to another
-container); they are called "folds" or "fold combinators".  In the
-standard library and beyond there are other functions that iterate
+Haskell's
+[`foldl`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Foldable.html#v:foldl),
+[`foldl'`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Foldable.html#v:foldl-39-),
+[`foldr`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Foldable.html#v:foldr)
+and
+[`foldM`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Control-Monad.html#v:foldM)
+iterate over a container and produce a "single value" (as opposed to
+another container); they are called "folds" or "fold combinators".  In
+the standard library and beyond there are other functions that iterate
 over a container but don't produce a "single result", instead
 producing another container, and functions that iterate but not over a
-container at all.  Examples of the former include `mapAccumR`,
-`mapAccumL`, `mapAccumLM`, `concatMap` and `mapMaybe`.  Examples of
-the latter include `loop` and `loopM`.  In general, we could call
-these folds plus friends "iteration combinators".
+container at all.  Examples of the former include ,
+[`mapAccumL`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumL),
+[`mapAccumR`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumR)
+[`mapAccumLM`](https://hackage.haskell.org/package/ghc-9.12.1/docs/GHC-Utils-Monad.html#v:mapAccumLM),
+[`concatMap`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Prelude.html#v:concatMap)
+and
+[`mapMaybe`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Maybe.html#v:mapMaybe);
+examples of the latter include
+[`loop`](https://hackage.haskell.org/package/extra-1.8/docs/Control-Monad-Extra.html#v:loop)
+and
+[`loopM`](https://hackage.haskell.org/package/extra-1.8/docs/Control-Monad-Extra.html#v:loopM).
+In general, we could call these folds plus friends "iteration
+combinators".
 
 
 Wow, that's a lot of iteration combinators! Is there anything we can
@@ -35,10 +53,12 @@ concepts, and in so doing simplify them. The case of fold combinators
 is no exception: they can all be rewritten in terms of `for_`; that
 is, `for_` generalises every fold combinator!  The reason is that
 folds over any container (or more accurately, any instance of
-`Foldable`) can be written in terms of `Foldable`'s `foldr` method
-but, equally, every use of `foldr` can be written in terms of `for_`
-(as explained in my article "[`foldl` traverses with `State`, `foldr`
-traverses with
+[`Foldable`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Prelude.html#t:Foldable))
+can be written in terms of `Foldable`'s
+[`foldr`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Prelude.html#v:foldr)
+method but, equally, every use of `foldr` can be written in terms of
+`for_` (as explained in my article "[`foldl` traverses with `State`,
+`foldr` traverses with
 anything](../foldl-traverses-state-foldr-traverses-anything/)").
 
 Furthermore, the other iteration combinators can be generalised by
@@ -48,12 +68,12 @@ concepts is generally preferable, so should we use `for_`, `for` and
 cases I would say yes.  `foldl'` is probably too simple to be worth
 replacing, but in the other cases it becomes difficult to justify
 specific combinators once the "loop bodies" become complicated, and
-especially once they become "monadic" (the "monadic" ones are the ones
-named `...M`).
+especially once the combinators become "monadic" (the "monadic" ones
+are the ones named `...M`).
 
-Let's see how to "do equally as much with less", using `for_` to
-replace fold combinators, and `for` and `forever` to replace some of
-the other iteration combinators.
+Let's see how to do "the same with less", using `for_` to replace fold
+combinators, and `for` and `forever` to replace some of the other
+iteration combinators.
 
 
 ### `foldl`
@@ -69,10 +89,12 @@ leaks.
 Here's how to replace
 [`Data.List.foldl'`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Data-List.html#v:foldl-39-)
 with `for_`.  The idea is the that "state parameter" of `foldl'`
-becomes the "state parameter" of a `State` monad operation. The code
-in terms of `for_` will generally be more complicated than the code
-written in terms of `foldl'`, so unless the "loop body" `f` is large,
-it's probably not worth using `for_` in preference.
+becomes the "state parameter" of a
+[`State`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:State)
+monad operation. The code in terms of `for_` will generally be more
+complicated than the code written in terms of `foldl'`, so unless the
+"loop body" `f` is large, it's probably not worth using `for_` in
+preference.
 
 ```.hs
 foldl' :: (s -> a -> s) -> s -> [a] -> s
@@ -87,20 +109,30 @@ foldl' f s0 as =
 
 (Exactly the same code actually works for any `Foldable`, not just
 `[a]`, but I'll stick to lists in type signatures for simplicity.
-Instead of `evalState` and a final `get` we could just use
-`execState`, but I prefer to *always* use `evalState` for running
-`State` monads, so I can forget about the existence of `runState` and
-`execState`.)
+Instead of
+[`evalState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:evalState)
+and a final
+[`get`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:get)
+we could just use
+[`execState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:execState),
+but I prefer to *always* use `evalState` for running `State` monads,
+so I can forget about the existence of
+[`runState`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:runState)
+and `execState`.)
 
 
 ### `foldM`
 
 [`Control.Monad.foldM`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Control-Monad.html#v:foldM)
-can be replaced with `for_` using exactly the same code as we used for
-`foldl'`, except in the `StateT` monad instead of just `State`.  We
-use `foldM` instead of `foldl'` when the "loop body" `f` has some
-monadic effect `m`. In such cases the loop body is often complex
-enough that it is worth replacing `foldM` with `for_`.
+can be replaced with `for_` using same code that we used for `foldl'`,
+except in the
+[`StateT`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:StateT)
+monad instead of just `State`.  We use `foldM` instead of `foldl'`
+when the "loop body" `f` has some monadic effect `m`. In such cases
+the loop body is often complex enough that `get` and
+[`put`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#v:put)
+can be absorbed into it, and it becomes worth replacing `foldM` with
+`for_`.
 
 ```.hs
 foldM :: Monad m => (s -> a -> m s) -> s -> [a] -> m s
@@ -122,11 +154,11 @@ might want to evaluate `s'` before `put`ting it.)
 updates a "state parameter" at each iteration through elements of a
 list, like `foldl` and `foldl'`. Additionally, it returns a list of
 the same length as the input list, where each output element can
-depend on the input element and the current state.  Thus we can
-replace it with `for` and a `State` monad. I think the replacement is
-*always* preferable to `mapAccumL`.  I am baffled by `mapAccumL` every
-time I see it used but the version in terms of `for` is clear and
-direct.
+depend on the input element and the state at the time the input
+element is reached.  Thus we can replace it with `for` and a `State`
+monad. I think the replacement is *always* preferable to `mapAccumL`.
+I am baffled by `mapAccumL` every time I see it but the version in
+terms of `for` is clear and direct.
 
 ```.hs
 mapAccumL ::
@@ -141,8 +173,9 @@ mapAccumL f s0 as =
 ```
 
 (This implementation generalises to any `Traversable`.  In a real use
-case the `swap` would probably be absorbed into the surrounding code.
-Again, for strictness, we might want to evaluate `s'`.)
+case the `swap`, `get` and `put` would probably be absorbed into the
+surrounding code.  Again, for strictness, we might want to evaluate
+`s'`.)
 
 ### `mapAccumR`
 
@@ -154,10 +187,10 @@ says
 > structure, passing an accumulating parameter from right to left
 
 ("Right" and "left" here really mean "end" and "start", but because we
-write English from left to right the we ended up calling the last
-element of a list the "rightmost" one and the first the "leftmost"
-one.)  In any case, `mapAccumR` traverses a list from the end to the
-start.  For example:
+write English from left to right the we call the last element of a
+list the "rightmost" one and the first the "leftmost" one.)  In any
+case, `mapAccumR` traverses a list from the end to the start.  For
+example:
 
 ```.hs
 mapAccumRExample :: (String, [String])
@@ -173,9 +206,10 @@ ghci> mapAccumRExample
 ("start->4->3->2->1",["start->4->3->2->1","start->4->3->2","start->4->3","start->4"])
 ```
 
-This means that `mapAccumR` is equivalent to `reverse`ing a list,
-applying `mapAccumL`, and then `reverse`ing the resulting list. I
-don't particularly see the point of `mapAccumL`, so I suggest
+This means that `mapAccumR` is equivalent to
+[`reverse`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html)ing
+a list, applying `mapAccumL`, and then `reverse`ing the resulting
+list. I don't particularly see the point of `mapAccumL`, so I suggest
 rewriting it in terms of `reverse` and `mapAccumL`, and from there in
 terms of `for` and `State`.
 
@@ -204,9 +238,10 @@ mapAccumLM f s0 as =
       pure b
 ```
 
-(Again, in practice the `swap` will probably be absorbed into the
-surrounding code, and we might want to evaluate `s'`.  See also [a
-related Discourse
+(Again, in practice the
+[`swap`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Tuple.html#v:swap),
+`get` and `put` will probably be absorbed into the surrounding code,
+and we might want to evaluate `s'`.  See also [a related Discourse
 thread](https://discourse.haskell.org/t/break-with-traverse-traverse/9152/19?u=tomjaguarpaw).)
 
 ### `loop`
@@ -266,12 +301,15 @@ Ditto `s'` evaluation.)
 
 ### `concatMap`
 
-`concatMap` iterates over a list and produces, for each element,
-another list of elements.  All elements produced in this way are
-concatenated into a result list.  This process is equivalent to two
-nested `for_` loops, and in order to express it as such we need
-something we haven't seen yet in this article: a streaming
-abstraction.  Here is an implementation using the `streaming` library:
+
+[`Data.Foldable.concatMap`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Foldable.html)
+iterates over a list and produces, for each element, another list of
+elements.  All elements produced in this way are concatenated into a
+result list.  This process is equivalent to two nested `for_` loops,
+and in order to express it as such we need something we haven't seen
+yet in this article: a streaming abstraction.  Here is an
+implementation using the
+[`streaming`](https://hackage.haskell.org/package/streaming) library:
 
 ```.hs
 concatMap :: (a -> [b]) -> [a] -> [b]
@@ -280,6 +318,10 @@ concatMap f as =
     for_ as $ \a ->
       for_ (f a) $ \b ->
         yield b
+
+toList :: Stream (Of a) Identity r -> [a]
+toList =
+  Streaming.Prelude.fst' . runIdentity . Streaming.Prelude.toList
 ```
 
 I usually prefer to read the nested `for_` loops than a `concatMap`
