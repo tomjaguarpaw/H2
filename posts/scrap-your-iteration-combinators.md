@@ -400,67 +400,58 @@ initial value is `ppa`.  Many of the branches "error out" by returning
 
 ```.hs
 extend ::
-  (Extension -> Bool) ->
-  (Language  -> Bool) ->
-  Maybe (PkgconfigName -> PkgconfigVersionRange -> Bool) ->
-  [LDep QPN] ->
-  PPreAssignment ->
-  Either Conflict PPreAssignment
-extend extSupported langSupported pkgPresent newactives ppa =
-  foldM extendSingle ppa newactives
-  where
-   extendSingle ::
-     LDep QPN ->
-     StateT PPreAssignment (Either Conflict) ()
-   extendSingle a (LDep dr (Ext  ext)) =
-     if extSupported ext
-     then Right a
-     else
-       Left
-         (dependencyReasonToConflictSet dr,
-          UnsupportedExtension ext)
-   extendSingle a (LDep dr (Lang lang)) =
-     if langSupported lang
-     then Right a
-     else
-       Left
-         (dependencyReasonToConflictSet dr,
-          UnsupportedLanguage lang)
-   extendSingle a (LDep dr (Pkg pn vr)) =
-     case (\f -> f pn vr) <$> pkgPresent of
-       Just True -> Right a
-       Just False ->
-         Left
-           (dependencyReasonToConflictSet dr,
-            MissingPkgconfigPackage pn vr)
-       Nothing ->
-         Left
-           (dependencyReasonToConflictSet dr,
-            MissingPkgconfigProgram pn vr)
-   extendSingle a (LDep dr (Dep dep@(PkgComponent qpn _) ci)) =
-     let mergedDep =
-           M.findWithDefault (MergedDepConstrained []) qpn a
-     in case
-          (\ x -> M.insert qpn x a)
-            <$> merge mergedDep (PkgDep dr dep ci) of
-           Left (c, (d, d')) ->
-             Left (c, ConflictingConstraints d d')
-           Right x ->
-             Right x
-```
-
-As explain [above, in the `foldM` section](#foldM), we should proceed
-by introducing a `StateT` transformer around our inner monad `m`,
-which in this case is `Either Conflict`.
-
-```.hs
-extend ::
  (Extension -> Bool) ->
  (Language  -> Bool) ->
  (PkgconfigName -> PkgconfigVersionRange -> Bool) ->
  [LDep QPN] ->
  PPreAssignment ->
  Either Conflict PPreAssignment
+extend extSupported langSupported pkgPresent newactives ppa =
+  foldM extendSingle ppa newactives
+  where
+    extendSingle ::
+      PPreAssignment ->
+      LDep QPN ->
+      Either Conflict PPreAssignment
+    extendSingle a (LDep dr (Ext ext)) =
+      if extSupported ext
+      then Right a
+      else Left
+           (dependencyReasonToConflictSet dr,
+            UnsupportedExtension ext)
+    extendSingle a (LDep dr (Lang lang)) =
+      if langSupported lang
+      then Right a
+      else Left
+             (dependencyReasonToConflictSet dr,
+              UnsupportedLanguage lang)
+    extendSingle a (LDep dr (Pkg pn vr)) =
+      if pkgPresent pn vr
+      then Right a
+      else Left
+            (dependencyReasonToConflictSet dr,
+             MissingPkgconfigPackage pn vr)
+    extendSingle a (LDep dr (Dep dep@(PkgComponent qpn _) ci)) =
+      let mergedDep =
+            M.findWithDefault (MergedDepConstrained []) qpn a
+      in case
+        (\x -> M.insert qpn x a)
+          <$> merge mergedDep (PkgDep dr dep ci) of
+          Left (c, (d, d')) ->
+            Left (c, ConflictingConstraints d d')
+          Right x -> Right x
+```
+
+As explain [above, in the `foldM` section](#foldM), we should proceed
+by introducing a `StateT` transformer around our inner monad `m`,
+which in this case is `Either Conflict`.  We have to insert some
+`lift`s to lift the `Either` into the `StateT`. We'll improve that
+shortly, but for now, let's take stock:
+
+```.hs
+import Control.Monad.Trans.State.Strict
+  (StateT, evalStateT, get, put)
+
 extend extSupported langSupported pkgPresent newactives ppa = do
   flip evalStateT ppa $ do
     for_ newactives extendSingle
@@ -495,9 +486,107 @@ extend extSupported langSupported pkgPresent newactives ppa = do
       let mergedDep =
             M.findWithDefault (MergedDepConstrained []) qpn a
       case
-        (\ x -> M.insert qpn x a)
+        (\x -> M.insert qpn x a)
           <$> merge mergedDep (PkgDep dr dep ci) of
           Left (c, (d, d')) ->
             lift $ Left (c, ConflictingConstraints d d')
           Right x -> put x
 ```
+
+So far so mechanical, and it looks it!  The code is less clear than
+before, not more.  But we can do better.  There are plenty of places
+we `get` the value `a`, only to `put` it straight back.  These cases
+follow the pattern:
+
+```.hs
+do
+  a <- get
+  if extSupported ext
+  then put a
+  else lift $ Left
+     ...
+```
+
+There's no point doing that.  Let's just use `unless`:
+
+```.hs
+extendSingle ::
+  LDep QPN ->
+  StateT PPreAssignment (Either Conflict) ()
+extendSingle (LDep dr (Ext ext)) = do
+  unless (extSupported ext) $
+    lift $ Left
+      (dependencyReasonToConflictSet dr,
+       UnsupportedExtension ext)
+extendSingle (LDep dr (Lang lang)) = do
+  unless (langSupported lang) $
+    lift $ Left
+      (dependencyReasonToConflictSet dr,
+       UnsupportedLanguage lang)
+extendSingle (LDep dr (Pkg pn vr)) = do
+  unless (pkgPresent pn vr) $
+    lift $ Left
+      (dependencyReasonToConflictSet dr,
+       MissingPkgconfigPackage pn vr)
+...
+```
+
+Before proceeding to eliminate the `lift`s I want to make an unrelated
+refactoring: move the `M.insert qpn x` into the `Right` branch, like
+so:
+
+```.hs
+case merge mergedDep (PkgDep dr dep ci) of
+  Left (c, (d, d')) ->
+    lift $ Left (c, ConflictingConstraints d d')
+  Right x -> put (M.insert qpn x a)
+```
+
+I don't know why it wasn't like this is the first place. It seems
+clearer than using `<$>`.  Now I'm going to eliminate the `lift`s by
+replacing `lift $ Left ...` with `throwError`.  I'm also going to
+inline `extendSingle` so the loop body really looks like a loop body!
+
+```.hs
+import Control.Monad.State.Strict (evalStateT, get, put)
+import Control.Monad.Except (throwError)
+
+extend extSupported langSupported pkgPresent newactives ppa = do
+  flip evalStateT ppa $ do
+    for_ newactives $ \case
+      LDep dr (Ext ext) -> do
+        unless (extSupported ext) $
+          throwError
+            (dependencyReasonToConflictSet dr,
+             UnsupportedExtension ext)
+      LDep dr (Lang lang) -> do
+        unless (langSupported lang) $
+          throwError
+            (dependencyReasonToConflictSet dr,
+             UnsupportedLanguage lang)
+      LDep dr (Pkg pn vr) -> do
+        unless (pkgPresent pn vr) $
+          throwError
+            (dependencyReasonToConflictSet dr,
+             MissingPkgconfigPackage pn vr)
+      LDep dr (Dep dep@(PkgComponent qpn _) ci) -> do
+        a <- get
+        let mergedDep =
+              M.findWithDefault (MergedDepConstrained []) qpn a
+        case merge mergedDep (PkgDep dr dep ci) of
+          Left (c, (d, d')) ->
+            throwError (c, ConflictingConstraints d d')
+          Right x -> put (M.insert qpn x a)
+
+    get
+```
+
+I find this code very clear!  We start with an initial state of `ppa`.
+For each of the `newactives`, if it is an extension, language or
+package we check whether it is supported, and if not then we
+`throwError`.  If it is a dependency then we check some condition, and
+if it fails then we `throwError`.  If the condition succeeds then we
+insert a new key-value pair into the state.  Simple.
+
+(The `get` is a bit sad all down at the bottom on its own.  If you
+really don't like it you can use `execState` instead of `evalState`.)
