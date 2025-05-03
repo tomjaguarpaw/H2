@@ -121,6 +121,8 @@ so I can forget about the existence of
 and `execState`.)
 
 
+<a name="foldM">
+
 ### `foldM`
 
 [`Control.Monad.foldM`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Control-Monad.html#v:foldM)
@@ -321,7 +323,9 @@ concatMap f as =
 
 toList :: Stream (Of a) Identity r -> [a]
 toList =
-  Streaming.Prelude.fst' . runIdentity . Streaming.Prelude.toList
+  Streaming.Prelude.fst'
+   . runIdentity
+   . Streaming.Prelude.toList
 ```
 
 I usually prefer to read the nested `for_` loops than a `concatMap`
@@ -334,8 +338,9 @@ streaming abstraction in the surrounding code.
 
 ### `mapMaybe`
 
-`mapMaybe` serves a similar purpose to `concatMap`. Its replacement in
-terms of `for_` is identical, because `for_` is polymorphic.  In the
+[`Data.Maybe.mapMaybe`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Maybe.html#v:mapMaybe)
+serves a similar purpose to `concatMap`. Its replacement in terms of
+`for_` is identical, because `for_` is polymorphic.  In the
 `concatMap` replacement `for_ (f a)` was over a list and in the
 `mapMaybe` replacement `for_ (f a)` is over a `Maybe`.
 
@@ -350,11 +355,21 @@ mapMaybe f as =
 
 ### `mapMaybeM`
 
-<https://www.stackage.org/haddock/lts-22.15/extra-1.7.14/Control-Monad-Extra.html#v:mapMaybeM>
+[`Control.Monad.Extra.mapMaybeM`](<https://www.stackage.org/haddock/lts-22.15/extra-1.7.14/Control-Monad-Extra.html#v:mapMaybeM>)
+is the monadic version of `mapMaybe`.  It is even more compelling to
+replace `mapMaybeM` with `for_` than it is `mapMaybe`.
 
-### `any`
-
-### `anyM`
+```.hs
+mapMaybeM ::
+  (Monad m) => (a -> m (Maybe b)) -> [a] -> m [b]
+mapMaybeM f as =
+  fmap Streaming.Prelude.fst' $
+    Streaming.Prelude.toList $
+      for_ as $ \a -> do
+        fa <- lift (f a)
+        for_ fa $ \b ->
+          yield b
+```
 
 ## `lift`ing
 
@@ -363,5 +378,126 @@ Depending on the context that might be fine (especially if using the
 `mtl` versions of operations, where sometimes the `lift`s can be
 inferred, rather than the `transformers` versions) but sometimes it
 might be very tedious.  In any case, as the maintainer of the Bluefin
-effect system I recommend using it instead of `mtl` or `transformers`
-for a `lift`-free experience.
+effect system I recommend using Bluefin instead of `mtl` or
+`transformers` for a `lift`-free experience.
+
+## Real world example
+
+Here's [`extend`, a real world function from
+`cabal-install`](https://github.com/haskell/cabal/blob/12f6894cfb154b256342c57348cb754bb18d073d/cabal-install/Distribution/Solver/Modular/Validate.hs#L394-L417),
+which uses `foldM`, and we'll investigate how to change it to use
+`for_` of a `StateT`.  What does `extend` do?  I don't know! But
+that's OK: the procedure we're about to perform is a mechanical
+refactoring that preserves program behaviour.  In fact, I think it's
+easier to understand what `extend` does *by transforming it to `for_`
+form first!*  Let's see.
+
+Here is the original code. The "`foldM` body" is `extendSingle`, which
+inspects all the possible cases of one of its arguments to determine
+what to return.  Its other argument is `a`, the "`foldM` state". Its
+initial value is `ppa`.  Many of the branches "error out" by returning
+`Left`. The others return the "updated state".
+
+```.hs
+extend ::
+  (Extension -> Bool) ->
+  (Language  -> Bool) ->
+  Maybe (PkgconfigName -> PkgconfigVersionRange -> Bool) ->
+  [LDep QPN] ->
+  PPreAssignment ->
+  Either Conflict PPreAssignment
+extend extSupported langSupported pkgPresent newactives ppa =
+  foldM extendSingle ppa newactives
+  where
+   extendSingle ::
+     LDep QPN ->
+     StateT PPreAssignment (Either Conflict) ()
+   extendSingle a (LDep dr (Ext  ext)) =
+     if extSupported ext
+     then Right a
+     else
+       Left
+         (dependencyReasonToConflictSet dr,
+          UnsupportedExtension ext)
+   extendSingle a (LDep dr (Lang lang)) =
+     if langSupported lang
+     then Right a
+     else
+       Left
+         (dependencyReasonToConflictSet dr,
+          UnsupportedLanguage lang)
+   extendSingle a (LDep dr (Pkg pn vr)) =
+     case (\f -> f pn vr) <$> pkgPresent of
+       Just True -> Right a
+       Just False ->
+         Left
+           (dependencyReasonToConflictSet dr,
+            MissingPkgconfigPackage pn vr)
+       Nothing ->
+         Left
+           (dependencyReasonToConflictSet dr,
+            MissingPkgconfigProgram pn vr)
+   extendSingle a (LDep dr (Dep dep@(PkgComponent qpn _) ci)) =
+     let mergedDep =
+           M.findWithDefault (MergedDepConstrained []) qpn a
+     in case
+          (\ x -> M.insert qpn x a)
+            <$> merge mergedDep (PkgDep dr dep ci) of
+           Left (c, (d, d')) ->
+             Left (c, ConflictingConstraints d d')
+           Right x ->
+             Right x
+```
+
+As explain [above, in the `foldM` section](#foldM), we should proceed
+by introducing a `StateT` transformer around our inner monad `m`,
+which in this case is `Either Conflict`.
+
+```.hs
+extend ::
+ (Extension -> Bool) ->
+ (Language  -> Bool) ->
+ (PkgconfigName -> PkgconfigVersionRange -> Bool) ->
+ [LDep QPN] ->
+ PPreAssignment ->
+ Either Conflict PPreAssignment
+extend extSupported langSupported pkgPresent newactives ppa = do
+  flip evalStateT ppa $ do
+    for_ newactives extendSingle
+    get
+  where
+    extendSingle ::
+      LDep QPN ->
+      StateT PPreAssignment (Either Conflict) ()
+    extendSingle (LDep dr (Ext ext)) = do
+      a <- get
+      if extSupported ext
+      then put a
+      else lift $ Left
+           (dependencyReasonToConflictSet dr,
+            UnsupportedExtension ext)
+    extendSingle (LDep dr (Lang lang)) = do
+      a <- get
+      if langSupported lang
+      then put a
+      else lift $ Left
+             (dependencyReasonToConflictSet dr,
+              UnsupportedLanguage lang)
+    extendSingle (LDep dr (Pkg pn vr)) = do
+      a <- get
+      if pkgPresent pn vr
+      then put a
+      else lift $ Left
+            (dependencyReasonToConflictSet dr,
+             MissingPkgconfigPackage pn vr)
+    extendSingle (LDep dr (Dep dep@(PkgComponent qpn _) ci)) = do
+      a <- get
+      let mergedDep =
+            M.findWithDefault (MergedDepConstrained []) qpn a
+      case
+        (\ x -> M.insert qpn x a)
+          <$> merge mergedDep (PkgDep dr dep ci) of
+          Left (c, (d, d')) ->
+            lift $ Left (c, ConflictingConstraints d d')
+          Right x -> put x
+```

@@ -144,12 +144,14 @@ mapMaybe f as =
         yield b
 
 mapMaybeM ::
-  (Monad m) => (a -> m (Maybe b)) -> [a] -> Stream (Of b) m ()
+  (Monad m) => (a -> m (Maybe b)) -> [a] -> m [b]
 mapMaybeM f as =
-  for_ as $ \a -> do
-    fa <- lift (f a)
-    for_ fa $ \b ->
-      yield b
+  fmap Streaming.Prelude.fst' $
+    Streaming.Prelude.toList $
+      for_ as $ \a -> do
+        fa <- lift (f a)
+        for_ fa $ \b ->
+          yield b
 
 any :: (a -> Bool) -> [a] -> Bool
 any f as =
