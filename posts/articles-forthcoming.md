@@ -27,14 +27,6 @@
 
   <https://github.com/haskell-streaming/streaming/issues/110#issuecomment-1518988421>
 
-* Bluefin OO article
-
-  Ömer Sinan Ağacan wrote an article explaining the benefits of object
-  oriented design. He started explaining a Haskell-based solution but
-  didn't take it far enough.  The job can be finished using Bluefin.
-
-  <https://osa1.net/posts/2024-10-09-oop-good.html>
-
 * Scrap your fold combinators
 
   Confused about fold combinators?  Then just use `for_` and save
