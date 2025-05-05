@@ -11,9 +11,9 @@ Haskell has standard library functions called
 [`for`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-Traversable.html#v:for)
 (without an underbar) and
 [`forever`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Control-Monad.html#v:forever)
-that work very generally to achieve a similar purpose.  Besides these
+that work very generally to achieve similar purposes.  Besides these
 general constructs, there are a variety of specific constructs used
-for looping and iteration. All together, we might call them "iteration
+for looping and iteration. Taken together we might call them "iteration
 combinators".  This article explains how specific iteration
 combinators can be replaced by the general ones, and suggests
 conditions under which you might choose to do so.
@@ -33,7 +33,7 @@ over a container but don't produce a "single result" instead producing
 another container, and functions that iterate but not over a container
 at all.  Examples of the former include
 [`mapAccumL`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumL),
-[`mapAccumR`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumR)
+[`mapAccumR`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html#v:mapAccumR),
 [`mapAccumLM`](https://hackage.haskell.org/package/ghc-9.12.1/docs/GHC-Utils-Monad.html#v:mapAccumLM),
 [`concatMap`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Prelude.html#v:concatMap)
 and
@@ -327,9 +327,9 @@ toList =
    . Streaming.Prelude.toList
 ```
 
-I usually prefer to read the nested `for_` loops to a `concatMap` and
-I also usually find it easier to *write* the nested `for_` loops
-rather than wonder how to express my intent as a `concatMap`.  I would
+I usually prefer reading the nested `for_` loops to reading a
+`concatMap`, and I usually find it easier to *write* the nested `for_`
+loops than wonder how to express my intent as a `concatMap`.  I would
 always prefer to replace *nested* `concatMaps` with nested `for_`s.
 In many cases, once you have adopted the streaming abstraction, you
 won't actually want to use `toList`.  You can continue using the
@@ -381,11 +381,12 @@ instead process the result in constant space.)
 
 ## `lift`ing
 
-You'll notice that the monadic implementations are full of `lift`s.
-Depending on the context that might be fine (especially if using the
-`mtl` versions of operations, where sometimes the `lift`s can be
-inferred, rather than the `transformers` versions) but sometimes it
-might be very tedious.  In any case, as the maintainer of the
+You'll notice that the monadic implementations are full of
+[`lift`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-Class.html#v:lift)s. Depending
+on the context that might be fine (especially if using the `mtl`
+versions of operations, where sometimes the `lift`s can be inferred,
+rather than the `transformers` versions) but sometimes it might be
+tedious.  In any case, as the maintainer of the
 [Bluefin](https://hackage.haskell.org/package/bluefin) effect system I
 recommend using Bluefin instead of `mtl` or `transformers` for a
 `lift`-free experience.
@@ -394,19 +395,19 @@ recommend using Bluefin instead of `mtl` or `transformers` for a
 
 Here's [`extend`, a real world function from
 `cabal-install`](https://github.com/haskell/cabal/blob/12f6894cfb154b256342c57348cb754bb18d073d/cabal-install/Distribution/Solver/Modular/Validate.hs#L394-L417),
-which uses `foldM`, and we'll investigate how to change it to use
-`for_` of a `StateT`.  What does `extend` do?  I don't know! But
-that's OK: the procedure we're about to see is a mechanical
-refactoring that preserves program behaviour.  In fact, I think it's
-easier to understand what `extend` does *by transforming it to `for_`
-form first!*  Let's see.
+which uses `foldM`; we'll investigate how to change it to use `for_`
+of a `StateT`.  What does `extend` do?  I don't know! But that's OK:
+the procedure we're about to see is a mechanical refactoring that
+preserves program behaviour.  In fact, I think it's easier to
+understand what `extend` does *by transforming it to `for_` form
+first!*  Let's see.
 
 Here is the original code. The "`foldM` body" is `extendSingle`, which
 inspects all the possible cases of one of its arguments to determine
-what to return.  Its other argument of `extendSingle` is `a`, the
-"`foldM` state". Its initial value is `ppa`.  Many of the branches
-"error out" by returning `Left`. The other branches return the
-"updated state".
+what to return.  The other argument of `extendSingle` is `a`, the
+"`foldM` state". Its type is `PPreAssignment` and its initial value is
+`ppa`.  Many of the branches "error out" by returning `Left`. The
+other branches return the "next state".
 
 ```.hs
 extend ::
@@ -507,13 +508,13 @@ extend extSupported langSupported pkgPresent newactives ppa = do
 
 So far so mechanical, and it looks it.  The code is less clear than
 before, not more.  But we can do better: there are plenty of places we
-`get` the value `a`, only to `put` it straight back.  These cases
+`get` the state `a`, only to `put` it straight back.  These cases
 follow the pattern:
 
 ```.hs
 do
   a <- get
-  if extSupported ext
+  if ...
   then put a
   else lift $ Left
      ...
@@ -523,7 +524,7 @@ That's the same as not getting or putting the state at all:
 
 ```.hs
 do
-  if extSupported ext
+  if ...
   then pure ()
   else lift $ Left
      ...
@@ -621,12 +622,13 @@ If you really don't like it you can use `execState` instead of
 If using `transformers` or `mtl` then it is likely that the
 transformations described in this article will have no performance
 impact, because after inlining the original and replacement versions
-will optimise to the same compilation result.  If you use Bluefin then
-it's likely you'll experience some slow down relative to the original
-versions when the loop bodies are small and can be completely inlined.
-On the other hand it's possible that you will experience a performance
-boost for large loop bodies, especially if they span module boundaries
-and cannot be entirely inlined.
+will optimise to the same compilation result.  If you use Bluefin (or
+similarly, [effectful](https://hackage.haskell.org/package/effectful))
+then it's likely you'll experience some slow down relative to the
+original versions when the loop bodies are small and can be completely
+inlined.  On the other hand it's possible that you will experience a
+performance boost for large loop bodies that cannot be entirely
+inlined (for example those that span module boundaries).
 
 ## Commentary and conclusion
 
