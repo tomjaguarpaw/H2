@@ -458,6 +458,8 @@ proceed by introducing a `StateT` transformer around our inner monad
 `lift`s to lift the `Either` into the `StateT`. We'll improve that
 shortly, but for now, let's take stock:
 
+<a name="original-extend"></a>
+
 ```.hs
 import Control.Monad.Trans.State.Strict
   (StateT, evalStateT, get, put)
@@ -567,6 +569,8 @@ It seems clearer than using `<$>`.  Next I'm going to eliminate the
 `throwError ...`.  I'm also going to inline `extendSingle` so the loop
 body really looks like a loop body.
 
+<a name="final-extend"></a>
+
 ```.hs
 import Control.Monad.State.Strict (evalStateT, get, put)
 import Control.Monad.Except (throwError)
@@ -624,10 +628,29 @@ On the other hand it's possible that you will experience a performance
 boost for large loop bodies, especially if they span module boundaries
 and cannot be entirely inlined.
 
-## Conclusion
+## Commentary and conclusion
 
-Instead of remembering how to use a plethora of increasingly
-complicated iteration combinators, we can instead remember how a small
-collection of monads or monad transformers work (especially monads for
-state, exceptions and streaming), and stick to the simple and obvious
-iteration combinators `for_`, `for` and `forever`.
+*"The [final version of `extend`](#final-extend) looks imperative"* --
+Yes! In fact I would say it *is* imperative. -- *"But then isn't it
+the same as if it had been written in Python or Java?"*  -- No!  The
+final version of `extend` is *the same* as the [original
+version](#original-extend), not just in the sense that it calculates
+the same result, nor even just in the sense that it calculates the
+same result in the same way, but that it is a transformation of
+_exactly the same code_.  This implies all the same benefits we expect
+from pure functional code when it comes to maintenance and
+refactoring.  For example, if `extend` had been written in Python or
+Java then the type system wouldn't catch it if I slipped in a call to
+delete files from disk, make network connections or launch the
+missiles; in the "imperative" `extend` written in Haskell it would: I
+can *only* do "`State` effects on a `PPreAssignment`", and "`Either`
+effects on a `Conflict`".  This is why Haskell is "[the world's finest
+imperative programming
+language](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/mark.pdf?from=https://research.microsoft.com/~simonpj/papers/marktoberdorf/mark.pdf&type=exact)".
+
+To sum up, instead of remembering how to use a plethora of
+increasingly complicated iteration combinators, we can instead
+remember how a small collection of monads or monad transformers work
+(especially monads for state, exceptions and streaming), and stick to
+the simple and obvious iteration combinators `for_`, `for` and
+`forever`.
