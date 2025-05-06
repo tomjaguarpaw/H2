@@ -90,7 +90,7 @@ Here's how to replace
 [`Data.List.foldl'`](https://hackage.haskell.org/package/base-4.19.1.0/docs/Data-List.html#v:foldl-39-)
 with `for_`.  The idea is that the "state parameter" of `foldl'`
 becomes the "state parameter" of a
-[`State`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:State)
+[`State`](https://hackage-content.haskell.org/package/transformers-0.6.2.0/docs/Control-Monad-Trans-State-Strict.html#t:State)[^1]
 monad operation. The code in terms of `for_` will generally be more
 complicated than the code written in terms of `foldl'`, so unless the
 "loop body" `f` is large, it's probably not worth using `for_` in
@@ -656,3 +656,9 @@ remember how a small collection of monads or monad transformers work
 (especially monads for state, exceptions and streaming), and stick to
 the simple and obvious iteration combinators `for_`, `for` and
 `forever`.
+
+[^1]: N.B. the state monad referred to in this article is the *strict*
+    state monad (`Control.Monad.Trans.State.Strict`). I've never seen
+    a use for the lazy state monad (`Control.Monad.Trans.State.Lazy`)
+    and using it will probably give you bizarre and unpredictable
+    performance.
