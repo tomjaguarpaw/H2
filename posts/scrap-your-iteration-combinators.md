@@ -356,10 +356,13 @@ mapMaybe f as =
         yield b
 ```
 
+Like `foldl'`, `mapMaybe` is probably too simple to be worth replacing
+like this.
+
 ### `mapMaybeM`
 
 [`Control.Monad.Extra.mapMaybeM`](<https://www.stackage.org/haddock/lts-22.15/extra-1.7.14/Control-Monad-Extra.html#v:mapMaybeM>)
-is the monadic version of `mapMaybe`.  It is even more compelling to
+is the monadic version of `mapMaybe`.  It is more compelling to
 replace `mapMaybeM` with `for_` than it is `mapMaybe`.
 
 ```.hs
