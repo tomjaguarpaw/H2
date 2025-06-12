@@ -57,3 +57,8 @@
 * Possibly how to make it sleep better:
 
   <https://news.ycombinator.com/item?id=29743452>
+
+* Installing fonts: run Font Book, change the "Default Install Location" in the
+  settings, then restart Font Book and try to install again.
+
+  See <https://discussions.apple.com/thread/252648742>
