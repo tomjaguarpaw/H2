@@ -2,6 +2,9 @@
 
 * By default Ctrl-Space switches keyboard layout. I disable it: <https://apple.stackexchange.com/questions/423971/disable-controlspace-keyboard-shortcut/423974#423974>
 
+* Install Karabiner Elements to make modifier keys work between two
+  keyboards: <https://apple.stackexchange.com/questions/332045/how-to-make-keyboard-shortcuts-work-with-dual-keyboards>
+
 * If your tilde (~) key has become switched for plus-minus (±) then in
   the keyboard settings, choose "change keyboard type" and choose ANSI
   keyboard (not ISO).
