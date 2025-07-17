@@ -68,6 +68,14 @@ browser.newtabpage.activity-stream.showSponsoredTopSites false
 browser.newtabpage.activity-stream.system.showSponsored false
 ```
 
+## Don't show sidebar when using tree-style tabs
+
+`about.config`:
+
+```
+sidebar.revamp false
+```
+
 ## Issues
 
 There is a very annoying bug whereby the volume of a video, set with
