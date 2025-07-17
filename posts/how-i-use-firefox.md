@@ -58,6 +58,16 @@
   javascript.options.ion
   ```
 
+## Disable sponsored sites
+
+`about.config`:
+
+```
+browser.newtabpage.activity-stream.showSponsored false
+browser.newtabpage.activity-stream.showSponsoredTopSites false
+browser.newtabpage.activity-stream.system.showSponsored false
+```
+
 ## Issues
 
 There is a very annoying bug whereby the volume of a video, set with
