@@ -30,6 +30,10 @@
   defaults write com.apple.dock autohide-time-modifier -int 0 && killall Dock
   ```
 
+  ```
+  defaults write com.apple.dock autohide-delay -float 0; killall Dock
+  ```
+
 * Disable drag lock: Accessibility -> Pointer Control -> Trackpad
   Options -> Enable Dragging -> Without Drag Lock
 
