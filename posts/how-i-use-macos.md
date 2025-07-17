@@ -6,7 +6,7 @@
   keyboards: <https://apple.stackexchange.com/questions/332045/how-to-make-keyboard-shortcuts-work-with-dual-keyboards>
 
 * If your tilde (~) key has become switched for plus-minus (±) then in
-  the keyboard settings, choose "change keyboard type" and choose ANSI
+  the Karabiner Elements go to the Virtual Keyboard settings and choose ANSI
   keyboard (not ISO).
 
 * iTerm2 to send Alt properly: Preferences -> Profiles -> Default ->
