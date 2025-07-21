@@ -1,9 +1,9 @@
-# Bluefin posts
+# Bluefin resources
 
 ## Get started with Bluefin
 
 * [Get started with
-  Bluefin](https://www.youtube.com/watch?v=2g5ZZRN2LZE) [Functional
+  Bluefin](https://www.youtube.com/watch?v=2g5ZZRN2LZE) [talk at Functional
   Conf 2025]
 
 ## Further reading
@@ -13,7 +13,8 @@
 * [Bluefin versus OOP](../bluefin-versus-oop/)
 * [Plucking constraints in Bluefin](../bluefin-plucking-constraints/)
 
-## External
+## Comparison to other effect systems
 
 * [Bluefin compared to
-  effectful](https://www.youtube.com/watch?v=_MgahTBF5ig) (video)
+  effectful](https://www.youtube.com/watch?v=_MgahTBF5ig) [talk to
+  CircuitHub]
