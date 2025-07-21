@@ -1,5 +1,10 @@
 # Bluefin resources
 
+## Background on effect systems
+
+* [A History of Effect
+  Systems](https://www.youtube.com/watch?v=RsTuy1jXQ6Y) [talk at ZuriHac 2025]
+
 ## Get started with Bluefin
 
 * [Get started with
