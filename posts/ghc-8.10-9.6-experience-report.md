@@ -64,7 +64,7 @@ as the upgrade*[^1].
 #### New export from `Prelude`
 
 Newer versions of `base` re-export `liftA2` from the `Prelude`
-therefore explicit imports from `Control.Applicative`emit warnings.
+therefore explicit imports from `Control.Applicative` emit warnings.
 The *forward-compatible mitigation* is to turn on
 `-Wwarn=unused-imports` but we chose the *breaking fix* of removing
 the explicit import.
