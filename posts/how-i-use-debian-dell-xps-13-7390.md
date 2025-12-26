@@ -63,6 +63,11 @@ mode.  Then choose to boot from your USB drive.  (To do
 so you may then have to exit the BIOS menu and enter it again by
 pressing F12 again.)
 
+(It seems that there are two different things that F12 can do on bootup.  If
+you press F12 really early you get the One Time Boot Menu, which allows you
+to choose a device to boot from.  If you press F12 a bit later you get the
+general BIOS configuration application.)
+
 ### Installing
 
 Installation should proceed as a standard Debian installation.
