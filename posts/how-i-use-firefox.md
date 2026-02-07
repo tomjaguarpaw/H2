@@ -76,6 +76,10 @@ browser.newtabpage.activity-stream.system.showSponsored false
 sidebar.revamp false
 ```
 
+## Don't trim URLs
+
+setting browser.urlbar.trimURLs to false in about:config
+
 ## Issues
 
 There is a very annoying bug whereby the volume of a video, set with
