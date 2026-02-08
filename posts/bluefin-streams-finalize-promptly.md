@@ -93,7 +93,7 @@ Closing file
 
 Bracketing of resources is a very useful, general concept.  Streaming
 abstractions like those provided by pipes, conduit and Bluefin need to
-support prompt finalization, through some form of bracketing, because
+support prompt finalization through some form of bracketing because
 we want to be able to implement streaming computations that hold
 resources.  For example, we might want to implement a producer that
 yields all lines from a file.  To be resource safe, that producer must
