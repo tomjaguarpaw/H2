@@ -19,7 +19,7 @@ When we have acquired, and have been using, a scarce resource (for
 example a file handle) we need to "finalize it promptly", that is,
 "release" or "clean it up" as soon as possible after we no longer need
 it, so that it can be reused.  If a program component is guaranteed to
-promptly finalize the resources it holds it is sometimes called
+promptly finalize the resources it holds it can be called
 "resource safe".
 
 One element of the Haskell ecosystem that provides a form of prompt
