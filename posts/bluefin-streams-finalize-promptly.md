@@ -298,7 +298,7 @@ the producer throws an exception before it emits "3" and we're going
 to catch the exception outside the producer, so it doesn't propagate
 further.
 
-Pipes and conduit do not deal well with this case.  Bluefin does.
+Pipes and conduit do not deal well with this case; Bluefin does.
 
 ### Pipes implementation
 
