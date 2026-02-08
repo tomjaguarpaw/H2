@@ -505,8 +505,9 @@ is `IO` under the hood.  Firstly, this means we can use the standard
 instead of `IO`, to bracket and try all Bluefin operations.  No
 special-purpose operations are needed.
 
-Secondly, `connectCoroutines`, which connects a producer and a
-consumer, works by using
+Secondly,
+[`connectCoroutines`](https://hackage-content.haskell.org/package/bluefin/docs/Bluefin-Coroutine.html#v:connectCoroutines),
+which connects a producer and a consumer, works by using
 [`Async.race`](https://hackage.haskell.org/package/async-2.2.5/docs/Control-Concurrent-Async.html#v:race)
 to fork two threads which communicate in a synchronized fashion
 through
