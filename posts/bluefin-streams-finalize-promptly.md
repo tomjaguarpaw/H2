@@ -112,7 +112,8 @@ and
 [`ResourceT`](https://hackage.haskell.org/package/resourcet-1.3.0/docs/Control-Monad-Trans-Resource.html#t:ResourceT)
 monad transformers that offer a form of prompt finalization that work
 with the pipes and conduit ecosystems, and beyond.  Bluefin has its
-own general-purpose bracketing operation, also called `bracket`.
+own general-purpose bracketing operation, also called
+[`bracket`]https://hackage-content.haskell.org/package/bluefin/docs/Bluefin-Eff.html).
 
 
 
