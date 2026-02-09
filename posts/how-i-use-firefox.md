@@ -86,3 +86,7 @@ There is a very annoying bug whereby the volume of a video, set with
 pulseaudio, resets on interactions such as forward, rewind, and
 various others.  See
 <https://bugzilla.mozilla.org/show_bug.cgi?id=1422637>.
+
+## Don't collapse subtrees when another opens
+
+<https://github.com/piroor/treestyletab/issues/3555#issue-2306901928>
