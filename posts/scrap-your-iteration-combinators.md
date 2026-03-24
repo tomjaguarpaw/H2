@@ -210,7 +210,7 @@ ghci> mapAccumRExample
 This means that `mapAccumR` is equivalent to
 [`reverse`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Data-List.html)ing
 a list, applying `mapAccumL`, and then `reverse`ing the resulting
-list. I don't particularly see the point of `mapAccumL`, so I suggest
+list. I don't particularly see the point of `mapAccumR`, so I suggest
 rewriting it in terms of `reverse` and `mapAccumL`, and from there in
 terms of `for` and `State`.
 
