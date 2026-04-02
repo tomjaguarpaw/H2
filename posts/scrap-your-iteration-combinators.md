@@ -173,6 +173,11 @@ mapAccumL f s0 as =
       pure b
 ```
 
+([`mapAccumL`'s state updates are
+lazy](https://github.com/haskell/core-libraries-committee/issues/406)
+so as for `foldM` to avoid a space leak one might want to evaluate
+`s'` before `put`ting it.)
+
 (This implementation generalises to any `Traversable`.  In a real use
 case the `swap`, `get` and `put` would probably be absorbed into the
 surrounding code.  Again, for strictness, we might want to evaluate
