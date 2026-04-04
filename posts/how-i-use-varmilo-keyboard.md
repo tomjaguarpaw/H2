@@ -1,12 +1,13 @@
-Q: Keys switched
+# How I use the Varmilo VA88M
 
-A: Hold Fn down and press ESC about 4 seconds, if Capslocked backlight can flash 3 times, it means reset succeed.
+## Fn and Win keys switched
 
-If FN and left WIN swapped,hold left WIN down, and press ESC about 4
-seconds, capslocked backlight will flash 3 times.
+If the left "Win" key seems not to be working under Linux then it
+could be that the "Fn" and "Win" keys have been switched.
 
-
- The most common solution is to reset the keyboard settings by holding
- down the Fn + Esc keys for 3-4 seconds until the Caps Lock light
- flashes 3 times. This should reset the keyboard and restore the
- Windows key functionality.
+In order to switch them back you can hold down left "Win" together
+with "Esc" for about four seconds.  The Caps Lock backlight will flash
+three times indicating that the switching process has completed.  In
+order to switch them back I think you can hold "Fn" together with
+"Esc" for about four seconds again and wait for the three Caps Lock
+backlight flashes.
