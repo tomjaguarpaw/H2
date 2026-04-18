@@ -200,6 +200,15 @@ I haven't tested Bluetooth thoroughly but it seems to work.  Some useful notes f
    * does work with the microphone of Surface headphones but
      quality seems not great
 
+#### Kick bluetooth back into a good state
+
+Sometimes to put the Bluetooth speaker back into a good state I need
+to do
+
+```
+pactl set-card-profile $CARD off && pactl set-card-profile $CARD a2dp_sink
+```
+
 ### Auto-dimming screen on battery power
 
 By default, when running on batter power the screen automatically dims
