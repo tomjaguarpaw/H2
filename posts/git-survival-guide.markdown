@@ -258,7 +258,7 @@ PAGER="less -S" \
 git log --graph \
         --decorate \
         --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset" \
-        $(git reflog $BRANCH | cut '-d ' -f1)
+        $(git log --walk-reflogs --format="%H")
 ```
 
 You will be
