@@ -3,7 +3,8 @@
 ## Background
 
 I can happily report that this machine works well with Debian
-11/Bullseye!
+11/Bullseye (and subsequently successfully upgraded to 12/Bookworm and
+13/Trixie)!
 
 Reportedly, other options for a machine that is highly compatible with
 Linux include Lenovo, [Laptop with
