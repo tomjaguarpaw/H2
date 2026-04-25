@@ -99,6 +99,10 @@ recovered by closing the lid (i.e. putting the machine to sleep) and
 then opening it again.  Sometimes it hangs and closing and opening the
 lid doesn't work; in those cases I have to reboot.
 
+Sometimes I accidentally press a key combination (perhaps involving
+the Fn key) and Caps Lock gets toggled on. I haven't been able to work
+out what that key combination is.
+
 #### X11 external screen disconnection bug
 
 If I am in dual head mode (i.e. X is using the internal screen and an
