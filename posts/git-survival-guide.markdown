@@ -253,12 +253,12 @@ or some other git mystery?  Try this command with the name of your
 branch in the place of `<branch>`.
 
 ```shell
-BRANCH=<branch>; \
+BRANCH=$(git branch --show-current); \
 PAGER="less -S" \
 git log --graph \
         --decorate \
         --pretty=format:"%C(auto)%h %<(7,trunc)%C(auto)%ae%Creset%C(auto)%d %s [%ar]%Creset" \
-        $(git log --walk-reflogs --format="%H")
+        $(git log --walk-reflogs $BRANCH --format="%H")
 ```
 
 You will be
