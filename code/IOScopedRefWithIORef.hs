@@ -71,7 +71,7 @@ withStdoutLogger initial k =
             cur <- readIOScopedRef ref
             putStrLn ("[" ++ show (lvl + cur) ++ "] " ++ msg),
           modifySeverity = \f action ->
-            modifyIOScopedRefBad f ref action
+            modifyIOScopedRef f ref action
         }
 
 -- Logger example
@@ -103,12 +103,20 @@ loggerExample = withStdoutLogger 0 $ \logger -> do
   writeData d
   logMsg logger 0 "Done"
 
+-- Bad:
 -- ghci> loggerExampleException
 -- [1] Getting user
 -- [1] Is VIP: True
 -- [10] Getting data
 -- [11] Got exception
 -- [10] Done
+--
+-- ghci> loggerExampleException
+-- [1] Getting user
+-- [1] Is VIP: True
+-- [10] Getting data
+-- [1] Got exception
+-- [0] Done
 loggerExampleException :: IO ()
 loggerExampleException = withStdoutLogger 0 $ \logger -> do
   logMsg logger 1 "Getting user"
@@ -127,6 +135,11 @@ loggerExampleException = withStdoutLogger 0 $ \logger -> do
   writeData d
   logMsg logger 0 "Done"
 
+-- ghci> loggerExampleConcurrently
+-- [1] Getting user
+-- [1] Is VIP: True
+-- [-90] Getting data
+-- [0] Done
 loggerExampleConcurrently :: IO ()
 loggerExampleConcurrently = withStdoutLogger 0 $ \logger -> do
   logMsg logger 1 "Getting user"
@@ -134,19 +147,14 @@ loggerExampleConcurrently = withStdoutLogger 0 $ \logger -> do
   logMsg logger 1 ("Is VIP: " <> show (isVip user))
   let modification = if isVip user then (+ 10) else id
 
-  -- ghci> loggerExampleConcurrently
-  -- [1] Getting user
-  -- [1] Is VIP: True
-  -- [-90] Getting data
-  -- [0] Done
   (d, ()) <-
     Control.Concurrent.Async.concurrently
       ( modifySeverity logger modification $ do
           logMsg logger 0 "Getting data"
           getData user
       )
-      ( modifySeverity logger (subtract 100) $ do
-          -- Some unimportant background processing
+      ( -- Do some unimportant background processing
+        modifySeverity logger (subtract 100) $ do
           Control.Concurrent.threadDelay 1000
       )
   writeData d
