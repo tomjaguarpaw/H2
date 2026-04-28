@@ -4,25 +4,26 @@ Haskell is missing a mutable reference type.  It is a reference type
 similar to what Java calls a *scoped value*, Python a *context
 variable* and Common Lisp a *"special" variable*.
 
-The idea is that you would have a type (call it `IOScopedRef a`) which
-is a reference to an `a` than you can mutate in `IO`.  It would differ
-from
+It would be similar to
 [`IORef`](https://www.stackage.org/haddock/lts-24.38/base-4.20.2.0/Data-IORef.html#t:IORef)
-in that any mutations to it are only visible within a particular
-scope. That is, to modify an `IORef` you have
+in that you would be able to modify it in `IO`.  It would differ from
+`IORef` in that any modifications to it would only visible within a
+particular scope. Specifically, to modify an `IORef` you have
 
 ```.hs
 modifyIORef :: IORef a -> (a -> a) -> IO ()
 ```
 
-whereas with `IOScopedRef` you would have
+whereas for this new reference type (let's call it `IOScopedRef`) you
+would have
 
 ```.hs
 modifyIOScopedRef :: IOScopedRef a -> (a -> a) -> (IO r -> IO r)
+modifyIOScopedRef ref f body = ...
 ```
 
-In practice you get different sort of behaviour, for example with
-`IORef`
+and the modifications to `ref` according to `f` are not visible once
+`body` has finished executing.  For example, with `IORef`
 
 ```.hs
 modifyIORef ref (const "hello")
@@ -37,7 +38,7 @@ i3 <- readIORef ref
 -- i3 == "world"
 ```
 
-versus with `IOScopedRef`
+but with `IOScopedRef`
 
 ```.hs
 modifyIOScopedRef ref (const "hello") $ do
@@ -46,7 +47,7 @@ modifyIOScopedRef ref (const "hello") $ do
   modifyIOScopedRef ref (const "world") $ do
     i2 <- readIOScopedRef ref
     -- i2 == "world"
-    ... regardless of whether more modfies occur here ...
+    ... more modfies may or may not occur here ...
 
   i3 <- readIOScopedRef ref
   -- i3 == "hello"

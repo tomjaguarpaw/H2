@@ -139,15 +139,16 @@ loggerExampleConcurrently = withStdoutLogger 0 $ \logger -> do
   -- [1] Is VIP: True
   -- [-90] Getting data
   -- [0] Done
-  (d, ()) <- Control.Concurrent.Async.concurrently
-    ( modifySeverity logger modification $ do
-        logMsg logger 0 "Getting data"
-        getData user
-    )
-    ( modifySeverity logger (subtract 100) $ do
-        -- Some unimportant background processing
-        Control.Concurrent.threadDelay 1000
-    )
+  (d, ()) <-
+    Control.Concurrent.Async.concurrently
+      ( modifySeverity logger modification $ do
+          logMsg logger 0 "Getting data"
+          getData user
+      )
+      ( modifySeverity logger (subtract 100) $ do
+          -- Some unimportant background processing
+          Control.Concurrent.threadDelay 1000
+      )
   writeData d
   logMsg logger 0 "Done"
 
@@ -182,22 +183,14 @@ handle :: Logger -> Request -> IO Response
 handle logger request = do
   logMsg logger 1 "handling request"
 
-  t <-
-    Control.Exception.handle
-      ( \Exception -> do
-          logMsg logger 1 "worker 1: failed"
-          pure "Failed"
-      )
-      ( do
-          -- We care more about logs from worker 1
-          modifySeverity logger (+ 1) $ do
-            logMsg logger 2 "worker 1: doing work"
-            r <- doWork1 request
-            Control.Exception.throw Exception
-            logMsg logger 2 "worker 1: done work"
-            pure r
-      )
-
+  t <- do
+    -- We care more about logs from worker 1
+    modifySeverity logger (+ 1) $ do
+      logMsg logger 2 "worker 1: doing work"
+      r <- doWork1 request
+      Control.Exception.throw Exception
+      logMsg logger 2 "worker 1: done work"
+      pure r
   logMsg logger 1 "done handling request"
   pure (response t)
 
