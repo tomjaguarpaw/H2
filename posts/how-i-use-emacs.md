@@ -60,9 +60,8 @@
 ## Things I want to know
 
 * How to do the equivalent of mouse middle button paste from the
-keyboard.  See <https://www.emacswiki.org/emacs/CopyAndPaste>.
-
- Seems to be `mouse-yank-primary`
+keyboard.  See <https://www.emacswiki.org/emacs/CopyAndPaste>. (Seems
+to be `mouse-yank-primary`)
 
 ## Features I want
 
