@@ -429,7 +429,7 @@ comment](https://github.com/ghc-proposals/ghc-proposals/pull/751#issuecomment-42
 
 Here ends the introduction to `IOScopedRef`.  The article series
 continues with *"[A reference implementation of
-`IOScopedRef`](../ioscopedref-reference-implementation/)"*.
+`IOScopedRef`](/posts/ioscopedref-reference-implementation/)"*.
 
 ----
 
