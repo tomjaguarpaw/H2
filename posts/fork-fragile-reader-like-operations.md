@@ -106,8 +106,8 @@ ask = do
 local :: (StateType -> StateType) -> IO r -> IO r
 local f body = do
   -- Read the original value of the state
-  t <- myThreadId
   m <- readIORef ambientState
+  t <- myThreadId
   let orig = fromJust (Map.lookup t m)
 
   bracket_
