@@ -2,6 +2,20 @@
 
 -- Tom Ellis, June 2026
 
+----
+
+This article is part of a collection
+
+* Haskell’s missing mutable reference
+  type
+* [*A reference implementation of
+  `IOScopedRef`*](/posts/ioscopedref-reference-implementation/)
+* [*Fork-fragile reader-like operations in Haskell*](/posts/fork-fragile-reader-like-operations/)
+
+----
+
+## Introduction
+
 Haskell is missing a mutable reference type similar to what Java calls
 a *scoped value*, Python a *context variable* and Common Lisp a
 *"special" variable*. Such a reference can be modified within a

@@ -2,6 +2,20 @@
 
 -- Tom Ellis, June 2026
 
+----
+
+This article is part of a collection
+
+* [*Haskell’s missing mutable reference
+  type*](/posts/haskells-missing-mutable-ref/)
+* A reference implementation of
+  `IOScopedRef`
+* [*Fork-fragile reader-like operations in Haskell*](/posts/fork-fragile-reader-like-operations/)
+
+----
+
+## Introduction
+
 In a previous article *"[Haskell's missing mutable reference
 type](../haskells-missing-mutable-ref/)*" I presented the API of
 "`IOScopedRef`", a potential new mutable reference type for Haskell,

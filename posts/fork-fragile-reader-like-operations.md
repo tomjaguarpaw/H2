@@ -2,6 +2,20 @@
 
 -- Tom Ellis, June 2026
 
+----
+
+This article is part of a collection
+
+* [*Haskell’s missing mutable reference
+  type*](/posts/haskells-missing-mutable-ref/)
+* [*A reference implementation of
+  `IOScopedRef`*](/posts/ioscopedref-reference-implementation/)
+* Fork-fragile reader-like operations in Haskell
+
+----
+
+## Introduction
+
 The Haskell ecosystem contains several examples of
 "[reader](https://hackage-content.haskell.org/package/transformers-0.6.3.0/docs/Control-Monad-Trans-Reader.html)-like"
 operations that run in `IO` rather than in a specific "reader-like"
