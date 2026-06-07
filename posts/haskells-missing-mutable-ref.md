@@ -449,6 +449,60 @@ continues with *"[A reference implementation of
 
 ## Appendix
 
+### Partial implementation in Haskell
+
+The [`context`
+package](https://hackage-content.haskell.org/package/context) provides
+a partial implementation of a type equivalent to `IOScopedRef`. Its
+API is as follows
+
+```.hs
+-- Equivalent to `IOScopedRef ctx`
+type Store ctx
+
+-- Equivalent to `withIOScopedRef`
+withNonEmptyStore :: MonadIO m => ctx -> (Store ctx -> m a) -> m a
+
+-- Equivalent to `readIOScopedRef`
+mine :: MonadIO m => Store ctx -> m ctx
+
+-- Equivalent to `modifyIOScopedRef`
+adjust :: MonadIO m => Store ctx -> (ctx -> ctx) -> m a -> m a
+```
+
+It cannot serve as a complete implementation of `IOScopedRef` because
+a `Store` when read in a child thread created with standard thread
+creation primitives does not pick up modifications that were made to
+it in the parent thread.  For example:
+
+```.hs
+Context.withNonEmptyStore "Hello" $ \store -> do
+  x1 <- Context.mine store
+  -- "Hello", as desired
+  putStrLn x1
+
+  Context.adjust store (++ " world") $ do
+    x2 <- Context.mine store
+    -- "Hello world", as desired
+    putStrLn x2
+
+    Control.Concurrent.Async.concurrently_
+      (pure ())
+      ( do
+          x3 <- Context.mine store
+          -- "Hello", but it should be "Hello world"
+          putStrLn x3
+      )
+```
+
+As a convenience, `context` provides its own thread-creation
+operations in
+[`Context.Concurrent`](https://hackage-content.haskell.org/package/context-0.2.1.1/docs/Context-Concurrent.html)
+which are `Store`-aware and propagate the desired value of all
+`Store`s in scope to child threads. For more details on this sort of
+behaviour see [*Fork-fragile reader-like operations in
+Haskell*](/posts/fork-fragile-reader-like-operations/).
+
 ### Similar features in other languages
 
 At least Java, Python and Common Lisp have primitives that have
