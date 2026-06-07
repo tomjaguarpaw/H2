@@ -23,7 +23,7 @@ monad.  Such operations necessarily have fragile behaviour when
 performed in a forked thread, because Haskell does not yet have
 suitable primitives with which to implement such operations robustly.
 (For more information see [*Haskell's missing mutable reference
-type*](/posts/haskells-missing-mutable-ref)).  This article catalogues
+type*](/posts/haskells-missing-mutable-ref).)  This article catalogues
 some examples.
 
 ## Reader-like operations in `IO`
