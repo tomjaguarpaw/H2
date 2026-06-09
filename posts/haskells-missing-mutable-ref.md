@@ -220,7 +220,10 @@ we are dealing with is a VIP.
 
 ```.hs
 loggerExample :: IO ()
-loggerExample = withStdoutLogger 0 $ \logger -> do
+loggerExample = withStdoutLogger 0 writeUserData
+
+writeUserData :: Logger -> IO ()
+writeUserData logger = do
   logMsg logger 1 "Getting user"
   user <- getUser
   logMsg logger 1 ("Is VIP: " <> show (isVip user))
@@ -577,4 +580,6 @@ feature](https://www.postgresql.org/docs/current/sql-set-role.html).
 
 ## Acknowledgements
 
-Thanks to Simon Peyton Jones for helpful discussion and suggestions.
+Thanks to Simon Peyton Jones and [Alice
+(prophet)](https://welltypedwit.ch/) for helpful discussion and
+suggestions.
