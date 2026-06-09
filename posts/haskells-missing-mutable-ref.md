@@ -574,3 +574,7 @@ uses it "parameter" feature to allow local overriding of security
 level.  Although not through a "scoped variable" as such, PostgreSQL
 has [a similar
 feature](https://www.postgresql.org/docs/current/sql-set-role.html).
+
+## Acknowledgements
+
+Thanks to Simon Peyton Jones for helpful discussion and suggestions.

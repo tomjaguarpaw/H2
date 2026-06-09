@@ -702,3 +702,7 @@ used a type isomorphic to `Vault` (which they call `KeyMap`) in a
 `StateT` and obtained a mutable reference type, `STRef`, just a
 newtype around their `Key`, which itself behaves in a "state-like"
 way.
+
+## Acknowledgements
+
+Thanks to Simon Peyton Jones for helpful discussion and suggestions.
