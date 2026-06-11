@@ -527,7 +527,7 @@ just end up defining an unchecked version in terms of the checked version:
 
 
 ```.hs
-readIOScopedRefUnchecked :: IOScopedRef a -> IO (Maybe a)
+readIOScopedRefUnchecked :: IOScopedRef a -> IO a
 readIOScopedRefUnchecked = fmap fromJust . readIOScopedRefMaybe
 ```
 
