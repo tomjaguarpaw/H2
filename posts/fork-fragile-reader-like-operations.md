@@ -19,7 +19,7 @@ This article is part of a collection
 The Haskell ecosystem contains several examples of
 "[reader](https://hackage-content.haskell.org/package/transformers-0.6.3.0/docs/Control-Monad-Trans-Reader.html)-like"
 operations that run in `IO` rather than in a specific "reader-like"
-monad.  Such operations necessarily have fragile behaviour when
+monad.  They necessarily have fragile behaviour when
 performed in a forked thread, because Haskell does not yet have
 suitable primitives with which to implement such operations robustly.
 (For more information see [*Haskell's missing mutable reference
