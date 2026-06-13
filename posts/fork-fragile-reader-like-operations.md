@@ -49,6 +49,7 @@ This is an example of implementation strategy 1:
 ```.hs
 ambientState :: IORef StateType
 ambientState = unsafePerformIO (newIORef initialValue)
+{-# NOINLINE ambientState #-}
 
 ask :: IO StateType
 ask = readIORef ambientState
@@ -109,6 +110,7 @@ This is an example of implementation strategy 2:
 -- An ambient state *for each thread*
 ambientState :: IORef (Map ThreadId StateType)
 ambientState = unsafePerformIO (newIORef Map.empty)
+{-# NOINLINE ambientState #-}
 
 ask :: IO StateType
 ask = do
