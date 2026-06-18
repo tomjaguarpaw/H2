@@ -372,7 +372,11 @@ threads:
 
 ```.hs
 loggerExampleConcurrently :: IO ()
-loggerExampleConcurrently = withStdoutLogger 0 $ \logger -> do
+loggerExampleConcurrently =
+  withStdoutLogger 0 writeUserDataConcurrently
+
+writeUserDataConcurrently :: Logger -> IO ()
+writeUserDataConcurrently logger = do
   logMsg logger 1 "Getting user"
   user <- getUser
   logMsg logger 1 ("Is VIP: " <> show (isVip user))
