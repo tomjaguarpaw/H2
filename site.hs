@@ -22,7 +22,8 @@ main = hakyll $ do
   match "index.html" $ do
     route idRoute
     compile $ do
-      let indexCtx = field "posts" $ \_ -> postList
+      let indexCtx =
+            field "posts" $ \_ -> postList
 
       getResourceBody
         >>= applyAsTemplate indexCtx
