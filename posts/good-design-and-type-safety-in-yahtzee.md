@@ -607,7 +607,7 @@ so we use `mapM`.  The function we map simply says
 
 * Do we want to `Reroll`?  If so, the possible results are `[1..6]`
 * Do we want to `Keep v`?  If so, the possible results are just
-`[v]`"
+`[v]`
 
 
 ```haskell
