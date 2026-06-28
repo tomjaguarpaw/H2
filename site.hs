@@ -89,7 +89,7 @@ postList = do
 topPostList :: [(String, Compiler String)]
 topPostList =
   [ ( "bluefinPosts",
-      foo
+      postEntries
         [ "bluefin-all",
           "bluefin-plucking-constraints",
           "bluefin-prevents-handles-leaking",
@@ -98,7 +98,7 @@ topPostList =
         ]
     ),
     ( "mathsAndPhysicsPosts",
-      foo
+      postEntries
         [ "bells-theorem-made-simpler",
           "symbolic-expressions-can-be-automatically-differentiated",
           "why-is-naive-symbolic-differentiation-slow",
@@ -107,7 +107,7 @@ topPostList =
         ]
     ),
     ( "haskellPosts",
-      foo
+      postEntries
         [ "haskells-missing-mutable-ref",
           "ioscopedref-reference-implementation",
           "fork-fragile-reader-like-operations",
@@ -129,15 +129,15 @@ topPostList =
         ]
     ),
     ( "programmingPosts",
-      foo
+      postEntries
         [ "git-rebase-conflicts",
           "git-survival-guide"
         ]
     )
   ]
 
-foo :: [String] -> Compiler String
-foo postNames = do
+postEntries :: [String] -> Compiler String
+postEntries postNames = do
   posts <- mapM (load . fromString . ("posts/" <>) . (<> ".md")) postNames
   tpl <- loadBody "templates/post-item.html"
   applyTemplateList tpl (titleContext <> defaultContext) posts
