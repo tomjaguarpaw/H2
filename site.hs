@@ -3,7 +3,6 @@ import Hakyll
 import Text.Pandoc.Options
 import Data.List (isSuffixOf)
 import System.FilePath.Posix (takeBaseName,takeDirectory,(</>))
-import Data.Monoid ((<>))
 
 main :: IO ()
 main = hakyll $ do
