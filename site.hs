@@ -28,9 +28,7 @@ main = hakyll $ do
         >>= applyAsTemplate indexCtx
         >>= loadAndApplyTemplate
           "templates/default.html"
-          ( (field "title" $ \_ -> return "The H2 Wiki")
-              <> defaultContext
-          )
+          ((field "title" $ \_ -> return "The H2 Wiki") <> defaultContext)
         >>= relativizeUrls
         >>= cleanIndexUrls
 
