@@ -1,10 +1,28 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+import Control.Applicative (Alternative ((<|>)))
 import Data.List (isSuffixOf)
+import Data.Maybe (fromMaybe)
 import Data.String (fromString)
+import qualified Data.Text as Text
 import Hakyll
 import System.FilePath.Posix (takeBaseName, takeDirectory, (</>))
+import Text.Pandoc (Pandoc (Pandoc), Block (Header))
 import Text.Pandoc.Options
+import Text.Pandoc.Shared (stringify)
+
+pandocCompilerTitle :: Compiler (Item String)
+pandocCompilerTitle = do
+  ident <- getUnderlying
+  metadataTitle <- getMetadataField ident "title"
+  pandoc <- readPandocWith defaultHakyllReaderOptions =<< getResourceBody
+  let title =
+        fromMaybe
+          (takeBaseName $ toFilePath ident)
+          ((pandocTitle $ itemBody pandoc) <|> metadataTitle)
+
+  _ <- saveSnapshot "title" =<< makeItem title
+  pure (writePandocWith defaultHakyllWriterOptions {writerHTMLMathMethod = MathJax ""} pandoc)
 
 main :: IO ()
 main = hakyll $ do
@@ -15,9 +33,9 @@ main = hakyll $ do
   match "posts/*" $ do
     route directoryRoute
     compile $
-      pandocCompilerWith defaultHakyllReaderOptions defaultHakyllWriterOptions {writerHTMLMathMethod = MathJax ""}
+      pandocCompilerTitle
         >>= loadAndApplyTemplate "templates/post.html" defaultContext
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" (titleContext <> defaultContext)
         >>= relativizeUrls
 
   match "index.html" $ do
@@ -66,7 +84,7 @@ postList :: Compiler String
 postList = do
   posts <- loadAll "posts/*"
   itemTpl <- loadBody "templates/post-item.html"
-  applyTemplateList itemTpl defaultContext posts
+  applyTemplateList itemTpl (titleContext <> defaultContext) posts
 
 topPostList :: [(String, Compiler String)]
 topPostList =
@@ -122,4 +140,14 @@ foo :: [String] -> Compiler String
 foo postNames = do
   posts <- mapM (load . fromString . ("posts/" <>) . (<> ".md")) postNames
   tpl <- loadBody "templates/post-item.html"
-  applyTemplateList tpl defaultContext posts
+  applyTemplateList tpl (titleContext <> defaultContext) posts
+
+titleContext :: Context String
+titleContext =
+  field "title" (\item -> loadSnapshotBody (itemIdentifier item) "title")
+
+pandocTitle :: Pandoc -> Maybe String
+pandocTitle (Pandoc _ blocks) =
+  case [stringify inlines | Header 1 _ inlines <- blocks] of
+    title : _ -> Just (Text.unpack title)
+    [] -> Nothing
