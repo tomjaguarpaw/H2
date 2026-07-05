@@ -103,7 +103,8 @@ topPostList =
           "symbolic-expressions-can-be-automatically-differentiated",
           "why-is-naive-symbolic-differentiation-slow",
           "automatic-differentiation-worked-examples",
-          "automatic-differentiation-worked-examples-maths"
+          "automatic-differentiation-worked-examples-maths",
+          "vector-space-naturally-isomorphic-dual"
         ]
     ),
     ( "haskellPosts",
