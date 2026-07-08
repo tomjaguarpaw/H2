@@ -214,6 +214,14 @@ to do
 pactl set-card-profile $CARD off && pactl set-card-profile $CARD a2dp_sink
 ```
 
+#### Restart the bluetooth service
+
+Sometimes this can help:
+
+```
+sudo systemctl restart bluetooth
+```
+
 ### Auto-dimming screen on battery power
 
 By default, when running on batter power the screen automatically dims
