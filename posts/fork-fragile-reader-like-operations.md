@@ -208,6 +208,23 @@ to obtain user-defined local states.
     * **Storage**: RTS-wide argv table
     * **Fork-fragile symptom**: Symptom 1
 
+* `withCurrentDirectory` allows the process's current working directory
+  to be locally overridden.
+
+    * **Package**: `directory`
+    * **Local-like operation**:
+        * [`withCurrentDirectory :: FilePath -> IO a -> IO a`](https://hackage-content.haskell.org/package/directory-1.3.10.1/docs/System-Directory.html#v:withCurrentDirectory)
+    * **Local state**: Current working directory
+    * **Storage**: Operating-system process-wide current working directory
+    * **Fork-fragile symptom**: Symptom 1
+    * **Notes**: The fork fragility of `withCurrentDirectory` is
+      exemplified by `ghcid`'s test suite.  [`freshDir` and
+      `copyDir`](https://github.com/ndmitchell/ghcid/blob/4f575946cca8984c8eb87d521d539f954dfb9dee/test/Test/Ghcid.hs#L40-L52)
+      wrap tests in `withCurrentDirectory`.  This requires `ghcid`'s
+      test suite to run single threaded, because with multiple
+      threads, concurrent tests would overwrite each other's current
+      working directory.
+
 * Internal functions in testing libraries allow `Handle` buffering
   setting to be locally overridden
 
