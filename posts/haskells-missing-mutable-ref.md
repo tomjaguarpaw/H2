@@ -557,6 +557,13 @@ language's primitive.
   * **read**: `*var*`
   * **details**: <https://www.lispworks.com/documentation/lcl50/aug/aug-109.html>
 
+* *Julia*
+  * **type**: `ScopedValue`
+  * **create**: `var = ScopedValue("v")`
+  * **modify**: `with(var => x) do ... end`
+  * **read**: `var[]`
+  * **details**: <https://docs.julialang.org/en/v1/base/scopedvalues/>
+
 ### Use cases in other languages
 
 #### Local overriding of numeric precision and error handling
