@@ -17,6 +17,7 @@
 * [Bluefin streams finalize promptly](../bluefin-streams-finalize-promptly/)
 * [Bluefin versus OOP](../bluefin-versus-oop/)
 * [Plucking constraints in Bluefin](../bluefin-plucking-constraints/)
+* [Bluefin is a capability system](../bluefin-capability-system/)
 * [Experience report: Bluefin in
   industry](https://www.youtube.com/watch?v=0ABhsBpcxvY) [walk at
   FUNARCH 2025]

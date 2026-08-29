@@ -94,7 +94,8 @@ topPostList =
           "bluefin-plucking-constraints",
           "bluefin-prevents-handles-leaking",
           "bluefin-streams-finalize-promptly",
-          "bluefin-versus-oop"
+          "bluefin-versus-oop",
+          "bluefin-capability-system"
         ]
     ),
     ( "mathsAndPhysicsPosts",
