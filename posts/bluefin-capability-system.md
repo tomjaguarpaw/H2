@@ -330,6 +330,8 @@ calling them "effect systems" we call them "capability systems".
 
 ## References
 
+* [Bluefin resources](../bluefin-all/)
+
 * [Lambda
   Capabilities](https://roscidus.com/blog/blog/2023/04/26/lambda-capabilities/)
   by Thomas Leonard discusses capabilities in the context of OCaml.
