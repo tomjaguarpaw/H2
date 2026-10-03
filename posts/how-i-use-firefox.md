@@ -94,3 +94,11 @@ various others.  See
 ## Don't collapse subtrees when another opens
 
 <https://github.com/piroor/treestyletab/issues/3555#issue-2306901928>
+
+## Disable Nova
+
+`about:config`:
+
+```
+browser.nova.enabled false
+```
