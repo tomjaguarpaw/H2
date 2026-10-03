@@ -78,7 +78,11 @@ sidebar.revamp false
 
 ## Don't trim URLs
 
-setting browser.urlbar.trimURLs to false in about:config
+`about.config`:
+
+```
+browser.urlbar.trimURLs false
+```
 
 ## Issues
 
