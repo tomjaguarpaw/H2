@@ -1,6 +1,6 @@
 # Making Haskell popular
 
-There was an interested thread on Reddit, "[What is your opinion on how
+There was an interesting thread on Reddit, "[What is your opinion on how
 to make Haskell more
 popular?](https://www.reddit.com/r/haskell/comments/cublk4/what_is_your_opinion_on_how_to_make_haskell_more/)".  Here are some of the ideas that I found interesting
 
