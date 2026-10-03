@@ -2,6 +2,8 @@
 
 -- nor do `exitSuccess`, `exitWith` and `die`
 
+-- Tom Ellis, October 2024
+
 Haskell's `base` library contains
 [`System.Exit.exitFailure`](https://hackage.haskell.org/package/base-4.20.0.0/docs/System-Exit.html#v:exitWith).
 From the name, it sounds as though running it ought to cause your

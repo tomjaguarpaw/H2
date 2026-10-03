@@ -1,5 +1,7 @@
 # Nested strict data in Haskell
 
+-- Tom Ellis, September 2021
+
 ## Introduction
 
 Every so often [someone bemoans the space

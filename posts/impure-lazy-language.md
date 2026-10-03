@@ -1,5 +1,7 @@
 # An impure lazy programming language
 
+-- Tom Ellis, June 2016
+
 ## Introduction
 
 I will explain how, if you start with an impure lazy programming

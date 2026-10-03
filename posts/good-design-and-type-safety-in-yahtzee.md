@@ -1,5 +1,7 @@
 # Good design and type safety in Yahtzee
 
+-- Tom Ellis, October 2019
+
 Mark Dominus wrote [an article asking how to take advantage of
 Haskell's type safety in a simple dice-rolling simulation
 function](https://blog.plover.com/prog/haskell/type-markers.html) for

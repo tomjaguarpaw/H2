@@ -1,5 +1,7 @@
 # Why is naive symbolic differentiation slow?
 
+-- Tom Ellis, January 2016
+
 In [another article about demystifying Automatic
 Differentiation](../symbolic-expressions-can-be-automatically-differentiated)
 (AD) I explained how to use the key idea of AD to calculate

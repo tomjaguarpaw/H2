@@ -1,5 +1,7 @@
 # Bluefin prevents handles leaking
 
+-- Tom Ellis, October 2024
+
 Haskell's `System.IO.withFile` has a nice resource safety property.
 It also has a problem which its Bluefin equivalent fixes.  Let's have
 a look.

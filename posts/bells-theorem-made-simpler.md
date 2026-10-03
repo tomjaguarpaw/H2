@@ -1,5 +1,7 @@
 # Bell's theorem made simpler
 
+-- Tom Ellis, July 2021
+
 ## Introduction
 
 [Bell's theorem](https://en.wikipedia.org/wiki/Bell's_theorem) is a

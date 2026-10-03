@@ -2,6 +2,8 @@
 
 -- An experience report
 
+-- Tom Ellis, August 2024
+
 At work ([Groq](https://groq.com/)) we recently upgraded the version
 of GHC that we use from 8.10 to 9.6, along with many of the Haskell
 packages we depend on.  Some of the changes to GHC and the packages we

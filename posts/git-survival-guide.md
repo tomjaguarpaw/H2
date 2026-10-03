@@ -1,5 +1,7 @@
 # A Git survival guide
 
+-- Tom Ellis, October 2017
+
 ## Roughly orthogonal git commands
 
 * To see the current status of all branches in the repository

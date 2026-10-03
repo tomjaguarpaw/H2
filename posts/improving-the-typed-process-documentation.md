@@ -1,5 +1,7 @@
 # Improving the `typed-process` documentation
 
+-- Tom Ellis, October 2021
+
 Summary: *The Haskell package
 [`typed-process`](https://hackage.haskell.org/package/typed-process)
 provides an API for launching and managing processes.  It is more

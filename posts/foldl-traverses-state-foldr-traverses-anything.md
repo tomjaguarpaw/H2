@@ -1,5 +1,7 @@
 # `foldl` traverses with `State`, `foldr` traverses with anything
 
+-- Tom Ellis, January 2024
+
 ## Whether to `foldl` or `foldr`?
 
 Avi Press gave [an excellent

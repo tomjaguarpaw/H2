@@ -1,5 +1,7 @@
 # Domain errors with `HasCallStack`
 
+-- Tom Ellis, November 2024
+
 ## Introduction
 
 [`HasCallStack`](https://www.stackage.org/haddock/lts-22.43/base-4.18.2.1/GHC-Stack.html#t:HasCallStack)

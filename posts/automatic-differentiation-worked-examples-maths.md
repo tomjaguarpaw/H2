@@ -1,5 +1,7 @@
 # Automatic differentiation: the maths
 
+-- Tom Ellis, August 2020
+
 The article contains the maths needed to justify the transformations
 in [Automatic differentiation: source-to-source worked
 examples](../automatic-differentiation-worked-examples/).

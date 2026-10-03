@@ -2,6 +2,8 @@
 
 -- or, Forward mode Automatic Diffentiation demystified
 
+-- Tom Ellis, January 2016
+
 All introductions to Automatic Differentiation that I have seen seem
 to present the technique mysteriously.  It's actually very simple.
 I'll describe how.

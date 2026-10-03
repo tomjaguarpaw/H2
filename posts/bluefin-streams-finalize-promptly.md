@@ -2,6 +2,8 @@
 
 -- pipes and conduit streams don't
 
+-- Tom Ellis, September 2024
+
 The [pipes](https://hackage.haskell.org/package/pipes) and
 [conduit](https://hackage.haskell.org/package/conduit) streaming
 abstractions have a problem: despite having special-purpose bracketing

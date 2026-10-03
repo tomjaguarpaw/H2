@@ -1,5 +1,7 @@
 # Demystifying DList
 
+-- Tom Ellis, January 2014
+
 ## Introduction
 
 You may have heard that repeated left-associated appends on linked

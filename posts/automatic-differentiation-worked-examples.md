@@ -2,6 +2,8 @@
 
 -- forwards and reverse
 
+-- Tom Ellis, April 2020
+
 ## Introduction
 
 This article demonstrates how to perform source transformations on a

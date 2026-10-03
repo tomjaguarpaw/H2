@@ -1,5 +1,7 @@
 # Resolving git rebase conflicts
 
+-- Tom Ellis, April 2020
+
 ## A note about terminology
 
 This article is about `git rebase` conflicts.  A similar article with
