@@ -28,6 +28,7 @@
 
 * Make everything dark with <https://github.com/SrKomodo/shadowfox-updater>
 
+* Might have to set Gnome theme to dark with `gsettings set org.gnome.desktop.interface gtk-theme`
 
 * Reduce Firefox's memory consumption
 
