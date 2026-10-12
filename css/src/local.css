@@ -1,110 +1,288 @@
-/*
-* Henri
-*/
+/* H2 site styles. This file is loaded last by combine.sh, so it contains
+   the deliberate overrides for the older Skeleton defaults. */
 
+:root {
+  --ink: #202020;
+  --muted: #6d6d6d;
+  --rule: #d9d9d9;
+  --link: #7b342f;
+  --measure: 48rem;
+}
 
-/* Table of Content
-==================================================
-	#Reset & Basics
-	#Basic Styles
-	#Site Styles
-	#Typography
-	#Links
-	#Lists
-	#Images
-	#Buttons
-	#Forms
-	#Misc */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-/* #Reset & Basics
-================================================== */
+html {
+  background: #fff;
+}
 
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.52;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
 
-/* #Basic Styles
-================================================== */
-	body {
-		background: #fff;
-		font-size: 16px;
-    font-family: "PT Serif", "Georgia", "Times New Roman", serif;
-		color: #181818;
-		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
-		-webkit-text-size-adjust: 100%;
-    line-height: 1.4em;
+.site .container {
+  width: auto;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.site-header {
+  width: min(100%, 72rem);
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vw, 3.25rem) 0 0;
+}
+
+.site-header h1 {
+  margin: 0;
+  color: var(--muted);
+  font-family: "Source Sans 3", Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.2;
+}
+
+.site-header h1 a,
+.site-header h1 a:visited {
+  color: inherit;
+  border: 0;
+  text-decoration: none;
+}
+
+.site-header hr {
+  margin: 1.25rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+hr {
+  height: 0;
+}
+
+.post {
+  width: min(100%, var(--measure));
+  margin: 1.75rem auto 5rem;
+}
+
+.post h1,
+.post h2,
+.post h3,
+.post h4,
+.post h5,
+.post h6,
+.article-index h3,
+.about h3 {
+  color: var(--ink);
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+}
+
+.post h1 {
+  margin: 0 0 1.1rem;
+  font-size: clamp(2.25rem, 6vw, 3.4rem);
+  letter-spacing: -.025em;
+  line-height: 1.06;
+  text-align: center;
+}
+
+.post .subtitle,
+.post .byline {
+  text-align: center;
+}
+
+.post .subtitle {
+  margin: -.35rem 0 .45rem;
+  font-size: 1.1em;
+  font-style: italic;
+}
+
+.post .byline {
+  margin: 0 0 2.25rem;
+  color: var(--muted);
+  font-size: .9em;
+}
+
+.post h2 {
+  margin: 1.1em 0 .55em;
+  font-size: 1.7rem;
+  line-height: 1.15;
+}
+
+.post h3 {
+  margin: 2.2em 0 .45em;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.post h2 + h3 {
+  margin-top: .65em;
+}
+
+.post h4,
+.post h5,
+.post h6 {
+  margin: 1.8em 0 .4em;
+  line-height: 1.25;
+}
+
+.post p,
+.post ul,
+.post ol,
+.post blockquote,
+.post pre,
+.post figure {
+  margin-top: 0;
+  margin-bottom: 1.15em;
+}
+
+.post ul,
+.post ol {
+  padding-left: 1.5rem;
+}
+
+.post li {
+  margin-bottom: .2em;
+  line-height: inherit;
+}
+
+.post li > p {
+  margin-bottom: .25em;
+}
+
+.post li > ul,
+.post li > ol {
+  margin-top: 0;
+  margin-bottom: 1.1em;
+}
+
+.post a,
+.article-index a,
+.about a {
+  color: var(--link);
+  text-decoration-thickness: .08em;
+  text-underline-offset: .15em;
+}
+
+.post a:hover,
+.post a:focus,
+.article-index a:hover,
+.article-index a:focus,
+.about a:hover,
+.about a:focus {
+  color: #b02018;
+}
+
+.post pre {
+  overflow-x: visible;
+  padding: .4rem .5rem .2em;
+  border: 1px solid #e1e1e1;
+  background: #fafafa;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  font-size: .80em;
+  line-height: 1.45;
+}
+
+.post code,
+.post pre {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.post code {
+  background: #f5f5f5;
+  font-size: .9em;
+  margin-inline: .08em;
+}
+
+.post pre code {
+  background: transparent;
+  font-size: inherit;
+  margin-inline: 0;
+}
+
+.post blockquote {
+  margin-left: 0;
+  padding: .15rem 1.25rem;
+  border-left: 3px solid #c9c9c9;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.post blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.home-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 22rem);
+  gap: clamp(2.5rem, 8vw, 7rem);
+  width: min(100%, 72rem);
+  margin: 2rem auto 5rem;
+}
+
+.article-index h3,
+.about h3 {
+  margin: 0 0 .65rem;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.article-index ul {
+  margin: 0 0 2.2rem;
+  padding-left: 1.3rem;
+  list-style: disc;
+}
+
+.article-index li {
+  margin-bottom: .45rem;
+  line-height: 1.3;
+}
+
+.about {
+  max-width: 32ch;
+  color: var(--muted);
+}
+
+.about p {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  body {
+    font-size: 17px;
   }
 
-  pre, code {
-    font-family: Monaco, Courier, monospace;
-/*    font-size: 12px;*/
-    color: #000;
+  .site .container {
+    padding-inline: .9rem;
   }
 
-  pre {
-    margin-bottom: 1.5em;
-    border: 1px solid #e5e5e5;
-    padding: 0.5em 1em;
-    background: #fafafa;
-    white-space: pre-wrap;
+  .site-header {
+    padding-top: 1.75rem;
   }
 
-  code {
-    background: #fafafa;
+  .home-layout {
+    display: block;
   }
 
-  pre code {
-    background: transparent;
+  .about {
+    max-width: none;
+    margin-top: 3rem;
   }
-
-/* #Typography
-================================================== */
-	h1, h2, h3, h4, h5, h6 {
-		color: #181818;
-		font-family: "PT Sans", sans-serif;
-		font-weight: normal;
-    margin-top: 1.0em;
-  }
-
-  blockquote, blockquote p {
-    font-size: 16px;
-    color: #777;
-    font-style: italic;
-  }
-  blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
-
-/* #Links
-================================================== */
-  a {
-    text-decoration: none;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #a3becc;
-  }
-
-  a:hover {
-    color:#bf0000;
-  }
-
-  .homelink {
-    border: none;
-  }
-/* #Lists
-================================================== */
-
-  ul {
-    list-style: circle;
-  }
-
-/* #Images
-================================================== */
-
-
-/* #Buttons
-================================================== */
-
-
-/* #Forms
-================================================== */
-
-
-/* #Misc
-================================================== */
+}
