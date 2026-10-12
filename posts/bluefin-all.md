@@ -19,7 +19,7 @@
 * [Plucking constraints in Bluefin](../bluefin-plucking-constraints/)
 * [Bluefin is a capability system](../bluefin-capability-system/)
 * [Experience report: Bluefin in
-  industry](https://www.youtube.com/watch?v=0ABhsBpcxvY) [walk at
+  industry](https://www.youtube.com/watch?v=0ABhsBpcxvY) [talk at
   FUNARCH 2025]
 
 ## Comparison to other effect systems
