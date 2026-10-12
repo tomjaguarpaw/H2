@@ -1,6 +1,6 @@
 # Bluefin versus OOP
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, February 2025
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, February 2025</p>
 
 In "[OOP is not that bad,
 actually](https://osa1.net/posts/2024-10-09-oop-good.html)", Ömer

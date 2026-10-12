@@ -1,6 +1,6 @@
 # The Mysterious Incomposability of Decidable
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, March 2018
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, March 2018</p>
 
 `Applicative`, `Alternative` and `Divisible` are Haskell classes that
 each have nice composition properties.  There is a fourth class,

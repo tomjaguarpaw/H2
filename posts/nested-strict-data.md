@@ -1,6 +1,6 @@
 # Nested strict data in Haskell
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, September 2021
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, September 2021</p>
 
 ## Introduction
 

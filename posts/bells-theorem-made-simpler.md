@@ -1,6 +1,6 @@
 # Bell's theorem made simpler
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, July 2021
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, July 2021</p>
 
 ## Introduction
 

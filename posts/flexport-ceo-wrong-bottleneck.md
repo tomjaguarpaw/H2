@@ -1,7 +1,6 @@
 # Why Flexport's CEO is wrong about the bottleneck at California's ports
 
--- by <a href="http://web.jaguarpaw.co.uk/~tom/contact">Tom Ellis</a> -- 25th
-October 2021
+<p class="byline">by <a href="http://web.jaguarpaw.co.uk/~tom/contact">Tom Ellis</a> – 25th October 2021</p>
 
 I recently read Eliyahu Goldratt's [*The
 Goal*](https://en.wikipedia.org/wiki/The_Goal_%28novel%29), a

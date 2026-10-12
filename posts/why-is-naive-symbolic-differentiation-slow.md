@@ -1,6 +1,6 @@
 # Why is naive symbolic differentiation slow?
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2016
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2016</p>
 
 In [another article about demystifying Automatic
 Differentiation](../symbolic-expressions-can-be-automatically-differentiated)

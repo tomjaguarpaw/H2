@@ -2,7 +2,7 @@
 
 <p class="subtitle">pipes and conduit streams don't</p>
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, September 2024
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, September 2024</p>
 
 The [pipes](https://hackage.haskell.org/package/pipes) and
 [conduit](https://hackage.haskell.org/package/conduit) streaming

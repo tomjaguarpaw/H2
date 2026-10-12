@@ -2,7 +2,7 @@
 
 <p class="subtitle">nor do <code>exitSuccess</code>, <code>exitWith</code> and <code>die</code></p>
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2024
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2024</p>
 
 Haskell's `base` library contains
 [`System.Exit.exitFailure`](https://hackage.haskell.org/package/base-4.20.0.0/docs/System-Exit.html#v:exitWith).

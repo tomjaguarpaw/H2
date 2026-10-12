@@ -1,6 +1,6 @@
 # A Git survival guide
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2017
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2017</p>
 
 ## Roughly orthogonal git commands
 

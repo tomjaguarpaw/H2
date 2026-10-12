@@ -1,6 +1,6 @@
 # `foldl` traverses with `State`, `foldr` traverses with anything
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2024
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2024</p>
 
 ## Whether to `foldl` or `foldr`?
 

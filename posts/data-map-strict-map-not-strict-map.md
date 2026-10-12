@@ -1,6 +1,6 @@
 # Haskell's `Data.Map.Strict.Map` is not a strict map
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2021
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2021</p>
 
 Summary: *I was surprised when I learned that `Data.Map.Strict.Map` is
 not strict.  Its laziness has serious consequences for attempts at

@@ -1,6 +1,6 @@
 # Simplifying typeclasses
 
--- *Guest post by Daniel Smith (tysonzero)*
+<p class="byline"><em>Guest post by Daniel Smith (tysonzero)</em></p>
 
 The current implementation of typeclasses in GHC/Haskell is quite complex, as they have a variety of
 different features. A small portion of these features are fundamental to typeclasses and cannot be

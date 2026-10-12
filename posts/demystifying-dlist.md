@@ -1,6 +1,6 @@
 # Demystifying DList
 
--- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2014
+<p class="byline"><a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2014</p>
 
 ## Introduction
 
