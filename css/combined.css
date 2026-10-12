@@ -182,6 +182,10 @@ hr {
   margin-bottom: .25em;
 }
 
+.post li > pre {
+  margin-bottom: .25em;
+}
+
 .post li > ul,
 .post li > ol {
   margin-top: 0;
