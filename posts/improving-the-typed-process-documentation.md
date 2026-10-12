@@ -1,6 +1,6 @@
 # Improving the `typed-process` documentation
 
--- Tom Ellis, October 2021
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2021
 
 Summary: *The Haskell package
 [`typed-process`](https://hackage.haskell.org/package/typed-process)

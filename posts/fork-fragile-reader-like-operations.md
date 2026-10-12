@@ -1,6 +1,6 @@
 # Fork-fragile reader-like operations in Haskell
 
--- Tom Ellis, June 2026
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, June 2026
 
 ----
 

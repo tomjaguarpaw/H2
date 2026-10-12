@@ -2,7 +2,7 @@
 
 -- or, "Handling effects in Bluefin"
 
--- Tom Ellis, October 2024
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2024
 
 One of the promises of strongly-typed, pure functional programming is
 to "make invalid states unrepresentable".  We can broaden the slogan

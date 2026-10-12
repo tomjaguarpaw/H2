@@ -1,6 +1,6 @@
 # Domain errors with `HasCallStack`
 
--- Tom Ellis, November 2024
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, November 2024
 
 ## Introduction
 

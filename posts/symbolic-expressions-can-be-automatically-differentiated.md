@@ -2,7 +2,7 @@
 
 -- or, Forward mode Automatic Diffentiation demystified
 
--- Tom Ellis, January 2016
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2016
 
 All introductions to Automatic Differentiation that I have seen seem
 to present the technique mysteriously.  It's actually very simple.

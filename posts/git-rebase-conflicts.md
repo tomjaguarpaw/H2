@@ -1,6 +1,6 @@
 # Resolving git rebase conflicts
 
--- Tom Ellis, April 2020
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, April 2020
 
 ## A note about terminology
 

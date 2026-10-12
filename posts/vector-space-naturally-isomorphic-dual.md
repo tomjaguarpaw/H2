@@ -1,6 +1,6 @@
 # Is a vector space naturally isomorphic to its dual?
 
--- Tom Ellis, November 2021
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, November 2021
 
 The answer is no: you know it, I know it, everyone who has spent years
 becoming familiar with this family of spaces knows through intuition

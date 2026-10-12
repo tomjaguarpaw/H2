@@ -1,6 +1,6 @@
 # Automatic differentiation: the maths
 
--- Tom Ellis, August 2020
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, August 2020
 
 The article contains the maths needed to justify the transformations
 in [Automatic differentiation: source-to-source worked

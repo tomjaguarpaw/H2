@@ -1,6 +1,6 @@
 # Scrap your iteration combinators
 
--- by Tom Ellis, May 2025
+-- by <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, May 2025
 
 Typical programming languages have "for" and "while" loop constructs
 that allow iteration over a range of numbers, over the elements of a

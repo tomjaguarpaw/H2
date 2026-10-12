@@ -2,7 +2,7 @@
 
 -- An experience report
 
--- Tom Ellis, August 2024
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, August 2024
 
 At work ([Groq](https://groq.com/)) we recently upgraded the version
 of GHC that we use from 8.10 to 9.6, along with many of the Haskell

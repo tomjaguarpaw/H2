@@ -1,6 +1,6 @@
 # Make invalid laziness unrepresentable
 
--- Tom Ellis, November 2021
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, November 2021
 
 *Making invalid laziness unrepresentable, even in nested data
 structures.*

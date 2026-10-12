@@ -1,6 +1,6 @@
 # An impure lazy programming language
 
--- Tom Ellis, June 2016
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, June 2016
 
 ## Introduction
 

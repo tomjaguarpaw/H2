@@ -1,6 +1,6 @@
 # Why Flexport's CEO is wrong about the bottleneck at California's ports
 
--- by [Tom Ellis](http://web.jaguarpaw.co.uk/~tom/contact) -- 25th
+-- by <a href="http://web.jaguarpaw.co.uk/~tom/contact">Tom Ellis</a> -- 25th
 October 2021
 
 I recently read Eliyahu Goldratt's [*The

@@ -1,6 +1,6 @@
 # Good design and type safety in Yahtzee
 
--- Tom Ellis, October 2019
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2019
 
 Mark Dominus wrote [an article asking how to take advantage of
 Haskell's type safety in a simple dice-rolling simulation

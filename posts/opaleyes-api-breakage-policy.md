@@ -1,6 +1,6 @@
 # Opaleye's API breakage policy
 
--- by [Tom Ellis](http://web.jaguarpaw.co.uk/~tom/contact/), March
+-- by <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, March
 2022
 
 ## Introduction

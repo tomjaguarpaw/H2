@@ -1,6 +1,6 @@
 # `foldl` traverses with `State`, `foldr` traverses with anything
 
--- Tom Ellis, January 2024
+-- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2024
 
 ## Whether to `foldl` or `foldr`?
 
