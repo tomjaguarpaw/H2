@@ -1,6 +1,6 @@
 # `exitFailure` doesn't exit
 
--- nor do `exitSuccess`, `exitWith` and `die`
+<p class="subtitle">nor do <code>exitSuccess</code>, <code>exitWith</code> and <code>die</code></p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2024
 

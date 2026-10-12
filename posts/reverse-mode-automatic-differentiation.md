@@ -1,6 +1,6 @@
 # Reverse mode Automatic Differentiation
 
--- made simpler
+<p class="subtitle">made simpler</p>
 
 ## Warning: this article is old and rather idiosyncratic
 

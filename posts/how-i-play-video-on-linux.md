@@ -1,6 +1,6 @@
 # How I play video on Linux
 
--- specifically, Debian
+<p class="subtitle">specifically, Debian</p>
 
 ## How to back up DVDs to a hard disk
 

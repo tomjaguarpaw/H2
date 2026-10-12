@@ -1,6 +1,6 @@
 # Bluefin streams finalize promptly
 
--- pipes and conduit streams don't
+<p class="subtitle">pipes and conduit streams don't</p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, September 2024
 

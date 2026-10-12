@@ -1,6 +1,6 @@
 # Polymorphic recursion combinator in Haskell
 
--- or "polymorphic fixed point combinator"
+<p class="subtitle">or "polymorphic fixed point combinator"</p>
 
 This article explains recursion combinators and polymorphic recursion,
 and deduces a polymorphic recursion combinator.

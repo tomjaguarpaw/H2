@@ -1,6 +1,6 @@
 # Symbolic expressions can be Automatically differentiated too
 
--- or, Forward mode Automatic Diffentiation demystified
+<p class="subtitle">or, Forward mode Automatic Diffentiation demystified</p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, January 2016
 

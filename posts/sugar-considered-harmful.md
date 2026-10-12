@@ -1,6 +1,6 @@
 # Sugar considered harmful
 
--- for the health of your programming language
+<p class="subtitle">for the health of your programming language</p>
 
 * Not just talking about syntactic sugar
 

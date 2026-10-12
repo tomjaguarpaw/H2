@@ -1,6 +1,6 @@
 # Scrap all your type classes but one
 
--- or, "The mother of all type classes"
+<p class="subtitle">or, "The mother of all type classes"</p>
 
 In "[Scrap your type
 classes](http://www.haskellforall.com/2012/05/scrap-your-type-classes.html)"

@@ -1,6 +1,6 @@
 # Plucking constraints in Bluefin
 
--- or, "Handling effects in Bluefin"
+<p class="subtitle">or, "Handling effects in Bluefin"</p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, October 2024
 

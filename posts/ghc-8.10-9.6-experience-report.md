@@ -1,6 +1,6 @@
 # Upgrading from GHC 8.10 to GHC 9.6
 
--- An experience report
+<p class="subtitle">An experience report</p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, August 2024
 

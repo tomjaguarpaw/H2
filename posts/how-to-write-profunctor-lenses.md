@@ -1,7 +1,7 @@
 How to write profunctor lenses
 ===
 
--- and prisms
+<p class="subtitle">and prisms</p>
 
 A profunctor optic has the following general form
 

@@ -1,6 +1,6 @@
 # How I use cabal
 
--- version 3.2.0.0.
+<p class="subtitle">version 3.2.0.0.</p>
 
 ## I want to download cabal
 

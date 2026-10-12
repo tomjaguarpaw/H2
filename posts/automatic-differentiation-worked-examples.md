@@ -1,6 +1,6 @@
 # Automatic differentiation: source-to-source worked examples
 
--- forwards and reverse
+<p class="subtitle">forwards and reverse</p>
 
 -- <a href="http://web.jaguarpaw.co.uk/~tom/contact/">Tom Ellis</a>, April 2020
 
