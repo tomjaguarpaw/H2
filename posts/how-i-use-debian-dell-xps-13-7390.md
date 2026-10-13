@@ -114,22 +114,25 @@ until I plug the external screen back in.
 
 ### Suspend
 
-Only `s2idle`/`freeze` (which are both names for S0/suspend to idle)
-and `deep` (S3/suspend to RAM) seem to be supported.  (It's *possible*
-that `disk` (S4/suspend to disk/"hibernate") doesn't appear here only
-because I didn't make a big enough swap partition, but I am not sure.)
+`s2idle`/`freeze`/`disk` seem to be supported.  Previously I only saw
+`s2idle`/`freeze` supported, but perhaps that was on an earlier
+kernel version.
 
 ```
 $ cat /sys/power/state
-freeze mem
+freeze mem disk
 $ cat /sys/power/mem_sleep
 s2idle [deep]
 ```
 
+#### Suspend to disk (S4, `disk`)
+
+I haven't tried this.
+
 #### Suspend to RAM (S3, `deep` `mem`)
 
-This is probably the variety of suspend that you actually want to
-use, because it has extremely low power draw.
+Unless you use `disk`, this is probably the variety of suspend that
+you actually want to use, because it has extremely low power draw.
 
 I disabled TPM, SGX, SMM, and Absolute in the BIOS (as described
 in a helpful [Reddit
