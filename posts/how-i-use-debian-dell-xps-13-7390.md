@@ -129,7 +129,7 @@ s2idle [deep]
 #### Suspend to RAM (S3, `deep` `mem`)
 
 This is probably the variety of suspend that you actually want to
-use because it has extremely low power draw.
+use, because it has extremely low power draw.
 
 I disabled TPM, SGX, SMM, and Absolute in the BIOS (as described
 in a helpful [Reddit
