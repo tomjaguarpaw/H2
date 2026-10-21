@@ -184,6 +184,8 @@ is very strong evidence that physical reality is non-local.
 
 ## Interesting reading
 
+For more references, see [References for quantum mechanics](../references-for-quantum-mechanics/).
+
 [Quantum Mysteries for
 Anyone](https://kantin.sabanciuniv.edu/sites/kantin.sabanciuniv.edu/files/makale/mermin.pdf)
 by N. David Mermin presents a lucid introduction to the implications

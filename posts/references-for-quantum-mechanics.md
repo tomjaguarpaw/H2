@@ -35,5 +35,7 @@
 
 ## Bell
 
+* [Bell's theorem made simpler](../bells-theorem-made-simpler/)
+
 * [(Tricky) Words of JS
   Bell](https://sites.google.com/site/dlhquantum/words-of-john-stewart-bell-f-r-s-nobel-prize-nominee)
