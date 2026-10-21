@@ -197,4 +197,3 @@ machine](https://drossbucket.com/2020/09/12/bells-theorem-and-mermins-machine/).
 game](https://en.wikipedia.org/wiki/Quantum_pseudo-telepathy#The_Mermin%E2%80%93Peres_magic_square_game)
 presents the most remarkable violation of non-locality that I have
 come across.
-
