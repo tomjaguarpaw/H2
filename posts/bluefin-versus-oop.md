@@ -439,7 +439,7 @@ Secondly, the file handle supplied by
 [`withFile`](https://hackage.haskell.org/package/bluefin-0.0.14.1/docs/Bluefin-System-IO.html#v:withFile)
 (used in the definition of `withFileLogger`) is guaranteed not to
 escape its scope, that is, it's not possible to use it after
-`withFileLogger` has returned.  That guarantee is not provided by
+`withFileLogger` has returned.[^1]  That guarantee is not provided by
 Haskell's standard
 [`System.IO.withFile`](https://www.stackage.org/haddock/lts-22.39/base-4.18.2.1/System-IO.html#v:withFile).
 
@@ -486,3 +486,5 @@ operationFrom f = f . mapHandle
 
 * Enis Bayramoğlu, for [suggesting the approach of this article on Haskell
   Reddit](https://old.reddit.com/r/haskell/comments/1fzy3fa/oop_is_not_that_bad_actually/lr55hko/)
+
+[^1]: See also [Bluefin prevents handles leaking](../bluefin-prevents-handles-leaking/).
