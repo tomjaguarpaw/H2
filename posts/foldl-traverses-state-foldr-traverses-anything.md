@@ -68,7 +68,7 @@ result then it's easy enough to convert between `foldl` and `foldr`,
 as shown below.  The important difference is *how* they calculate the
 result; the conversion below does not preserve behaviour. For example,
 `foldl (-) 0` calculates a sequence of subtractions in constant
-space[^2]; `foldr (flip (-)) 0` uses *O(n)* space.
+space;[^2] `foldr (flip (-)) 0` uses *O(n)* space.
 
 ```.hs
 foldl f z == foldr (flip f) z . reverse

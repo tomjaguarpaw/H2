@@ -34,7 +34,7 @@ What can we do about that?  When programming in a strongly typed
 language we aim to "make invalid states unrepresentable"[^2] so when
 we define a data type like `Foo` we should consider which are its
 valid states.  Haskell is a lazy language so we cannot forbid
-state 1[^1], but are states like 3, 4 and 5 valid?  Perhaps.  We should
+state 1,[^1] but are states like 3, 4 and 5 valid?  Perhaps.  We should
 carefully consider our use case; but if not (and it's more likely
 not than so) then we should forbid those states statically.  How
 can we do so?  We can add strictness annotations thus:

@@ -87,7 +87,7 @@ category theory I will use italics; when talking about the informal
 and intuitive notion of "naturalness" I will use normal font.]
 
 The statement that "a finite dimensional vector space is *naturally
-isomorphic* to its double dual" appears in various places[^1].  We
+isomorphic* to its double dual" appears in various places.[^1]  We
 have an intuitive sense that the isomorphism $v \mapsto \phi \mapsto
 \phi(v)$ is natural but formally pinning down what "natural" means is
 hard.  The standard category theoretical explanation in terms of a
@@ -137,7 +137,7 @@ hand, this difficulty can be finessed.
 
 <a name="axioms"></a>Here is a elementary route to the answer.  Let us
 take as axiomatic that the following operations are natural and that
-the composition of natural maps is natural[^2].
+the composition of natural maps is natural.[^2]
 
 * contraction: $v \otimes \phi \mapsto \phi(v)$
 * applying a natural map $g$ to one component of a tensor product: $v
@@ -237,7 +237,7 @@ former $\multimap$ satisfy
 \\]
 
 where this bijection (which arises from a particular adjunction) is
-natural in $A$ and $C$[^4].  Let's look at what happens if we choose
+natural in $A$ and $C$.[^4]  Let's look at what happens if we choose
 $A = B \multimap \mathbb{R}$, and $C = \mathbb{R}$.  The bijection
 becomes
 

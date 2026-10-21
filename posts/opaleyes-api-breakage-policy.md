@@ -11,7 +11,7 @@ I am the maintainer of
 package for writing queries against PostgreSQL.  Occasionally I "break
 the API" of Opaleye, that is, I release a new version of the package
 such that some code written against the previous version of the
-package won't work with the new version[^break].  Such breakage
+package won't work with the new version.[^break]  Such breakage
 imposes a cost on Opaleye's users: it takes effort to change code to
 make it work with the new version.  There is a related cost which is
 often left unaccounted for: it takes effort even to discover what
@@ -247,7 +247,7 @@ Second, in version 0.7, I switched things around so that [the *old*
 name was a deprecated type synonym for the new
 name](https://hackage.haskell.org/package/opaleye-0.7.0.0/docs/Opaleye-Internal-Constant.html#t:Constant),
 with a note that it would be removed in 0.8.  Thirdly, in version 0.8
-the old name was removed[^2].
+the old name was removed.[^2]
 
 
 #### Classes
@@ -289,7 +289,7 @@ flag day when renaming classes.  In version `N` users would *have to*
 use `QueryRunnerColumnDefault` in type class instance heads, and in
 version `N+1` they would *have to* use `DefaultFromField`.
 Regrettably there is no way to write code that works across version
-`N` and `N+1`[^cpp].  Perhaps a change to GHC could add support for
+`N` and `N+1`.[^cpp]  Perhaps a change to GHC could add support for
 this workflow.
 
 Another example is a change to Opaleye's type of SQL fields or
@@ -298,7 +298,7 @@ represented as, for example, `Column SqlText` and nullable columns
 were represented as `Column (Nullable Sql)`.  Unfortunately the
 nonsensical `Column (Nullable (Nullable SqlText))` was not prevented.
 To tighten up the types, version 0.9 improved the situation by
-replacing `Column` with `Field_`[^field], which has the distinction
+replacing `Column` with `Field_`,[^field] which has the distinction
 `Field_ NonNullable SqlText` vs. `Field_ Nullable SqlText`.  Replacing
 `Column` with `Field_` caused a flag day for the Opaleye ecosystem.
 Although there is [a compatibility type

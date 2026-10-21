@@ -57,7 +57,7 @@ forward-compatible mitigation of switching from `anotherFunction` to
 `anotherFunctionNew` before the upgrade.  At their leisure, any time
 after the upgrade, they could switch to `flip anotherFunction`.
 Critically, they are not forced to make the switch *at the same time
-as the upgrade*[^1].
+as the upgrade*.[^1]
 
 ## The changes
 

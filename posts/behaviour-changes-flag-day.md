@@ -46,7 +46,7 @@ test](https://en.wikipedia.org/wiki/Characterization_test), that is, a
 test that checks for exact equality of the output of a particular
 function or program.  Golden tests often over-specify behaviour and
 that was the case here too: the output artifact under test was a
-program for Groq's LPU[^1], and although the binary contents of the
+program for Groq's LPU,[^1] and although the binary contents of the
 program file differed before and after flag day, it produced the same
 results, so the test was too strict.
 

@@ -9,7 +9,7 @@ version](https://hackage.haskell.org/package/bluefin-0.0.0.0) in early
 [`effectful`](https://hackage.haskell.org/package/effectful) by
 Andrzej Rybczak.  Similarly to `effectful`, Bluefin is an
 "`IO`-wrapper" (or "analytic") effect system, meaning that it is a
-lightweight wrapper around Haskell's `IO` type[^1].  The major
+lightweight wrapper around Haskell's `IO` type.[^1]  The major
 difference between `effectful` and Bluefin is that in `effectful` the
 presence of effects is indicated by constraints in the type system (a
 familiar and traditional approach) whereas in Bluefin the presence of
@@ -40,7 +40,7 @@ authority to access that resource.
 Yee, Shapiro
 
 A capability that most programmers will have encountered is the file
-handle.  In the words of Lampson[^3]:
+handle.  In the words of Lampson:[^3]
 
 > A familiar example in operating systems is a file descriptor or file
 > handle for an open file. When a process opens the file, the OS
@@ -49,7 +49,7 @@ handle.  In the words of Lampson[^3]:
 
 The notion of capability was originally introduced for security
 purposes, as a model for access control and protection in operating
-systems[^4].  An example of a capability-based kernel is
+systems.[^4]  An example of a capability-based kernel is
 [seL4](https://en.wikipedia.org/wiki/SeL4) (interestingly, it has an
 executable specification written in Haskell!).  In se4L a process may
 have the capability to send a message to a "mailbox" (called an
@@ -90,7 +90,7 @@ range of externally visible behaviours of program components.
 
 Interpreted narrowly, "effect system" might mean a library in the
 style of
-[`extensible-effects`](https://hackage.haskell.org/package/extensible-effects/)[^5],
+[`extensible-effects`](https://hackage.haskell.org/package/extensible-effects/),[^5]
 in which all effects take place in a specific monad (e.g. in
 `effectful`
 "[`Eff`](https://hackage-content.haskell.org/package/effectful-core-2.7.1.1/docs/Effectful.html#t:Eff)")
@@ -248,7 +248,7 @@ into scope.
 Here's an example.  Note that the `String`-typed exception is thrown
 using the capability "`th`", and when that exception is thrown it is
 handled at the `try` that brought `th` into scope (and cannot be seen
-by any other `try` block)[^6].
+by any other `try` block).[^6]
 
 ```.hs
 f n = try $ \th ->
@@ -267,7 +267,7 @@ interact with some thread-local, locally-mutable state.  No such
 primitive mutable state reference exists in Haskell at present, but
 there is [a proposal to add
 one](https://github.com/ghc-proposals/ghc-proposals/pull/751).  (I
-like the name `IOScopedRef` for the new reference type[^7].  Bluefin
+like the name `IOScopedRef` for the new reference type.[^7]  Bluefin
 and `effectful` simulate this kind of reference, as
 [`Ask`](https://hackage-content.haskell.org/package/bluefin-0.7.0.1/docs/Bluefin-Capability-Ask.html)
 and `Reader` respectively.)
@@ -287,7 +287,7 @@ Because I think that "capability" terminology communicates better than
 of what an "effect" *is*.  One might attempt to define "effect" in
 terms of opposition to a notion of "pure", but I've never seen a
 convincing such attempt.  In fact I haven't come across a convincing
-definition of "pure" either[^8].
+definition of "pure" either.[^8]
 
 Secondly, I think that, regrettably, the terminology "effect system"
 gives the wrong impression about Haskell to outsiders, specifically
