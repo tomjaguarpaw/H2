@@ -45,7 +45,7 @@ CallStack (from HasCallStack):
   mkMyException, called at code/hascallstack-domain-2.hs:28:15 in fake-package-0-inplace:HD2
 ```
 
-The feature makes debugging easier by allowing the origin of of an
+The feature makes debugging easier by allowing the origin of an
 exception to be discovered.  But it is useful for more than just
 exceptions: it is also useful for error messages in domain specific
 languages.  In this article we'll look at an example of such a use
