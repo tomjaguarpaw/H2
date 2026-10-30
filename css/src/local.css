@@ -220,6 +220,21 @@ hr {
   margin-inline: 0;
 }
 
+.post a.footnote-ref {
+  display: inline-block;
+  font-size: .7em;
+  line-height: 0;
+  vertical-align: baseline;
+  position: relative;
+  top: -.45em;
+}
+
+.post a.footnote-ref sup {
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: baseline;
+}
+
 .post blockquote {
   margin-left: 0;
   padding: .15rem 1.25rem;
